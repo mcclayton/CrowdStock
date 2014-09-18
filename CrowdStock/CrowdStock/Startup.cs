@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartup(typeof(CrowdStock.Startup))]
-
+[assembly: OwinStartupAttribute(typeof(CrowdStock.Startup))]
 namespace CrowdStock
 {
     public partial class Startup
