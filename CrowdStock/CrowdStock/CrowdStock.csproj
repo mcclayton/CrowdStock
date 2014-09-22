@@ -194,6 +194,10 @@
     <Compile Include="Migrations\201409221905173_AddedVotes.Designer.cs">
       <DependentUpon>201409221905173_AddedVotes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409222004171_AddFirstLastName.cs" />
+    <Compile Include="Migrations\201409222004171_AddFirstLastName.Designer.cs">
+      <DependentUpon>201409222004171_AddFirstLastName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CrowdStockDBContext.cs" />
@@ -294,6 +298,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409221905173_AddedVotes.resx">
       <DependentUpon>201409221905173_AddedVotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409222004171_AddFirstLastName.resx">
+      <DependentUpon>201409222004171_AddFirstLastName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

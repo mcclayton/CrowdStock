@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CrowdStock.Models
 {
@@ -15,6 +17,22 @@ namespace CrowdStock.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             return userIdentity;
         }
+
+		[Display(Name="First Name")]
+		public string FirstName { get; set; }
+
+		[Display(Name = "Last Name")]
+		public string LastName { get; set; }
+
+		[NotMapped]
+		[Display(Name="Full Name")]
+		public string FullName
+		{
+			get
+			{
+				return string.Format("{0} {1}", FirstName, LastName);
+			}
+		}
 
 		public virtual ICollection<Vote> Votes { get; set; }
     }
