@@ -86,4 +86,8 @@ local.properties
 .texlipse
 
 # NuGet Packages
-CrowdStock/packages
+CrowdStock/packages/
+
+# Compiler Output
+CrowdStock/CrowdStock/bin/
+CrowdStock/CrowdStock/obj/
