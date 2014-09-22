@@ -23,5 +23,7 @@ namespace CrowdStock.Models
 		public string Description { get; set; }
 
 		public virtual ICollection<History> Histories { get; set; }
+
+		public virtual ICollection<Vote> Votes { get; set; }
 	}
 }

@@ -190,6 +190,10 @@
     <Compile Include="Migrations\201409221844081_MergedIdentityContext.Designer.cs">
       <DependentUpon>201409221844081_MergedIdentityContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409221905173_AddedVotes.cs" />
+    <Compile Include="Migrations\201409221905173_AddedVotes.Designer.cs">
+      <DependentUpon>201409221905173_AddedVotes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CrowdStockDBContext.cs" />
@@ -197,6 +201,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Stock.cs" />
+    <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -287,6 +292,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409221844081_MergedIdentityContext.resx">
       <DependentUpon>201409221844081_MergedIdentityContext.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409221905173_AddedVotes.resx">
+      <DependentUpon>201409221905173_AddedVotes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
