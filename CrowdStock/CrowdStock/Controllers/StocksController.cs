@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using CrowdStock.Models;
 
 namespace CrowdStock.Controllers
@@ -14,6 +15,7 @@ namespace CrowdStock.Controllers
     public class StocksController : Controller
     {
         private CrowdStockDBContext db = new CrowdStockDBContext();
+
 
         // GET: Stocks
         public async Task<ActionResult> Index()
