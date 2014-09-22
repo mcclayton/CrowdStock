@@ -18,6 +18,7 @@ namespace CrowdStock.Models
 		public string StockID { get; set; }
 
 		[Required]
+		[Index]
 		public DateTime Date { get; set; }
 
 		[Required]

@@ -182,6 +182,10 @@
     <Compile Include="Migrations\201409181534186_AddStockAndHistory.Designer.cs">
       <DependentUpon>201409181534186_AddStockAndHistory.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409221725278_AddStockIndices.cs" />
+    <Compile Include="Migrations\201409221725278_AddStockIndices.Designer.cs">
+      <DependentUpon>201409221725278_AddStockIndices.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CrowdStockDBContext.cs" />
@@ -273,6 +277,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201409181534186_AddStockAndHistory.resx">
       <DependentUpon>201409181534186_AddStockAndHistory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409221725278_AddStockIndices.resx">
+      <DependentUpon>201409221725278_AddStockIndices.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
