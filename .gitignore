@@ -91,3 +91,5 @@ CrowdStock/packages/
 # Compiler Output
 CrowdStock/CrowdStock/bin/
 CrowdStock/CrowdStock/obj/
+
+.cache
