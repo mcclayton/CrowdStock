@@ -14,13 +14,14 @@ namespace CrowdStock.Models
 			Database.SetInitializer(new MigrateDatabaseToLatestVersion<CrowdStockDBContext, Migrations.Configuration>());
 		}
 
-        public static CrowdStockDBContext Create()
-        {
-            return new CrowdStockDBContext();
-        }
+		public static CrowdStockDBContext Create()
+		{
+			return new CrowdStockDBContext();
+		}
 
 		public virtual DbSet<Stock> Stocks { get; set; }
 		public virtual DbSet<History> Histories { get; set; }
+		public virtual DbSet<Vote> Votes { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

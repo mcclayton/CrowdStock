@@ -27,5 +27,29 @@ namespace CrowdStock.Models
 		public virtual ApplicationUser User { get; set; }
 
 		public virtual Stock Stock { get; set; }
+
+		[NotMapped]
+		[Display(Name="Correct")]
+		public bool? IsCorrect
+		{
+			get
+			{
+				var endValue = (from hist in this.Stock.Histories
+								where hist.Date >= this.Date + this.TimeSpan
+								orderby hist.Date
+								select hist.Value).FirstOrDefault();
+
+				if(endValue == null)
+					return null;
+
+				var startValue = (from hist in this.Stock.Histories
+								  where hist.Date <= this.Date
+								  orderby hist.Date descending
+								  select hist.Value).FirstOrDefault();
+
+				return (isPositive ^ endValue < startValue) || (endValue != startValue); //if the prediction was correct or the final stock value is the same, the prediction is considered correct.
+
+			}
+		}
 	}
 }
