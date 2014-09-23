@@ -202,6 +202,10 @@
     <Compile Include="Migrations\201409231945587_Changed-ID-to-Id.Designer.cs">
       <DependentUpon>201409231945587_Changed-ID-to-Id.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409232203096_AddedVotesRequiredAttributes.cs" />
+    <Compile Include="Migrations\201409232203096_AddedVotesRequiredAttributes.Designer.cs">
+      <DependentUpon>201409232203096_AddedVotesRequiredAttributes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CrowdStockDBContext.cs" />
@@ -308,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409231945587_Changed-ID-to-Id.resx">
       <DependentUpon>201409231945587_Changed-ID-to-Id.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409232203096_AddedVotesRequiredAttributes.resx">
+      <DependentUpon>201409232203096_AddedVotesRequiredAttributes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

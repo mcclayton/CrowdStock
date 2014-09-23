@@ -13,15 +13,20 @@ namespace CrowdStock.Models
 		public int Id { get; set; }
 
 		[Index]
+		[Required]
 		public string UserId { get; set; }
 
 		[Index]
+		[Required]
 		public string StockId { get; set; }
 
+		[Required]
 		public bool isPositive { get; set; }
 
+		[Required]
 		public DateTime Date { get; set; }
 
+		[Required]
 		public TimeSpan TimeSpan { get; set; }
 
 		public virtual ApplicationUser User { get; set; }
@@ -29,7 +34,7 @@ namespace CrowdStock.Models
 		public virtual Stock Stock { get; set; }
 
 		[NotMapped]
-		[Display(Name="Correct")]
+		[Display(Name = "Correct")]
 		public bool? IsCorrect
 		{
 			get
