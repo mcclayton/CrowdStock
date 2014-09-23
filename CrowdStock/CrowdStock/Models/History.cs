@@ -11,11 +11,11 @@ namespace CrowdStock.Models
 	{
 		[Key]
 		[Required]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		[Required]
 		[StringLength(4)]
-		public string StockID { get; set; }
+		public string StockId { get; set; }
 
 		[Required]
 		[Index]

@@ -198,6 +198,10 @@
     <Compile Include="Migrations\201409222004171_AddFirstLastName.Designer.cs">
       <DependentUpon>201409222004171_AddFirstLastName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201409231945587_Changed-ID-to-Id.cs" />
+    <Compile Include="Migrations\201409231945587_Changed-ID-to-Id.Designer.cs">
+      <DependentUpon>201409231945587_Changed-ID-to-Id.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CrowdStockDBContext.cs" />
@@ -301,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409222004171_AddFirstLastName.resx">
       <DependentUpon>201409222004171_AddFirstLastName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201409231945587_Changed-ID-to-Id.resx">
+      <DependentUpon>201409231945587_Changed-ID-to-Id.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

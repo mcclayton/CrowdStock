@@ -13,7 +13,7 @@ namespace CrowdStock.Models
 		[Required]
 		[StringLength(4)]
 		[Display(Name="Symbol")]
-		public string ID { get; set; }
+		public string Id { get; set; }
 
 		[Required]
 		[StringLength(50)]

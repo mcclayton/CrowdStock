@@ -10,13 +10,13 @@ namespace CrowdStock.Models
 	public class Vote
 	{
 		[Key]
-		public int ID { get; set; }
+		public int Id { get; set; }
 
 		[Index]
-		public string UserID { get; set; }
+		public string UserId { get; set; }
 
 		[Index]
-		public string StockID { get; set; }
+		public string StockId { get; set; }
 
 		public bool isPositive { get; set; }
 
