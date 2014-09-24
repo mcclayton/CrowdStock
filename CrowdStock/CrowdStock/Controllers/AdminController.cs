@@ -5,17 +5,18 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using CrowdStock.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CrowdStock.Controllers
 {
-	[Authorize(Users="bill@billking.io")]
+	[Authorize(Roles = "Administrator")]
 	public class AdminController : Controller
 	{
 		CrowdStockDBContext db = new CrowdStockDBContext();
 
 		public ActionResult Index(int? page)
 		{
-			return View(db.Users.OrderBy(u => u.Id).ToPagedList(page ?? 1, 25));
+			return View(db.Users.OrderBy(u => u.LastName).ThenBy(u => u.FirstName).ToPagedList(page ?? 1, 25));
 		}
 	}
 }

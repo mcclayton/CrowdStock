@@ -1,9 +1,12 @@
 namespace CrowdStock.Migrations
 {
-    using System;
-    using System.Data.Entity;
-    using System.Data.Entity.Migrations;
-    using System.Linq;
+	using CrowdStock.Models;
+	using System;
+	using System.Data.Entity;
+	using System.Data.Entity.Migrations;
+	using System.Linq;
+	using Microsoft.AspNet.Identity;
+	using Microsoft.AspNet.Identity.EntityFramework;
 
     internal sealed class Configuration : DbMigrationsConfiguration<CrowdStock.Models.CrowdStockDBContext>
     {
@@ -25,7 +28,31 @@ namespace CrowdStock.Migrations
             //      new Person { FullName = "Brice Lambson" },
             //      new Person { FullName = "Rowan Miller" }
             //    );
-            //
+
+			if(!context.Roles.Any())
+			{
+				var roleStore = new RoleStore<IdentityRole>(context);
+				var roleManager = new RoleManager<IdentityRole>(roleStore);
+				var role = new IdentityRole
+				{
+					Name = "Administrator"
+				};
+				roleManager.Create(role);
+			}
+			
+			if(!context.Users.Any())
+			{
+				var userStore = new UserStore<ApplicationUser>(context);
+				var userManager = new ApplicationUserManager(userStore);
+
+				var user = new ApplicationUser
+				{
+					Email = "admin@billking.io",
+					UserName = "SuperUser"
+				};
+				userManager.Create(user, "BrandanMillerDotCom");
+				userManager.AddToRole(user.Id, "Administrator");
+			}
         }
     }
 }
