@@ -49,7 +49,7 @@ namespace CrowdStock.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Name,Description")] Stock stock)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Description")] Stock stock)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace CrowdStock.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Name,Description")] Stock stock)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description")] Stock stock)
         {
             if (ModelState.IsValid)
             {
