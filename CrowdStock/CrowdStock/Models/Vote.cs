@@ -39,7 +39,7 @@ namespace CrowdStock.Models
 		{
 			get
 			{
-				var endValue = (from hist in this.Stock.Histories
+				var endValue = (from hist in this.Stock.History
 								where hist.Date >= this.Date + this.TimeSpan
 								orderby hist.Date
 								select hist.Value).FirstOrDefault();
@@ -47,7 +47,7 @@ namespace CrowdStock.Models
 				if(endValue == null)
 					return null;
 
-				var startValue = (from hist in this.Stock.Histories
+				var startValue = (from hist in this.Stock.History
 								  where hist.Date <= this.Date
 								  orderby hist.Date descending
 								  select hist.Value).FirstOrDefault();
