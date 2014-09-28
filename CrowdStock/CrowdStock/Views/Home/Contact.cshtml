@@ -1,17 +1,36 @@
 ﻿@{
-    ViewBag.Title = "Contact";
+    ViewBag.Title = "Contact Us";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h2>@ViewBag.Title</h2>
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<hr class="featurette-divider">
+<div id="contact" class="contact_page">
+	<div class="container">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+            <form enctype="application/x-www-form-urlencoded" class="form-horizontal">
+                    <div class="control-group">
+                        <label for="category" class="control-label required">Category
+                        </label>
+                            <div class="controls">
+                                <select name="category" id="category" class="form-control">
+                                    <option value="0">General Questions</option>
+                                    <option value="1">System Error/Failure</option>
+                                    <option value="2">Other</option>
+                                </select>
+                            </div>
+                   </div>
+                   <div class="control-group">
+                       <label for="text" class="control-label required">Message</label>
+                       <div class="controls">
+                       <textarea name="text" id="text" rows="6" class="form-control" cols="80"></textarea>
+                   </div>
+                   <br>
+                   <div class="form-actions">
+                       <button class="btn btn-lg btn-primary btn-block" type ="submit" value ="ContactUs" id="sendButton">Send</button>
+                   </div>
+          </form>
+        </div>
+    </div>
+</div>
