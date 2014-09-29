@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 
     // TODO: Remove this HTTP request test method
     private void httpTest() {
-        final TextView view = (TextView) findViewById(R.id.testView);
+        final TextView view = (TextView) findViewById(R.id.testTextView);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
         } else {
