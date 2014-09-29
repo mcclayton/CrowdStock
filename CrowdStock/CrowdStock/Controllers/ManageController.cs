@@ -48,13 +48,23 @@ namespace CrowdStock.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
+            var db = new CrowdStockDBContext();
+            var userdata = db.Users.Find(User.Identity.GetUserId());
+
+            if(userdata == null)
+                return HttpNotFound();
+
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(User.Identity.GetUserId()),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(User.Identity.GetUserId()),
                 Logins = await UserManager.GetLoginsAsync(User.Identity.GetUserId()),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId())
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(User.Identity.GetUserId()),
+                FirstName = userdata.FirstName,
+                LastName = userdata.LastName,
+                Email = userdata.Email,
+                UserName = userdata.UserName
             };
             return View(model);
         }
