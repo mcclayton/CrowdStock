@@ -14,7 +14,12 @@ namespace CrowdStock.Controllers
 	{
 		CrowdStockDBContext db = new CrowdStockDBContext();
 
-		public ActionResult Index(int? page)
+		public ActionResult Index()
+		{
+			return View();
+		}
+
+		public ActionResult Users(int? page)
 		{
 			return View(db.Users.OrderBy(u => u.LastName).ThenBy(u => u.FirstName).ToPagedList(page ?? 1, 25));
 		}
