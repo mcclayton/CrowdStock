@@ -4,26 +4,44 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Stocks</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="container">
+    <br />
+    <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search">
+        <br />
+        <div class="form-group">
+            <input type="radio" name="mtype" value="stocks">Stocks
+            <input type="radio" name="mtype" value="users">Users
+            <a class="btn btn-default" type="submit">Search</a><br />
+        </div>
+    </div>
+</div>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                Top Stocks
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Top Users
             </th>
             <th></th>
         </tr>
     </thead>
+    <tbody>
+        <tr>
+            <td>
+                Google
+            </td>
+            <td>
+                User1
+            </td>
+        </tr>
+    </tbody>
+    <!--
     <tbody>
         @foreach(var item in Model)
         {
@@ -45,5 +63,6 @@
             </tr>
         }
     </tbody>
+    -->
 
 </table>
