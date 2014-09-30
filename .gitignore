@@ -93,3 +93,5 @@ CrowdStock/CrowdStock/bin/
 CrowdStock/CrowdStock/obj/
 
 .cache
+
+.csproj.user
