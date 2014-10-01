@@ -17,102 +17,46 @@ namespace CrowdStock.Controllers.API
     {
         private CrowdStockDBContext db = new CrowdStockDBContext();
 
-        // GET api/History
-        public IQueryable<History> GetHistories()
+        // GET api/History/5
+        [ResponseType(typeof(History))]
+        public IHttpActionResult GetHistory(int id)
         {
-            return db.Histories;
+            History history = db.Histories.Find(id);
+            if (history == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(history);
         }
 
         // GET api/History/5
-        [ResponseType(typeof(History))]
-        public async Task<IHttpActionResult> GetHistory(int id)
+        [ResponseType(typeof(IEnumerable<History>))]
+        public IHttpActionResult GetHistory()
         {
-            History history = await db.Histories.FindAsync(id);
-            if (history == null)
+            var histories = from hist in db.Histories
+                                  group hist by hist.StockId into stockhist
+                                  orderby stockhist.Key ascending
+                                  select stockhist.OrderBy(hist => hist.Date).FirstOrDefault();
+            if (histories == null)
             {
                 return NotFound();
             }
 
-            return Ok(history);
+            return Ok(histories);
         }
 
-        // PUT api/History/5
-        public async Task<IHttpActionResult> PutHistory(int id, History history)
+        // GET api/History/5
+        [ResponseType(typeof(IEnumerable<History>))]
+        public IHttpActionResult GetHistory(String id, int count)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != history.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(history).State = EntityState.Modified;
-
-            try
-            {
-                await db.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!HistoryExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST api/History
-        [ResponseType(typeof(History))]
-        public async Task<IHttpActionResult> PostHistory(History history)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Histories.Add(history);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = history.Id }, history);
-        }
-
-        // DELETE api/History/5
-        [ResponseType(typeof(History))]
-        public async Task<IHttpActionResult> DeleteHistory(int id)
-        {
-            History history = await db.Histories.FindAsync(id);
-            if (history == null)
+            var histories = db.Histories.Where(hist => hist.StockId == id).OrderByDescending(hist => hist.Date).Take(count);
+            if (histories == null)
             {
                 return NotFound();
             }
 
-            db.Histories.Remove(history);
-            await db.SaveChangesAsync();
-
-            return Ok(history);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool HistoryExists(int id)
-        {
-            return db.Histories.Count(e => e.Id == id) > 0;
+            return Ok(histories);
         }
     }
 }
