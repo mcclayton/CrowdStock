@@ -37,7 +37,7 @@ namespace CrowdStock.Controllers.API
             var histories = from hist in db.Histories
                                   group hist by hist.StockId into stockhist
                                   orderby stockhist.Key ascending
-                                  select stockhist.OrderBy(hist => hist.Date).FirstOrDefault();
+                                  select stockhist.OrderByDescending(hist => hist.Date).FirstOrDefault();
             if (histories == null)
             {
                 return NotFound();
