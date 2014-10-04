@@ -40,6 +40,9 @@ namespace CrowdStock.Models
 								  where vote.EndDate > DateTime.Now
 								  select vote.isPositive ? 1 : 0;
 
+				if(!futureVotes.Any())
+					return 0;
+
 				return futureVotes.Average();
 			}
 		}
