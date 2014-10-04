@@ -13,24 +13,24 @@
         <dt>First Name: </dt>
         <dd>
             <p>
-                @Model.FirstName
+                @Html.DisplayFor(model => model.FirstName)
             </p>
         </dd>
         <dt>Last Name: </dt>
         <dd>
             <p>
-                @Model.LastName
+                @Html.DisplayFor(model => model.LastName)
             </p>
         </dd>
         <dt>UserName: </dt>
         <dd>
             <p>
-                @Model.UserName
+                @Html.DisplayFor(model => model.UserName)
             </p>
         </dd>
         <dt>Email: </dt>
         <dd>
-            Email
+            @Html.DisplayFor(model => model.Email)
         </dd>
         <dt>Password:</dt>
         <dd>
