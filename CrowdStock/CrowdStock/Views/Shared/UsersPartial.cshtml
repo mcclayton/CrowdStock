@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CrowdStock.Models.ApplicationUser>
+
+<table class="table table-condensed table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AverageScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>@*Buttons go here*@</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>
+                    <strong>@Html.DisplayFor(modelItem => item.AverageScore)</strong>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    <a href="@Url.Action("Details","Users",new {id=item.Id})" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+<div class="text-center">
+    <a href="#">View More</a>
+</div>
