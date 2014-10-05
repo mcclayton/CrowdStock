@@ -55,11 +55,14 @@ namespace CrowdStockDBUpdater
                     start = data.IndexOf(">", symbolStart + symbolLen) + 1;
                     length = data.IndexOf("</quote>", start) - start;
                 }
-                /*
-                 * db.History.add(history);
-                 * db.saveChanges();
 
-                 */
+                var db = new CrowdStockDBContext();
+                for (int i = 0; i < histories.Count; i++)
+                {
+                    db.Histories.Add(histories[i]);
+                }
+                db.SaveChanges();
+
             }
 
         }
