@@ -27,7 +27,8 @@ namespace CrowdStock.Models
 		public DateTime Date { get; set; }
 
 		[Required]
-		public TimeSpan TimeSpan { get; set; }
+		public DateTime EndDate { get; set; }
+
 
 		public virtual ApplicationUser User { get; set; }
 
@@ -39,20 +40,20 @@ namespace CrowdStock.Models
 		{
 			get
 			{
-				var endValue = (from hist in this.Stock.History
-								where hist.Date >= this.Date + this.TimeSpan
+				var endHist = (from hist in this.Stock.History
+								where hist.Date >= this.EndDate
 								orderby hist.Date
-								select hist.Value).FirstOrDefault();
+								select hist).FirstOrDefault();
 
-				if(endValue == null)
+				if(endHist == null)
 					return null;
 
-				var startValue = (from hist in this.Stock.History
+				var startHist = (from hist in this.Stock.History
 								  where hist.Date <= this.Date
 								  orderby hist.Date descending
-								  select hist.Value).FirstOrDefault();
+								  select hist).FirstOrDefault();
 
-				return (isPositive ^ endValue < startValue) || (endValue != startValue); //if the prediction was correct or the final stock value is the same, the prediction is considered correct.
+				return (isPositive ^ endHist.Value < startHist.Value) || (endHist.Value == startHist.Value); //if the prediction was correct or the final stock value is the same, the prediction is considered correct.
 
 			}
 		}

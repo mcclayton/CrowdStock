@@ -214,6 +214,14 @@
     <Compile Include="Migrations\201409232203096_AddedVotesRequiredAttributes.Designer.cs">
       <DependentUpon>201409232203096_AddedVotesRequiredAttributes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410042003547_ChangedVotePreditionRangeToDateTime.cs" />
+    <Compile Include="Migrations\201410042003547_ChangedVotePreditionRangeToDateTime.Designer.cs">
+      <DependentUpon>201410042003547_ChangedVotePreditionRangeToDateTime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201410042120568_AddedUserReputation.cs" />
+    <Compile Include="Migrations\201410042120568_AddedUserReputation.Designer.cs">
+      <DependentUpon>201410042120568_AddedUserReputation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CrowdStockDBContext.cs" />
@@ -292,6 +300,8 @@
     <Content Include="Views\Stocks\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Shared\StocksPartial.cshtml" />
+    <Content Include="Views\Shared\UsersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -326,6 +336,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201409232203096_AddedVotesRequiredAttributes.resx">
       <DependentUpon>201409232203096_AddedVotesRequiredAttributes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410042003547_ChangedVotePreditionRangeToDateTime.resx">
+      <DependentUpon>201410042003547_ChangedVotePreditionRangeToDateTime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410042120568_AddedUserReputation.resx">
+      <DependentUpon>201410042120568_AddedUserReputation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

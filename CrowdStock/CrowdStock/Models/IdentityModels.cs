@@ -46,14 +46,20 @@ namespace CrowdStock.Models
 			get
 			{
 				var recentVotes = (from vote in this.Votes
-							   where vote.Date >= SqlFunctions.DateAdd("month", -6, DateTime.Now)
-							   select vote).ToList();
+								   where vote.Date >= DateTime.Now.AddMonths(-6)
+								   select vote).ToList();
 				var results = from vote in recentVotes
 							  where vote.IsCorrect.HasValue
 							  select vote.IsCorrect.Value ? 1 : 0;
+
+				if(!results.Any())
+					return 0;
+
 				return results.Average();
 			}
 		}
+
+		public double Reputation { get; set; }
 
 		public virtual ICollection<Vote> Votes { get; set; }
 	}
