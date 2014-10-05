@@ -47,12 +47,23 @@ namespace CrowdStockDBUpdater
                     hist.Stock = db.Stocks.Find(sym);
                     if (hist.Stock == null)
                     {
-                        Stock stock = new Stock();
-                        stock.Id = sym;
-                        stock.Name = sym;
-                        hist.Stock = stock;
+                        for (int i = 0; i < stocks.Count; i++ )
+                        {
+                            if (stocks[i].Name.Equals(sym))
+                            {
+                                hist.Stock = stocks[i];
+                                break;
+                            }
+                        }
+                        if (hist.Stock == null)
+                        {
+                            Stock stock = new Stock();
+                            stock.Id = sym;
+                            stock.Name = sym;
+                            hist.Stock = stock;
+                            stocks.Add(hist.Stock);
+                        }
                     }
-                    stocks.Add(hist.Stock);
                     hist.Stock.Histories.Add(hist);
                     histories.Add(hist);
 
@@ -111,14 +122,14 @@ namespace CrowdStockDBUpdater
 
          static string[] getTopStocks()
          {
-             string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
+             /*string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
                                     "ASPX", "CP", "AMAG", "LTS", "FNHC", "ALXN", "JACK", "FLWS", "KNX", "SBCF", "NKE", "GPN", "NATH", "CHDN", "BSTC", "BAH",
                                     "VDSI", "PAYX", "TK", "RLGT", "VR", "OABC", "BREW", "ZTS", "MOVE", "STRP", "DTSI", "IG", "PANW", "LMNX", "SGNT", "ERIE",
                                     "HSNI", "GTS", "DSPG", "GS", "DVCR", "TIBX", "SONC", "RVP", "HAWKB", "AMBI", "ICUI", "ADSK", "NI", "ATV", "EAT", "CCRN",
                                     "VIMC", "LOGM", "AXDX", "HAWK", "EW", "SVVC", "QLYS", "ICLR", "CMRX", "TREE", "AGIO", "OMAB", "STRZA", "MNK", "CLCT", "N",
                                     "MFSF", "PPC", "FARM", "PDCO", "PFSW", "AYI", "TSN", "AGN", "TCP", "EPIQ", "LPDX", "CF", "EIGI", "HEP", "ATHL", "TEVA", "INSY",
-                                    "ANCX", "DENN", "CFI"};
-             
+                                    "ANCX", "DENN", "CFI"};*/
+             string[] symbols = {"TXRH", "ARC", "ETP"};
              return symbols;
          }
 
