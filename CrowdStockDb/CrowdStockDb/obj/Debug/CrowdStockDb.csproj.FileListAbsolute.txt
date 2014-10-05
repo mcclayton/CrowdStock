@@ -12,3 +12,6 @@ C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.exe
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.pdb
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDb.csprojResolveAssemblyReference.cache
+C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\ConsoleApplication2.exe.config
+C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.exe
+C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.pdb
