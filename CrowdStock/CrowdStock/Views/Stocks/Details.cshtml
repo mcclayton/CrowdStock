@@ -27,35 +27,196 @@
         </dd>
     </dl>
 
-    <h4>History</h4>
-    <hr />
-    <table class="table table-striped table-condensed">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.History.FirstOrDefault().Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.History.FirstOrDefault().Value)
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var hist in Model.History.OrderByDescending(h => h.Date).Take(10))
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(x => hist.Date)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(x => hist.Value)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+    <style type="text/css">
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0px;
+        }
 
+        #top {
+            /*background: -moz-linear-gradient(center top , rgb(87, 84, 74), rgb(55, 52, 42)) repeat scroll 0% 0% transparent;*/
+            background: black;
+            background: linear-gradient( 0deg, #57544A, #37342A 15%);
+            background: -webkit-linear-gradient(top, #57544A, #37342A);
+            -webkit-box-shadow: 0px 0px 8px #888;
+            box-shadow: 0px 0px 8px #888;
+            height: 60px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 50px;
+        }
+
+            #top #logo {
+                position: absolute;
+                left: 20px;
+                top: 10px;
+            }
+
+            #top img {
+                width: 80px;
+                height: 80px;
+                margin-top: 5px;
+            }
+
+            #top h1 {
+                position: absolute;
+                left: 120px;
+                top: 0px;
+                color: white;
+            }
+
+        #wrap {
+            width: 700px;
+            overflow: auto;
+            padding: 10px;
+        }
+
+        form {
+            width: 650px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+
+        input, textarea {
+            float: left;
+            width: 250px;
+            margin-right: 15px;
+            clear: left;
+        }
+
+        textarea {
+            width: 650px;
+            margin: 0px;
+            margin-bottom: 15px;
+            border: 1px solid black;
+        }
+
+        input[type=radio] {
+            clear: left;
+            margin-right: 15px;
+            margin-top: 10px;
+            width: 25px;
+        }
+
+        input[type=submit] {
+            width: 150px;
+            float: right;
+            position: relative;
+            margin: 0px;
+            margin-top: 15px;
+        }
+
+        label {
+            display: block;
+            padding-bottom: 5px;
+            padding-top: 10px;
+            clear: both;
+        }
+
+            label.radio {
+                display: inherit;
+                clear: right;
+            }
+
+        select {
+            margin-right: 150px;
+            position: relative;
+            float: left;
+        }
+
+        .info {
+            position: relative;
+            float: right;
+            font-family: monospace;
+            font-size: medium;
+            width: 360px;
+        }
+
+        #oneline {
+            float: left;
+            width: 660px;
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+
+        div#toggle {
+            visibility: hidden;
+        }
+    </style>
+    </head>
+    <body>
+
+        <script type="text/javascript">
+            $(function () {
+
+                $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+                    // Create the chart
+                    $('#container').highcharts('StockChart', {
+
+
+                        rangeSelector: {
+                            selected: 1,
+                            inputEnabled: $('#container').width() > 480
+                        },
+
+                        title: {
+                            text: 'AAPL Stock Price'
+                        },
+
+                        series: [{
+                            name: 'AAPL',
+                            data: data,
+                            tooltip: {
+                                valueDecimals: 2
+                            }
+                        }]
+                    });
+                });
+
+            });
+
+        </script>
+        <script src="../../Scripts/highstock.js"></script>
+        <script src="../../Scripts/exporting.js"></script>
+
+        <div id="container" style="height: 400px; min-width: 310px"></div>
+        <div>
+            <img src="http://bit.ly/1toTDBN" id="up_arrow" style="height: 100px; width: 100px; cursor:pointer" onclick=up_request() />
+            <img src="http://bit.ly/1vyeB3D" id="down_arrow" style="height: 100px; width: 100px; cursor:pointer" onclick=down_request() />
+        </div>
+
+        <!--
+        <h4>History</h4>
+        <hr />
+        <table class="table table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.History.FirstOrDefault().Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.History.FirstOrDefault().Value)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var hist in Model.History.OrderByDescending(h => h.Date).Take(10))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(x => hist.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => hist.Value)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+            -->
+</div>
+<br />
+<br />
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
