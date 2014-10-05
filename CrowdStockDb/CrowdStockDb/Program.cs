@@ -43,13 +43,14 @@ namespace CrowdStockDBUpdater
                     History hist = new History();
                     hist.Value = quote.Open;
                     hist.StockId = sym;
-                    hist.Date = DateTime.Parse("yyyy-MM-dd");
+                    hist.Date = DateTime.Parse(quote.Date);
                     hist.Stock = db.Stocks.Find(sym);
                     if (hist.Stock == null)
                     {
                         Stock stock = new Stock();
                         stock.Id = sym;
                         stock.Name = sym;
+                        hist.Stock = stock;
                     }
                     stocks.Add(hist.Stock);
                     hist.Stock.Histories.Add(hist);
