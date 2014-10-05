@@ -7,9 +7,9 @@ using System.Net;
 using System.Web;
 using System.Xml.Serialization;
 using System.IO;
-using CrowdStock.Models;
+using CrowdStockDBUpdater;
 
-namespace CrowdStockDb
+namespace CrowdStockDBUpdater
 {
     class Program
     {
@@ -114,7 +114,7 @@ namespace CrowdStockDb
                      start = data.IndexOf("<quote", (start + length));
                      if (start < 0)
                      {
-                         break;
+                          break;
                      }
                      symbolStart = data.IndexOf("\"", start) + 1;
                      symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;

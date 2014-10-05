@@ -7,8 +7,8 @@
     <ProjectGuid>{15388A76-3E64-4917-A78F-6822444E2D7E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication2</RootNamespace>
-    <AssemblyName>ConsoleApplication2</AssemblyName>
+    <RootNamespace>CrowdStockDBUpdater</RootNamespace>
+    <AssemblyName>CrowdStockDBUpdater</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -55,6 +55,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
@@ -66,17 +68,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="History.cs" />
-    <Compile Include="IdentityModels.cs" />
+    <Compile Include="CrowdStockDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrowdStockDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrowdStockDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrowdStockDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrowdStockDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="History.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Quote.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stock.cs" />
-    <Compile Include="Vote.cs" />
+    <Compile Include="Stock.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="CrowdStockDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CrowdStockDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CrowdStockDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CrowdStockDB.edmx</DependentUpon>
+      <LastGenOutput>CrowdStockDB.Context.cs</LastGenOutput>
+    </None>
+    <None Include="CrowdStockDB.edmx.diagram">
+      <DependentUpon>CrowdStockDB.edmx</DependentUpon>
+    </None>
+    <None Include="CrowdStockDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CrowdStockDB.edmx</DependentUpon>
+      <LastGenOutput>CrowdStockDB.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
