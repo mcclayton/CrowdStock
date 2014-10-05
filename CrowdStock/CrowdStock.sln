@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdStock", "CrowdStock\CrowdStock.csproj", "{2FE31F5A-7A0E-41D1-BB5F-CBAD1413E35A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdStockDb", "ConsoleApplication2\CrowdStockDb.csproj", "{8487D04C-542A-49AF-A236-48035AB26B8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrowdStockDb", "CrowdStockDb\CrowdStockDb.csproj", "{8487D04C-542A-49AF-A236-48035AB26B8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
