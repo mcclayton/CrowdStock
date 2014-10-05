@@ -93,7 +93,7 @@ namespace CrowdStockDBUpdater
                 }
                 for (int i = 0; i < histories.Count; i++)
                 {
-                    if (db.Histories.Find(histories[i]) == null)
+                    if (true)
                     {
                         db.Histories.Add(histories[i]);
                     }
