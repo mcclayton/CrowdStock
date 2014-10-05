@@ -41,6 +41,7 @@ namespace CrowdStockDb
                     History hist = new History();
                     hist.Value = quote.Open;
                     hist.StockId = sym;
+                    hist.Date = DateTime.Parse("yyyy-MM-dd");
                     histories.Add(hist);
 
                     start = data.IndexOf("<quote", (start + length));
