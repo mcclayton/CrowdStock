@@ -12,6 +12,19 @@ C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.exe
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.pdb
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDb.csprojResolveAssemblyReference.cache
-C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\ConsoleApplication2.exe.config
-C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.exe
-C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\ConsoleApplication2.pdb
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\ConsoleApplication2.exe
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\ConsoleApplication2.pdb
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.dll
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.SqlServer.dll
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Newtonsoft.Json.dll
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Net.Http.Formatting.dll
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Web.Http.dll
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.xml
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.SqlServer.xml
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Newtonsoft.Json.xml
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Net.Http.Formatting.xml
+C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Web.Http.xml

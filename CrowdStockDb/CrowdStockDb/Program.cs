@@ -82,13 +82,13 @@ namespace CrowdStockDb
          static string[] getTopStocks(int numStocks, string startDate, string endDate)
          {
              string[] symbols = {"YHOO", "MSFT"};
-             /*
+             
              using (WebClient web = new WebClient())
              {
                  string data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20order%20by%20Volume%20limit%20{0}%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", numStocks, startDate, endDate));
 
                  int start = data.IndexOf("<results>") + 9;
-                 int symbolStart = data.IndexOf("\"", start) + 1;
+                 /*int symbolStart = data.IndexOf("\"", start) + 1;
                  int symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;
                  string sym = data.Substring(symbolStart, symbolLen);
                  start = data.IndexOf(">", symbolStart + symbolLen) + 1;
@@ -127,7 +127,7 @@ namespace CrowdStockDb
                   * db.saveChanges();
 
                   */
-             //}
+             }
 
              return symbols;
          }
@@ -151,7 +151,7 @@ namespace CrowdStockDb
             string[] symbols = getTopStocks(100, generateEndDate(), generateEndDate());
 
             //Get one month's worth of data
-            DownloadData(generateSymbolString(symbols), generateStartDate(), generateEndDate());
+            //DownloadData(generateSymbolString(symbols), generateStartDate(), generateEndDate());
 
         }
     }
