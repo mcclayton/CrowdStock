@@ -93,7 +93,7 @@ namespace CrowdStockDBUpdater
                 }
                 for (int i = 0; i < histories.Count; i++)
                 {
-                    if (db.Histories.Find(histories[i]) == null)
+                    if (true)
                     {
                         db.Histories.Add(histories[i]);
                     }
@@ -122,14 +122,13 @@ namespace CrowdStockDBUpdater
 
          static string[] getTopStocks()
          {
-             /*string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
+             string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
                                     "ASPX", "CP", "AMAG", "LTS", "FNHC", "ALXN", "JACK", "FLWS", "KNX", "SBCF", "NKE", "GPN", "NATH", "CHDN", "BSTC", "BAH",
                                     "VDSI", "PAYX", "TK", "RLGT", "VR", "OABC", "BREW", "ZTS", "MOVE", "STRP", "DTSI", "IG", "PANW", "LMNX", "SGNT", "ERIE",
                                     "HSNI", "GTS", "DSPG", "GS", "DVCR", "TIBX", "SONC", "RVP", "HAWKB", "AMBI", "ICUI", "ADSK", "NI", "ATV", "EAT", "CCRN",
                                     "VIMC", "LOGM", "AXDX", "HAWK", "EW", "SVVC", "QLYS", "ICLR", "CMRX", "TREE", "AGIO", "OMAB", "STRZA", "MNK", "CLCT", "N",
                                     "MFSF", "PPC", "FARM", "PDCO", "PFSW", "AYI", "TSN", "AGN", "TCP", "EPIQ", "LPDX", "CF", "EIGI", "HEP", "ATHL", "TEVA", "INSY",
-                                    "ANCX", "DENN", "CFI"};*/
-             string[] symbols = {"TXRH", "ARC", "ETP"};
+                                    "ANCX", "DENN", "CFI"};
              return symbols;
          }
 
