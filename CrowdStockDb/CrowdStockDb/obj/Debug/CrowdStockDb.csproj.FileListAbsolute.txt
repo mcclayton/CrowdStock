@@ -48,3 +48,23 @@ C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\CrowdStockDBUpdater.pdb
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDBUpdater.exe
 C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDBUpdater.pdb
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\CrowdStockDBUpdater.exe.config
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDBUpdater.exe
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDBUpdater.pdb
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\CrowdStockDBUpdater.exe
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\CrowdStockDBUpdater.pdb
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.dll
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Newtonsoft.Json.dll
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Web.Http.dll
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.xml
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\Newtonsoft.Json.xml
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Web.Http.xml
+C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDb.csprojResolveAssemblyReference.cache

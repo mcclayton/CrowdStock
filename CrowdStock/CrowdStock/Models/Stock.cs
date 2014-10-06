@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace CrowdStock.Models
@@ -12,7 +14,7 @@ namespace CrowdStock.Models
 		[Key]
 		[Required]
 		[StringLength(4)]
-		[Display(Name="Symbol")]
+		[Display(Name = "Symbol")]
 		public string Id { get; set; }
 
 		[Required]
@@ -22,16 +24,20 @@ namespace CrowdStock.Models
 
 		public string Description { get; set; }
 
+		[JsonIgnore] // json
+		[IgnoreDataMember] //xml
 		public virtual ICollection<History> History { get; set; }
 
+		[JsonIgnore] // json
+		[IgnoreDataMember] //xml
 		public virtual ICollection<Vote> Votes { get; set; }
 
 		/// <summary>
 		/// A decimal value between 0 and 1 which indicates how many users think that the stock price will be going up
 		/// </summary>
 		[NotMapped]
-		[Display(Name="% Optimism")]
-		[DisplayFormat(DataFormatString="{0:P}",ApplyFormatInEditMode=false)]
+		[Display(Name = "% Optimism")]
+		[DisplayFormat(DataFormatString = "{0:P}", ApplyFormatInEditMode = false)]
 		public double Consensus
 		{
 			get
