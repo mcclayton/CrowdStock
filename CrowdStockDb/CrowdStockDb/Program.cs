@@ -141,25 +141,33 @@ namespace CrowdStockDBUpdater
 			return symbols;
 		}
 
-		static string generateStartDate()
-		{
-			DateTime dt = DateTime.Now;
-			dt = dt.AddMonths(-1);
-			return dt.ToString("yyyy-MM-dd");
-		}
-
-		static string generateEndDate()
-		{
-			DateTime dt = DateTime.Now;
-			return dt.ToString("yyyy-MM-dd");
-		}
-
 		static void Main(string[] args)
 		{
+			int daysBack = 1;
+
+			for(int i = 0; i < args.Length; i++)
+			{
+				switch(args[i])
+				{
+					case "/d":
+						if(i + 1 < args.Length)
+							daysBack = int.Parse(args[++i]);
+						break;
+					case "/?":
+						Console.WriteLine("Usage: CrowdStockDBUpdater [/d daysback]");
+						break;
+				}
+			}
+
+			Console.WriteLine("Getting last {0} days of history", daysBack);
+
 			string[] symbols = getTopStocks();
 
+			DateTime startDate = DateTime.Now.AddDays(-daysBack);
+			DateTime endDate = DateTime.Now;
+
 			//Get one month's worth of data
-			DownloadData(generateSymbolString(symbols), generateStartDate(), generateEndDate());
+			DownloadData(generateSymbolString(symbols), startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")); //change this to take two datetimes
 
 		}
 	}
