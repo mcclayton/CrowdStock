@@ -23,6 +23,10 @@ namespace CrowdStock
 					  "~/Scripts/bootstrap.js",
 					  "~/Scripts/respond.js"));
 
+			bundles.Add(new ScriptBundle("~/bundles/highcharts").Include(
+					"~/Scripts/highstock.js",
+					"~/Scripts/exporting.js"));
+
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
 					  "~/Content/site.css"));
