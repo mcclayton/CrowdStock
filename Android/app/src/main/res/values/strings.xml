@@ -4,5 +4,15 @@
     <string name="app_name">Crowd Stock</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="search_help_text">Search Criteria (e.g., Username, Stock Symbol)</string>
+    <string name="search_header">Search:</string>
+    <string name="desc">CrowdStock Logo</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="settingA">Application On?</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="username">hoosierfencer</string>
+    <string name="profile_accuracy">Prediction Accuracy:</string>
+    <string name="prediction_percentage">50.00%</string>
 
 </resources>
