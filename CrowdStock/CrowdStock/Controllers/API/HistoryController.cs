@@ -48,10 +48,23 @@ namespace CrowdStock.Controllers.API
 
         // GET api/History/5
         [ResponseType(typeof(IEnumerable<History>))]
-        public IHttpActionResult GetHistory(String id, int count)
+        public IHttpActionResult GetHistory(string stock, int count)
         {
-            var histories = db.Histories.Where(hist => hist.StockId == id).OrderByDescending(hist => hist.Date).Take(count);
-            if (histories == null)
+			IEnumerable<string> stocks = stock.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.ToUpper());
+
+			var histories = new List<IQueryable<History>>();
+
+			foreach(string symbol in stocks)
+			{
+				var stockHistory = from hist in db.Histories
+								   where hist.StockId == symbol
+								   orderby hist.Date descending
+								   select hist;
+
+				histories.Add(stockHistory.Take(count));
+			}
+
+            if (!histories.Any())
             {
                 return NotFound();
             }
