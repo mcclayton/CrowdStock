@@ -8,150 +8,159 @@ using System.Web;
 using System.Xml.Serialization;
 using System.IO;
 using CrowdStockDBUpdater;
+using System.Data.Entity.SqlServer;
 
 namespace CrowdStockDBUpdater
 {
-    class Program
-    {
-         public static void DownloadData(string symbol, string startDate, string endDate)
-        {
-            var db = new CrowdStockDBContext();
- 
-            using (WebClient web = new WebClient())
-            {
-                string data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20%28{0}%29%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", symbol, startDate, endDate));
-                
-                int start = data.IndexOf("<results>") + 9;
-                int symbolStart = data.IndexOf("\"", start) + 1;
-                int symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;
-                string sym = data.Substring(symbolStart, symbolLen);
-                start = data.IndexOf(">", symbolStart + symbolLen) + 1;
-                int length = data.IndexOf("</quote>") - start;
+	class Program
+	{
+		public static void DownloadData(string symbol, string startDate, string endDate)
+		{
+			var db = new CrowdStockDBContext();
 
-                List<History> histories = new List<History>();
-                List<Stock> stocks = new List<Stock>();
+			using(WebClient web = new WebClient())
+			{
+				string data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20%28{0}%29%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", symbol, startDate, endDate));
 
-                while (start > 0)
-                {
-                    string quoteData = "<Quote>" + data.Substring(start, length) + "</Quote>";
+				int start = data.IndexOf("<results>") + 9;
+				int symbolStart = data.IndexOf("\"", start) + 1;
+				int symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;
+				string sym = data.Substring(symbolStart, symbolLen);
+				start = data.IndexOf(">", symbolStart + symbolLen) + 1;
+				int length = data.IndexOf("</quote>") - start;
 
-                    XmlSerializer x = new XmlSerializer(typeof(Quote));
-                    TextReader reader = new StringReader(quoteData);
-                    Quote quote = (Quote)x.Deserialize(reader);
-                    reader.Close();
+				List<History> histories = new List<History>();
+				List<Stock> stocks = new List<Stock>();
 
-                    History hist = new History();
-                    hist.Value = quote.Open;
-                    hist.StockId = sym;
-                    hist.Date = DateTime.Parse(quote.Date);
-                    hist.Stock = db.Stocks.Find(sym);
-                    if (hist.Stock == null)
-                    {
-                        for (int i = 0; i < stocks.Count; i++ )
-                        {
-                            if (stocks[i].Name.Equals(sym))
-                            {
-                                hist.Stock = stocks[i];
-                                break;
-                            }
-                        }
-                        if (hist.Stock == null)
-                        {
-                            Stock stock = new Stock();
-                            stock.Id = sym;
-                            stock.Name = sym;
-                            hist.Stock = stock;
-                            stocks.Add(hist.Stock);
-                        }
-                    }
-                    hist.Stock.Histories.Add(hist);
-                    histories.Add(hist);
+				while(start > 0)
+				{
+					string quoteData = "<Quote>" + data.Substring(start, length) + "</Quote>";
 
-                    start = data.IndexOf("<quote", (start + length));
-                    if (start < 0)
-                    {
-                        break;
-                    }
-                    symbolStart = data.IndexOf("\"", start) + 1;
-                    symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;
-                    sym = data.Substring(symbolStart, symbolLen);
-                    start = data.IndexOf(">", symbolStart + symbolLen) + 1;
-                    length = data.IndexOf("</quote>", start) - start;
-                }
+					XmlSerializer x = new XmlSerializer(typeof(Quote));
+					TextReader reader = new StringReader(quoteData);
+					Quote quote = (Quote)x.Deserialize(reader);
+					reader.Close();
+
+					History hist = new History();
+					hist.Value = quote.Open;
+					hist.StockId = sym;
+					hist.Date = DateTime.Parse(quote.Date);
+					hist.Stock = db.Stocks.Find(sym);
+					if(hist.Stock == null)
+					{
+						for(int i = 0; i < stocks.Count; i++)
+						{
+							if(stocks[i].Name.Equals(sym))
+							{
+								hist.Stock = stocks[i];
+								break;
+							}
+						}
+						if(hist.Stock == null)
+						{
+							Stock stock = new Stock
+							{
+								Id = sym.ToUpper(),
+								Name = sym
+							};
+
+							hist.Stock = stock;
+							stocks.Add(hist.Stock);
+						}
+					}
+					histories.Add(hist);
+
+					start = data.IndexOf("<quote", (start + length));
+					if(start < 0)
+					{
+						break;
+					}
+					symbolStart = data.IndexOf("\"", start) + 1;
+					symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;
+					sym = data.Substring(symbolStart, symbolLen);
+					start = data.IndexOf(">", symbolStart + symbolLen) + 1;
+					length = data.IndexOf("</quote>", start) - start;
+				}
 
 
-                for (int i = 0; i < stocks.Count; i++)
-                {
-                    if (db.Stocks.Find(stocks[i].Name) == null)
-                    {
-                        db.Stocks.Add(stocks[i]);
-                    }
-                    else
-                    {
-                        db.Entry(stocks[i]).CurrentValues.SetValues(stocks[i]);
-                    }
-                }
-                for (int i = 0; i < histories.Count; i++)
-                {
-                    if (true)
-                    {
-                        db.Histories.Add(histories[i]);
-                    }
-                    
-                }
-                db.SaveChanges();
+				for(int i = 0; i < stocks.Count; i++)
+				{
+					if(db.Stocks.Find(stocks[i].Name) == null)
+					{
+						db.Stocks.Add(stocks[i]);
+					}
+					else
+					{
+						db.Entry(stocks[i]).CurrentValues.SetValues(stocks[i]);
+					}
+				}
 
-            }
+				foreach(History h in histories)
+				{
+					var existingentries =
+						from hist in db.Histories
+						where hist.StockId == h.StockId
+						&& SqlFunctions.DatePart("yyyy", hist.Date) == SqlFunctions.DatePart("yyyy", h.Date)
+						&& SqlFunctions.DatePart("dy", hist.Date) == SqlFunctions.DatePart("dy", h.Date)
+						select hist;
 
-        }
+					db.Histories.RemoveRange(existingentries);
 
-         static string generateSymbolString(string[] symbols)
-         {
-             StringBuilder sb = new StringBuilder();
-             if (symbols == null)
-             {
-                 return null;
-             }
-             sb.Append("%27" + symbols[0] + "%27");
-             for (int i = 1; i < symbols.Length; i++)
-             {
-                 sb.Append(",%20%27" + symbols[i] + "%27");
-             }
-             return sb.ToString();
-         }
+					db.Histories.Add(h);
+				}
+				db.SaveChanges();
 
-         static string[] getTopStocks()
-         {
-             string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
+			}
+
+		}
+
+		static string generateSymbolString(string[] symbols)
+		{
+			StringBuilder sb = new StringBuilder();
+			if(symbols == null)
+			{
+				return null;
+			}
+			sb.Append("%27" + symbols[0] + "%27");
+			for(int i = 1; i < symbols.Length; i++)
+			{
+				sb.Append(",%20%27" + symbols[i] + "%27");
+			}
+			return sb.ToString();
+		}
+
+		static string[] getTopStocks()
+		{
+			string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
                                     "ASPX", "CP", "AMAG", "LTS", "FNHC", "ALXN", "JACK", "FLWS", "KNX", "SBCF", "NKE", "GPN", "NATH", "CHDN", "BSTC", "BAH",
                                     "VDSI", "PAYX", "TK", "RLGT", "VR", "OABC", "BREW", "ZTS", "MOVE", "STRP", "DTSI", "IG", "PANW", "LMNX", "SGNT", "ERIE",
                                     "HSNI", "GTS", "DSPG", "GS", "DVCR", "TIBX", "SONC", "RVP", "HAWKB", "AMBI", "ICUI", "ADSK", "NI", "ATV", "EAT", "CCRN",
                                     "VIMC", "LOGM", "AXDX", "HAWK", "EW", "SVVC", "QLYS", "ICLR", "CMRX", "TREE", "AGIO", "OMAB", "STRZA", "MNK", "CLCT", "N",
                                     "MFSF", "PPC", "FARM", "PDCO", "PFSW", "AYI", "TSN", "AGN", "TCP", "EPIQ", "LPDX", "CF", "EIGI", "HEP", "ATHL", "TEVA", "INSY",
                                     "ANCX", "DENN", "CFI"};
-             return symbols;
-         }
+			return symbols;
+		}
 
-         static string generateStartDate()
-         {
-             DateTime dt = DateTime.Now;
-             dt = dt.AddMonths(-1);
-             return dt.ToString("yyyy-MM-dd");
-         }
+		static string generateStartDate()
+		{
+			DateTime dt = DateTime.Now;
+			dt = dt.AddMonths(-1);
+			return dt.ToString("yyyy-MM-dd");
+		}
 
-         static string generateEndDate()
-         {
-             DateTime dt = DateTime.Now;
-             return dt.ToString("yyyy-MM-dd");
-         }
+		static string generateEndDate()
+		{
+			DateTime dt = DateTime.Now;
+			return dt.ToString("yyyy-MM-dd");
+		}
 
-        static void Main(string[] args)
-        {
-            string[] symbols = getTopStocks();
-            
-            //Get one month's worth of data
-            DownloadData(generateSymbolString(symbols), generateStartDate(), generateEndDate());
+		static void Main(string[] args)
+		{
+			string[] symbols = getTopStocks();
 
-        }
-    }
+			//Get one month's worth of data
+			DownloadData(generateSymbolString(symbols), generateStartDate(), generateEndDate());
+
+		}
+	}
 }
