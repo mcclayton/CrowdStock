@@ -90,6 +90,7 @@ local.properties
 
 # NuGet Packages
 CrowdStock/packages/
+CrowdStockDb/packages/
 
 # Compiler Output
 CrowdStock/CrowdStock/bin/
