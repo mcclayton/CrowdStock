@@ -147,9 +147,9 @@
     <div id="container" style="height: 400px; min-width: 310px"></div>
 
     <div>
-            <img src="http://bit.ly/1toTDBN" id="up_arrow" style="height: 40px; width: 40px; cursor:pointer" onclick=up_request() />
-            <img src="http://bit.ly/1vyeB3D" id="down_arrow" style="height: 40px; width: 40px; cursor:pointer" onclick=down_request() />
-        </div>
+        <img src="http://bit.ly/1toTDBN" id="up_arrow" style="height: 40px; width: 40px; cursor:pointer" onclick=up_request() />
+        <img src="http://bit.ly/1vyeB3D" id="down_arrow" style="height: 40px; width: 40px; cursor:pointer" onclick=down_request() />
+    </div>
 
     <h4>History</h4>
     <hr />
@@ -191,7 +191,7 @@
     <script type="text/javascript">
         $(function () {
 
-            $.getJSON('http://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+            $.getJSON('http://localhost:51757/api/History/?stock=@Model.Id', function (data) {
                 // Create the chart
                 $('#container').highcharts('StockChart', {
 
@@ -207,7 +207,7 @@
 
                     series: [{
                         name: '@Model.Id',
-                        data: data,
+                        data: formatData(data),
                         tooltip: {
                             valueDecimals: 2
                         }
@@ -225,6 +225,15 @@
         }
         function down_request() {
             console.log("Down");
+        }
+
+        function formatData(data) {
+            var newData = [];
+            for (var i = 0; i < data[0].length; i++) {
+                newData.push([Date.parse(data[0][i].Date).valueOf(), data[0][i].Value]);
+            }
+            newData.reverse();
+            return newData;
         }
     </script>
 }

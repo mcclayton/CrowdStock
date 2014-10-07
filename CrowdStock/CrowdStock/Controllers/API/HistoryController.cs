@@ -13,63 +13,66 @@ using CrowdStock.Models;
 
 namespace CrowdStock.Controllers.API
 {
-    public class HistoryController : ApiController
-    {
-        private CrowdStockDBContext db = new CrowdStockDBContext();
+	public class HistoryController : ApiController
+	{
+		private CrowdStockDBContext db = new CrowdStockDBContext();
 
-        // GET api/History/5
-        [ResponseType(typeof(History))]
-        public IHttpActionResult GetHistory(int id)
-        {
-            History history = db.Histories.Find(id);
-            if (history == null)
-            {
-                return NotFound();
-            }
+		// GET api/History/5
+		[ResponseType(typeof(History))]
+		public IHttpActionResult GetHistory(int id)
+		{
+			History history = db.Histories.Find(id);
+			if(history == null)
+			{
+				return NotFound();
+			}
 
-            return Ok(history);
-        }
+			return Ok(history);
+		}
 
-        // GET api/History/5
-        [ResponseType(typeof(IEnumerable<History>))]
-        public IHttpActionResult GetHistory()
-        {
-            var histories = from hist in db.Histories
-                                  group hist by hist.StockId into stockhist
-                                  orderby stockhist.Key ascending
-                                  select stockhist.OrderByDescending(hist => hist.Date).FirstOrDefault();
-            if (histories == null)
-            {
-                return NotFound();
-            }
+		// GET api/History/5
+		[ResponseType(typeof(IEnumerable<History>))]
+		public IHttpActionResult GetHistory()
+		{
+			var histories = from hist in db.Histories
+							group hist by hist.StockId into stockhist
+							orderby stockhist.Key ascending
+							select stockhist.OrderByDescending(hist => hist.Date).FirstOrDefault();
+			if(histories == null)
+			{
+				return NotFound();
+			}
 
-            return Ok(histories);
-        }
+			return Ok(histories);
+		}
 
-        // GET api/History/5
-        [ResponseType(typeof(IEnumerable<History>))]
-        public IHttpActionResult GetHistory(string stock, int count)
-        {
+		// GET api/History/5
+		[ResponseType(typeof(IEnumerable<History>))]
+		public IHttpActionResult GetHistory(string stock, int? count = null)
+		{
 			IEnumerable<string> stocks = stock.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.ToUpper());
 
 			var histories = new List<IQueryable<History>>();
 
 			foreach(string symbol in stocks)
 			{
-				var stockHistory = from hist in db.Histories
-								   where hist.StockId == symbol
-								   orderby hist.Date descending
-								   select hist;
+				IQueryable<History> stockHistory = from hist in db.Histories
+												   where hist.StockId == symbol
+												   orderby hist.Date descending
+												   select hist;
 
-				histories.Add(stockHistory.Take(count));
+				if(count.HasValue)
+					stockHistory = stockHistory.Take(count.Value);
+
+				histories.Add(stockHistory);
 			}
 
-            if (!histories.Any())
-            {
-                return NotFound();
-            }
+			if(!histories.Any())
+			{
+				return NotFound();
+			}
 
-            return Ok(histories);
-        }
-    }
+			return Ok(histories);
+		}
+	}
 }
