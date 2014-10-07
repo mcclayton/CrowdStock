@@ -191,7 +191,7 @@
     <script type="text/javascript">
         $(function () {
 
-            $.getJSON('http://localhost:51757/api/History/?stock=@Model.Id', function (data) {
+            $.getJSON('@Url.RouteUrl("DefaultApi", new { httproute = "", controller = "History", stock = @Model.Id })', function (data) {
                 // Create the chart
                 $('#container').highcharts('StockChart', {
 
