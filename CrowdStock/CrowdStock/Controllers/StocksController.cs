@@ -72,7 +72,7 @@ namespace CrowdStock.Controllers
 			{
 				db.Stocks.Add(stock);
 				await db.SaveChangesAsync();
-				return RedirectToAction("Index");
+				return RedirectToAction("List");
 			}
 
 			return View(stock);
@@ -106,7 +106,7 @@ namespace CrowdStock.Controllers
 			{
 				db.Entry(stock).State = EntityState.Modified;
 				await db.SaveChangesAsync();
-				return RedirectToAction("Index");
+				return RedirectToAction("List");
 			}
 			return View(stock);
 		}
@@ -136,7 +136,7 @@ namespace CrowdStock.Controllers
 			Stock stock = await db.Stocks.FindAsync(id);
 			db.Stocks.Remove(stock);
 			await db.SaveChangesAsync();
-			return RedirectToAction("Index");
+			return RedirectToAction("List");
 		}
 
 		protected override void Dispose(bool disposing)

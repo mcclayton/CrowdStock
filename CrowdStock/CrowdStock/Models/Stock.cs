@@ -42,6 +42,9 @@ namespace CrowdStock.Models
 		{
 			get
 			{
+				if(this.Votes == null)
+					return 0;
+
 				var futureVotes = from vote in this.Votes
 								  where vote.EndDate > DateTime.Now
 								  select vote.isPositive ? 1 : 0;
