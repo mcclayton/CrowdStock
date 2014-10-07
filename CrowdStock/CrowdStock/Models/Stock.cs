@@ -15,6 +15,7 @@ namespace CrowdStock.Models
 		[Required]
 		[StringLength(4)]
 		[Display(Name = "Symbol")]
+		[RegularExpression("^[A-Z]+$",ErrorMessage="Symbol must be UPPERCASE")]
 		public string Id { get; set; }
 
 		[Required]
