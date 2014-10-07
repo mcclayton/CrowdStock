@@ -33,15 +33,28 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a href="@Url.Action("Details","Stocks",new {id=item.Id})" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-list-alt"></span>
-                        Details
-                    </a>
+                    <div class="btn-group btn-group-xs">
+                        <a href="@Url.Action("Details","Stocks",new {id=item.Id})" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-list-alt"></span>
+                            Details
+                        </a>
+                        @if(User.IsInRole("Administrator"))
+                        {
+                            <a href="@Url.Action("Edit","Stocks",new {id=item.Id})" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                Edit
+                            </a>
+                            <a href="@Url.Action("Delete","Stocks",new {id=item.Id})" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                Delete
+                            </a>
+                        }
+                    </div>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <div class="text-center">
-    <a href="#">View More</a>
+    @Html.ActionLink("View More", "List")
 </div>

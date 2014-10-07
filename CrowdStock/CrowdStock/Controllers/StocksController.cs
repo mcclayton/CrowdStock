@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using CrowdStock.Models;
+using PagedList;
 
 namespace CrowdStock.Controllers
 {
@@ -31,6 +32,12 @@ namespace CrowdStock.Controllers
 			return View();
 		}
 
+		public ActionResult List(int? page)
+		{
+			var stocks = db.Stocks.OrderBy(s => s.Id);
+			return View(stocks.ToPagedList(page ?? 1, 25));
+		}
+
 		// GET: Stocks/Details/5
 		public async Task<ActionResult> Details(string id)
 		{
@@ -47,6 +54,7 @@ namespace CrowdStock.Controllers
 		}
 
 		// GET: Stocks/Create
+		[Authorize(Roles = "Administrator")]
 		public ActionResult Create()
 		{
 			return View();
@@ -57,6 +65,7 @@ namespace CrowdStock.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Administrator")]
 		public async Task<ActionResult> Create([Bind(Include = "Id,Name,Description")] Stock stock)
 		{
 			if(ModelState.IsValid)
@@ -70,6 +79,7 @@ namespace CrowdStock.Controllers
 		}
 
 		// GET: Stocks/Edit/5
+		[Authorize(Roles = "Administrator")]
 		public async Task<ActionResult> Edit(string id)
 		{
 			if(id == null)
@@ -89,6 +99,7 @@ namespace CrowdStock.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Administrator")]
 		public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Description")] Stock stock)
 		{
 			if(ModelState.IsValid)
@@ -101,6 +112,7 @@ namespace CrowdStock.Controllers
 		}
 
 		// GET: Stocks/Delete/5
+		[Authorize(Roles = "Administrator")]
 		public async Task<ActionResult> Delete(string id)
 		{
 			if(id == null)
@@ -118,6 +130,7 @@ namespace CrowdStock.Controllers
 		// POST: Stocks/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
+		[Authorize(Roles = "Administrator")]
 		public async Task<ActionResult> DeleteConfirmed(string id)
 		{
 			Stock stock = await db.Stocks.FindAsync(id);
