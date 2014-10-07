@@ -24,6 +24,9 @@
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Consensus)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
             </th>
             <th>
@@ -40,10 +43,23 @@
                     @Html.DisplayFor(modelItem => item.Id)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Consensus)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @if(!string.IsNullOrWhiteSpace(item.Description))
+                    {
+                        if(item.Description.Length <= 50)
+                        {
+                            <text>@Html.Encode(item.Description)</text>
+                        }
+                        else
+                        {
+                            <text>@Html.Encode(item.Description.Substring(0,47)+"...")</text>
+                        }
+                    }
                 </td>
                 <td>
                     <div class="btn-group btn-group-xs">
