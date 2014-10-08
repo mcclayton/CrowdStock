@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.crowdstock.app.R;
+import com.jjoe64.graphview.*;
+import android.widget.LinearLayout;
 
 public class StockProfileActivity extends Activity {
 
@@ -12,6 +14,24 @@ public class StockProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stock_profile);
+
+        // init example series data
+        GraphViewSeries exampleSeries = new GraphViewSeries(new GraphView.GraphViewData[] {
+                new GraphView.GraphViewData(1, 2.0d)
+                , new GraphView.GraphViewData(2, 1.5d)
+                , new GraphView.GraphViewData(3, 2.5d)
+                , new GraphView.GraphViewData(4, 1.0d)
+        });
+
+        GraphView graphView = new LineGraphView(
+                this // context
+                , "GraphViewDemo" // heading
+        );
+        graphView.addSeries(exampleSeries); // data
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.graphLinearLayout);
+        layout.addView(graphView);
+
     }
 
 
