@@ -29,7 +29,7 @@ public class StockProfileActivity extends Activity {
         );
         graphView.addSeries(exampleSeries); // data
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.graphLinearLayout);
+        LinearLayout layout = (LinearLayout)findViewById(R.id.masterLinearLayout);
         layout.addView(graphView);
 
     }

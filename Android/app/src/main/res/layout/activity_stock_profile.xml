@@ -15,7 +15,8 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/logoImageView"
-        android:layout_alignEnd="@+id/logoImageView">
+        android:layout_alignEnd="@+id/logoImageView"
+        android:id="@+id/masterLinearLayout">
 
         <ImageView
             android:layout_width="wrap_content"
