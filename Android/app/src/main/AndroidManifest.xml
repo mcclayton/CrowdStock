@@ -25,11 +25,15 @@
         </activity>
         <activity
             android:name=".main.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="Settings Activity" >
         </activity>
         <activity
-            android:name=".main.ProfileActivity"
-            android:label="@string/title_activity_profile" >
+            android:name=".main.StockProfileActivity"
+            android:label="@string/title_activity_stock_profile" >
+        </activity>
+        <activity
+            android:name=".main.UserProfileActivity"
+            android:label="@string/title_activity_user_profile" >
         </activity>
     </application>
 

@@ -13,23 +13,90 @@
         android:layout_height="wrap_content"
         android:id="@+id/logoImageView"
         android:src="@drawable/crowdstock_logo"
-        android:paddingBottom="100dp"
+        android:paddingBottom="40dp"
         android:contentDescription="@string/desc"
         android:layout_centerHorizontal="true" />
 
-    <ToggleButton
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:id="@+id/toggleSettingA"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_below="@+id/logoImageView"
-        android:hint="@string/settingA" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/toggleSettingAText"
-        android:text="@string/settingA"
-        android:paddingBottom="20dp"
-        android:layout_above="@+id/toggleSettingA" />
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Username:"
+            android:id="@+id/textView" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/userNameSettingsField"
+            android:layout_gravity="center_horizontal|left"
+            android:paddingBottom="20dp" />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Name:"
+            android:id="@+id/textView2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/userActualNameSettingsField"
+            android:paddingBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Profile Picture:"
+            android:id="@+id/textView3" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView"
+                android:background="@drawable/koala"
+                android:layout_marginLeft="15dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change Pic"
+                android:id="@+id/changeProfilePictureSettingsButton"
+                android:layout_marginLeft="30dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Password:"
+            android:id="@+id/textView4" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
+            android:id="@+id/button"
+            android:layout_marginLeft="15dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -13,37 +13,78 @@
         android:layout_height="wrap_content"
         android:id="@+id/logoImageView"
         android:src="@drawable/crowdstock_logo"
-        android:paddingBottom="100dp"
+        android:paddingBottom="40dp"
         android:contentDescription="@string/desc"
         android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/loginTextView"
-        android:layout_below="@+id/logoImageView"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/search_header"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="fill_parent"
+        android:id="@+id/"
+        android:weightSum="1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/logoImageView">
 
-    <EditText
-        android:hint="@string/search_help_text"
-        android:id="@+id/loginTextViewSearchBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:ems="20"
-        android:layout_below="@+id/loginTextView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Username Search:"
+            android:id="@+id/textView2" />
 
-    <Button
-        android:layout_height="50dp"
-        android:text="Enter"
-        android:textAppearance="?android:attr/textAppearanceButton"
-        android:layout_width="wrap_content"
-        android:layout_below="@+id/loginTextViewSearchBar"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/" />
+        <TextView
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/userNameSearchView"
+            android:layout_gravity="center_horizontal|left"
+            android:layout_weight="0.07"
+            android:textSize="20dp"
+            android:editable="true"
+            android:background="#ffd1d2d1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/userNameSearchButton"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:paddingBottom="35dp"
+            android:id="@+id/textDivider"
+            android:layout_marginBottom="30dp"
+            android:background="@android:color/black"
+            android:paddingTop="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Stock Search"
+            android:id="@+id/textView3" />
+
+        <TextView
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/stockSearchView"
+            android:layout_weight="0.07"
+            android:textSize="20dp"
+            android:editable="true"
+            android:background="#ffd1d2d1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:id="@+id/stockSearchSubmitButton"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>
