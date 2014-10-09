@@ -20,14 +20,14 @@ import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
 
 
-public class MainActivity extends Activity {
+public class LeaderboardActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_leaderboard);
 
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);

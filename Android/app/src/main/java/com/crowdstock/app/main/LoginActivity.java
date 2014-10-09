@@ -20,15 +20,15 @@ import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
 
 
-public class PredictionActivity extends Activity {
-    private static final String ACTIVITY_NAME = "Prediction";
+public class LoginActivity extends Activity {
+    private static final String ACTIVITY_NAME = "Login";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_prediction);
+        setContentView(R.layout.activity_main);
 
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);
@@ -106,7 +106,6 @@ public class PredictionActivity extends Activity {
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             // Switch the activity to the one selected in the drawer
             String activityNameSelected = NavigationDrawer.getActivityNames()[position];
-
             if (activityNameSelected.equals(ACTIVITY_NAME)) {
                 // Don't go to the current activity if it is selected again
                 mDrawerLayout.closeDrawers();
