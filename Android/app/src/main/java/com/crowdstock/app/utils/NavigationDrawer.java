@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.crowdstock.app.main.MainActivity;
+import com.crowdstock.app.main.PredictionActivity;
 import com.crowdstock.app.main.SearchActivity;
 import com.crowdstock.app.main.UserProfileActivity;
 
@@ -19,15 +20,19 @@ public class NavigationDrawer {
     public static void initDrawerItems(Context c) {
         Intent main = new Intent(c, MainActivity.class);
         Intent search = new Intent(c, SearchActivity.class);
+        Intent prediction = new Intent(c, PredictionActivity.class);
         Intent userProfile = new Intent(c, UserProfileActivity.class);
 
+        // Add activity names and their corresponding intents to the ActivityMap
         activityMap.put("Main", main);
         activityMap.put("Search", search);
+        activityMap.put("Prediction", prediction);
         activityMap.put("Profile", userProfile);
-
-
     }
 
+    /**
+     * Returns an array of the activity names (The keys of the activityMap)
+     */
     public static String[] getActivityNames() {
         String[] activityNames = new String[activityMap.size()];
         int i=0;

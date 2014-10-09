@@ -20,6 +20,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".main.PredictionActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
             android:name=".main.SearchActivity"
             android:label="@string/title_activity_search" >
         </activity>
