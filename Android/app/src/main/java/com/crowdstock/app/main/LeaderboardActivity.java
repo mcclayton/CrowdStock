@@ -2,8 +2,6 @@ package com.crowdstock.app.main;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,12 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crowdstock.app.R;
-import com.crowdstock.app.utils.Connectivity;
-import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
 
 

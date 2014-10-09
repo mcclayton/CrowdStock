@@ -32,6 +32,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Intent registerIntent = new Intent(this, RegisterActivity.class);
+        final Intent loginIntent = new Intent(this, SearchActivity.class);
 
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);
@@ -48,6 +49,12 @@ public class LoginActivity extends Activity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(registerIntent);
+            }
+        });
+        final Button loginButton = (Button) findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(loginIntent);
             }
         });
     }
