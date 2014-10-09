@@ -17,11 +17,11 @@ import android.widget.Toast;
 import com.crowdstock.app.R;
 import com.crowdstock.app.utils.Connectivity;
 import com.crowdstock.app.utils.HttpRequest;
+import com.crowdstock.app.utils.NavigationDrawer;
 
 
 public class MainActivity extends Activity {
     private DrawerLayout mDrawerLayout;
-    String[] activityNames = {"Login", "Predictions", "Top Stocks & Users", "My Profile"};
     private ListView mDrawerList;
 
     @Override
@@ -29,12 +29,15 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize the drawer items
+        NavigationDrawer.initDrawerItems(this);
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.drawer_list_item, activityNames));
+                R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
@@ -100,8 +103,9 @@ public class MainActivity extends Activity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
-            Toast.makeText(parent.getContext(), activityNames[position], Toast.LENGTH_SHORT).show();
-            mDrawerList.setItemChecked(position, true);
+            // Switch the activity to the one selected in the drawer
+            String activityNameSelected = NavigationDrawer.getActivityNames()[position];
+            startActivity(NavigationDrawer.getActivityIntentMap().get(activityNameSelected));
         }
     }
 }
