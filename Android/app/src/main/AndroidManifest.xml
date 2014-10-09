@@ -11,13 +11,25 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".main.MainActivity"
+            android:name=".main.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".main.LeaderboardActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name=".main.RegisterActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name=".main.PredictionActivity"
+            android:label="@string/title_activity_search" >
         </activity>
         <activity
             android:name=".main.SearchActivity"
