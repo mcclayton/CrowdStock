@@ -7,6 +7,8 @@ import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,19 +20,22 @@ import com.crowdstock.app.utils.HttpRequest;
 
 
 public class MainActivity extends Activity {
+    private DrawerLayout mDrawerLayout;
+    String[] activityNames = {"Login", "Predictions", "Top Stocks & Users", "My Profile"};
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ListView mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-        String[] activityNames = {"Login", "Activity2", "Activity3", "Activity4"};
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, activityNames));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
 
 
@@ -74,7 +79,7 @@ public class MainActivity extends Activity {
                     handler.post(new Runnable(){
                         @Override
                         public void run() {
-                            try{
+                            try {
                                 if (response != null) {
                                     // TODO: Handle data
                                     view.setText(response);
@@ -92,4 +97,11 @@ public class MainActivity extends Activity {
         }
     }
 
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            Toast.makeText(parent.getContext(), activityNames[position], Toast.LENGTH_SHORT).show();
+            mDrawerList.setItemChecked(position, true);
+        }
+    }
 }
