@@ -44,6 +44,12 @@ public class RegisterActivity extends Activity {
                 startActivity(registerIntent);
             }
         });
+        final Button backButton = (Button) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

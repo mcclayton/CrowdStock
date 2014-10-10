@@ -33,6 +33,23 @@ public class LeaderboardActivity extends Activity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        String[] testUserData = {"0\t mleeli", "0\tadmin@billking.io"};
+        String[] testStockData = {"ADP\t0.00%",
+                "ALXN\t0.00%", "AMAG\t0.00%", "ANCX\t0.00%", "ARC\t0.00%",
+                "ASPX\t0.00%", "ATHL\t0.00%", "BAH\t0.00%", "BREW\t0.00%",
+                "BSTC\t0.00%", "CALD\t0.00%", "CEMP\t0.00%", "CF\t0.00%",
+                "CFI\t0.00%", "CHDN\t0.00%", "CP\t0.00%", "CTAS\t0.00%",
+                "DENN\t0.00%", "DSPG\t0.00%", "DTSI\t0.00%", "DVCR\t0.00%",
+                "EIGI\t0.00%", "EPIQ\t0.00%", "ERIE\t0.00%"};
+        ListView userListView = (ListView) findViewById(R.id.topUserslistView);
+        ListView stockListView = (ListView) findViewById(R.id.topStocksListView);
+
+        // Set the adapter for the list views
+        userListView.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.list_item, testUserData));
+        stockListView.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.list_item, testStockData));
     }
 
 

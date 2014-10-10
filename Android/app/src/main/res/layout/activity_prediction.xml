@@ -26,7 +26,7 @@
             android:id="@+id/loginTextView"
             android:layout_below="@+id/logoImageView"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Login:"
+            android:text="Stocks..."
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
 

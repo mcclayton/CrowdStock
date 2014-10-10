@@ -24,11 +24,36 @@
 
         <TextView
             android:id="@+id/loginTextView"
-            android:layout_below="@+id/logoImageView"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Login:"
+            android:text="Top Stocks/Users:"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/logoImageView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/loginTextView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/linearLayoutListViews">
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/topStocksListView"
+                android:layout_weight="1"
+                android:paddingRight="4dp"/>
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/topUserslistView"
+                android:layout_weight="1"
+                android:paddingLeft="4dp"/>
+        </LinearLayout>
 
     </RelativeLayout>
     <!-- The navigation drawer -->

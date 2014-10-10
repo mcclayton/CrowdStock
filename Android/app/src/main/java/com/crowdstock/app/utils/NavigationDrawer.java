@@ -7,7 +7,6 @@ import com.crowdstock.app.main.LeaderboardActivity;
 import com.crowdstock.app.main.LoginActivity;
 import com.crowdstock.app.main.PredictionActivity;
 import com.crowdstock.app.main.SearchActivity;
-import com.crowdstock.app.main.UserProfileActivity;
 
 import java.util.HashMap;
 
@@ -21,16 +20,16 @@ public class NavigationDrawer {
     public static void initDrawerItems(Context c) {
         Intent login = new Intent(c, LoginActivity.class);
         Intent search = new Intent(c, SearchActivity.class);
-        Intent prediction = new Intent(c, PredictionActivity.class);
+        Intent stocks = new Intent(c, PredictionActivity.class);
         Intent leaderboard = new Intent(c, LeaderboardActivity.class);
-        Intent userProfile = new Intent(c, UserProfileActivity.class);
+        //Intent userProfile = new Intent(c, UserProfileActivity.class);
 
         // Add activity names and their corresponding intents to the ActivityMap
         activityMap.put("Login", login);
         activityMap.put("Search", search);
-        activityMap.put("Prediction", prediction);
+        activityMap.put("Stocks", stocks);
         activityMap.put("Leaderboard", leaderboard);
-        activityMap.put("Profile", userProfile);
+        //activityMap.put("Profile", userProfile);
     }
 
     /**
