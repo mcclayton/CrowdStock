@@ -14,13 +14,13 @@ namespace CrowdStockDBUpdater
 {
 	class Program
 	{
-		public static void DownloadData(string symbol, string startDate, string endDate)
+		public static void DownloadData(string symbol, DateTime startDate, DateTime endDate)
 		{
 			var db = new CrowdStockDBContext();
 
 			using(WebClient web = new WebClient())
 			{
-				string data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20%28{0}%29%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", symbol, startDate, endDate));
+                string data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20%28%27{0}%27%29%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", symbol, startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")));
 
 				int start = data.IndexOf("<results>") + 9;
 				int symbolStart = data.IndexOf("\"", start) + 1;
@@ -114,61 +114,42 @@ namespace CrowdStockDBUpdater
 
 		}
 
-		static string generateSymbolString(string[] symbols)
-		{
-			StringBuilder sb = new StringBuilder();
-			if(symbols == null)
-			{
-				return null;
-			}
-			sb.Append("%27" + symbols[0] + "%27");
-			for(int i = 1; i < symbols.Length; i++)
-			{
-				sb.Append(",%20%27" + symbols[i] + "%27");
-			}
-			return sb.ToString();
-		}
-
 		static string[] getTopStocks()
 		{
-			string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
+			/*string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
                                     "ASPX", "CP", "AMAG", "LTS", "FNHC", "ALXN", "JACK", "FLWS", "KNX", "SBCF", "NKE", "GPN", "NATH", "CHDN", "BSTC", "BAH",
                                     "VDSI", "PAYX", "TK", "RLGT", "VR", "OABC", "BREW", "ZTS", "MOVE", "STRP", "DTSI", "IG", "PANW", "LMNX", "SGNT", "ERIE",
                                     "HSNI", "GTS", "DSPG", "GS", "DVCR", "TIBX", "SONC", "RVP", "HAWKB", "AMBI", "ICUI", "ADSK", "NI", "ATV", "EAT", "CCRN",
                                     "VIMC", "LOGM", "AXDX", "HAWK", "EW", "SVVC", "QLYS", "ICLR", "CMRX", "TREE", "AGIO", "OMAB", "STRZA", "MNK", "CLCT", "N",
                                     "MFSF", "PPC", "FARM", "PDCO", "PFSW", "AYI", "TSN", "AGN", "TCP", "EPIQ", "LPDX", "CF", "EIGI", "HEP", "ATHL", "TEVA", "INSY",
-                                    "ANCX", "DENN", "CFI"};
+                                    "ANCX", "DENN", "CFI"}; these are all 100 starting symbols */
+            var db = new CrowdStockDBContext();
+            
+            var stocks =
+                from symbol in db.Stocks
+                select symbol.Id;
+            string[] symbols = stocks.ToArray();
 			return symbols;
 		}
 
 		static void Main(string[] args)
 		{
-			int daysBack = 1;
-
-			for(int i = 0; i < args.Length; i++)
-			{
-				switch(args[i])
-				{
-					case "/d":
-						if(i + 1 < args.Length)
-							daysBack = int.Parse(args[++i]);
-						break;
-					case "/?":
-						Console.WriteLine("Usage: CrowdStockDBUpdater [/d daysback]");
-						break;
-				}
-			}
-
-			Console.WriteLine("Getting last {0} days of history", daysBack);
-
 			string[] symbols = getTopStocks();
+            var db = new CrowdStockDBContext();
 
-			DateTime startDate = DateTime.Now.AddDays(-daysBack);
+			DateTime startDate = DateTime.Now;
 			DateTime endDate = DateTime.Now;
 
-			//Get one month's worth of data
-			DownloadData(generateSymbolString(symbols), startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")); //change this to take two datetimes
-
+			//Get all of the new data
+            foreach (string symbol in symbols){
+                var st =
+                    from hist in db.Histories
+                    where hist.StockId.Equals(symbol)
+                    orderby hist.Date descending
+                    select hist;
+                startDate = st.First().Date;
+                DownloadData(symbol, startDate, endDate);
+            }
 		}
 	}
 }
