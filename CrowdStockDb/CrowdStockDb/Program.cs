@@ -147,7 +147,15 @@ namespace CrowdStockDBUpdater
                     where hist.StockId.Equals(symbol)
                     orderby hist.Date descending
                     select hist;
-                startDate = st.First().Date;
+                if (st.FirstOrDefault() == null)
+                {
+                    startDate = DateTime.Now.AddDays(-30);
+                }
+                else
+                {
+                    startDate = st.FirstOrDefault().Date;
+                }
+                
                 DownloadData(symbol, startDate, endDate);
             }
 		}
