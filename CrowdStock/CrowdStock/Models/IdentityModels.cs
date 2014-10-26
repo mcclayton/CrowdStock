@@ -61,6 +61,8 @@ namespace CrowdStock.Models
 
 		public double Reputation { get; set; }
 
+		public byte[] Image { get; set; }
+
 		public virtual ICollection<Vote> Votes { get; set; }
 	}
 }

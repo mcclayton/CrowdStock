@@ -223,6 +223,10 @@
     <Compile Include="Migrations\201410042120568_AddedUserReputation.Designer.cs">
       <DependentUpon>201410042120568_AddedUserReputation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410261622574_AddedProfileImage.cs" />
+    <Compile Include="Migrations\201410261622574_AddedProfileImage.Designer.cs">
+      <DependentUpon>201410261622574_AddedProfileImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APIViewModels.cs" />
@@ -348,6 +352,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410042120568_AddedUserReputation.resx">
       <DependentUpon>201410042120568_AddedUserReputation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410261622574_AddedProfileImage.resx">
+      <DependentUpon>201410261622574_AddedProfileImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
