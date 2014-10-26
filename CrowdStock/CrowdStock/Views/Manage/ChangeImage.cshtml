@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewBag.Title = "Image Upload";
+}
+
+<h2>Image Upload</h2>
+
+@if(ViewBag.Alert as string != null)
+{
+    <div class="alert alert-danger">@ViewBag.Alert</div>
+}
+
+@using(Html.BeginForm("ImageUpload", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <span class="col-md-4">
+            <input type="file" name="file" class="form-control" />
+        </span>
+        <span class="col-md-2">
+            <input type="submit" value="Upload" class="btn btn-primary" />
+        </span>
+    </div>
+}

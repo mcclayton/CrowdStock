@@ -63,6 +63,8 @@ namespace CrowdStock.Models
 
 		public byte[] Image { get; set; }
 
+		public string ImageFileType { get; set; }
+
 		public virtual ICollection<Vote> Votes { get; set; }
 	}
 }

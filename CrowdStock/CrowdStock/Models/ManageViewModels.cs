@@ -7,6 +7,7 @@ namespace CrowdStock.Models
 {
     public class IndexViewModel
     {
+		public string Id { get; set; }
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
@@ -16,6 +17,7 @@ namespace CrowdStock.Models
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+		public byte[] Image { get; set; }
     }
 
     public class ManageLoginsViewModel
