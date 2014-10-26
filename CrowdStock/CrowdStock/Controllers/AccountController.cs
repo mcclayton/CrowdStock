@@ -412,8 +412,12 @@ namespace CrowdStock.Controllers
 			return View();
 		}
 
+		[AllowAnonymous]
 		public ActionResult Image(string id)
 		{
+			if(string.IsNullOrWhiteSpace(id))
+				return HttpNotFound();
+
 			using(var db = new CrowdStockDBContext())
 			{
 				var user = db.Users.Find(id);
