@@ -422,7 +422,7 @@ namespace CrowdStock.Controllers
 				if(user.Image != null)
 					return File(user.Image, user.ImageFileType);
 				else
-					return HttpNotFound();
+					return File(Server.MapPath("/Content/img/defaultImage.jpg"), "image/jpeg");
 			}
 		}
 
