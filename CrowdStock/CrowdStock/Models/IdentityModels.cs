@@ -59,6 +59,9 @@ namespace CrowdStock.Models
 			}
 		}
 
+		[Required]
+		public DateTime DateRegistered { get; set; }
+
 		public double Reputation { get; set; }
 
 		public byte[] Image { get; set; }

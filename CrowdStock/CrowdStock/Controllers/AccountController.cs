@@ -73,10 +73,20 @@ namespace CrowdStock.Controllers
 
 			// This doesn't count login failures towards account lockout
 			// To enable password failures to trigger account lockout, change to shouldLockout: true
-			var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+			var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
 			switch(result)
 			{
 				case SignInStatus.Success:
+					var db = new CrowdStockDBContext();
+					var user = db.Users.Where(u => u.UserName == model.UserName).Single();
+					if(!user.EmailConfirmed)
+					{
+						string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+						var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+						await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+						return RedirectToAction("ConfirmEmailPrompt");
+					}
 					return RedirectToLocal(returnUrl);
 				case SignInStatus.LockedOut:
 					return View("Lockout");
@@ -159,12 +169,13 @@ namespace CrowdStock.Controllers
 					FirstName = model.FirstName,
 					LastName = model.LastName,
 					UserName = model.UserName,
-					Email = model.Email
+					Email = model.Email,
+					DateRegistered = DateTime.Now.Date
 				};
 				var result = await UserManager.CreateAsync(user, model.Password);
 				if(result.Succeeded)
 				{
-					await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+					//await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
 					// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
 					// Send an email with this link
@@ -172,13 +183,19 @@ namespace CrowdStock.Controllers
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
 					await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("ConfirmEmailPrompt");
 				}
 				AddErrors(result);
 			}
 
 			// If we got this far, something failed, redisplay form
 			return View(model);
+		}
+
+		[AllowAnonymous]
+		public ActionResult ConfirmEmailPrompt()
+		{
+			return View();
 		}
 
 		//
@@ -211,7 +228,7 @@ namespace CrowdStock.Controllers
 		{
 			if(ModelState.IsValid)
 			{
-				var user = await UserManager.FindByNameAsync(model.Email);
+				var user = await UserManager.FindByEmailAsync(model.Email);
 				if(user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
 				{
 					// Don't reveal that the user does not exist or is not confirmed
@@ -221,8 +238,8 @@ namespace CrowdStock.Controllers
 				// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
 				// Send an email with this link
 				string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-				var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-				await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+				var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+				await UserManager.SendEmailAsync(user.Id, "Reset Password", "Hello!<br /><br />Your username is " + user.UserName + ".<br />Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>.");
 				return RedirectToAction("ForgotPasswordConfirmation", "Account");
 			}
 

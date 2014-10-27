@@ -244,6 +244,10 @@
     <Compile Include="Migrations\201410261930034_AddedImageFileType.Designer.cs">
       <DependentUpon>201410261930034_AddedImageFileType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410272056314_AddedDateRegistered.cs" />
+    <Compile Include="Migrations\201410272056314_AddedDateRegistered.Designer.cs">
+      <DependentUpon>201410272056314_AddedDateRegistered.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APIViewModels.cs" />
@@ -334,6 +338,7 @@
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\Identity.cshtml" />
+    <Content Include="Views\Account\ConfirmEmailPrompt.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -380,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410261930034_AddedImageFileType.resx">
       <DependentUpon>201410261930034_AddedImageFileType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410272056314_AddedDateRegistered.resx">
+      <DependentUpon>201410272056314_AddedDateRegistered.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
