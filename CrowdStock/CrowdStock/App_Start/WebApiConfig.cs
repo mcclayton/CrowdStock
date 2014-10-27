@@ -21,7 +21,12 @@ namespace CrowdStock
                 defaults: new { id = RouteParameter.Optional }
             );
 
+			// Add JSON formatter
 			config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+
+			// Bearer Authorization
+			config.SuppressDefaultHostAuthentication(); //config.SuppressDefaultHostAuthentication();
+			config.Filters.Add(new HostAuthenticationFilter("Bearer"));
         }
     }
 }

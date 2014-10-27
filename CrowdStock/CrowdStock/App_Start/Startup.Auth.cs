@@ -6,11 +6,13 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using CrowdStock.Models;
+using Microsoft.Owin.Security.OAuth;
 
 namespace CrowdStock
 {
     public partial class Startup
-    {
+	{
+		public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -18,6 +20,9 @@ namespace CrowdStock
             app.CreatePerOwinContext(CrowdStockDBContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
+			OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
+			app.UseOAuthBearerAuthentication(OAuthBearerOptions);
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
