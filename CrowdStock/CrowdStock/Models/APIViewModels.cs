@@ -13,4 +13,10 @@ namespace CrowdStock.Models
 		public string Description { get; set; }
 		public History LastHistory { get; set; }
 	}
+
+	public class APIAuthenticateViewModel
+	{
+		public string Name { get; set; }
+		public string Password { get; set; }
+	}
 }
