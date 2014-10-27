@@ -34,7 +34,6 @@ namespace CrowdStock.Controllers.API
 		[Route("api/Authenticate")]
 		public String Authenticate(APIAuthenticateViewModel login)
 		{
-
 			if(login == null || string.IsNullOrEmpty(login.Name) || string.IsNullOrEmpty(login.Password))
 				return "failed";
 			var userIdentity = UserManager.FindAsync(login.Name, login.Password).Result;
@@ -63,7 +62,6 @@ namespace CrowdStock.Controllers.API
 				return string.Format("{0} - {1}", user.GetUserId(), user.GetUserName());
 			else
 				return "Unable to resolve user id";
-
 		}
     }
 }

@@ -48,7 +48,8 @@ namespace CrowdStock.Migrations
 				var user = new ApplicationUser
 				{
 					Email = "admin@billking.io",
-					UserName = "admin@billking.io"
+					UserName = "admin@billking.io",
+					EmailConfirmed = true
 				};
 				userManager.Create(user, "BrandanMillerDotCom");
 				userManager.AddToRole(user.Id, "Administrator");

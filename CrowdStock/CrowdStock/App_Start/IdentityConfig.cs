@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using CrowdStock.Models;
+using Postal;
 
 namespace CrowdStock
 {
@@ -18,7 +19,12 @@ namespace CrowdStock
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+			dynamic email = new Email("Identity"); //generate email using Email/Identity.cshtml
+			email.To = message.Destination;
+			email.Body = message.Body;
+			email.Subject = message.Subject;
+			email.Send();
+
             return Task.FromResult(0);
         }
     }
