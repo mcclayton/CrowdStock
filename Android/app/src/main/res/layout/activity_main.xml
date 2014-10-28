@@ -30,6 +30,7 @@
                 android:background="@drawable/rounded_rectangle_dark_transparent"
                 android:layout_width="wrap_content"
                 android:layout_marginBottom="50dp"
+                android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content">
 
@@ -58,7 +59,7 @@
                 android:ems="15"
                 android:textSize="20sp"
                 android:textColor="#ff222222"
-                android:textColorHint="#ff565656"
+                android:textColorHint="#ff4f4f4f"
                 android:id="@+id/usernameTextView"
                 android:layout_below="@+id/loginTextView"
                 android:layout_alignParentLeft="true"
@@ -73,7 +74,7 @@
                 android:ems="15"
                 android:textSize="20sp"
                 android:textColor="#ff222222"
-                android:textColorHint="#ff565656"
+                android:textColorHint="#ff4f4f4f"
                 android:hint="Password"
                 android:id="@+id/passwordTextView"
                 android:layout_below="@+id/usernameTextView"
