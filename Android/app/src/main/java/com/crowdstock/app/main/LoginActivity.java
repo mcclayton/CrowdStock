@@ -3,8 +3,6 @@ package com.crowdstock.app.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,12 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crowdstock.app.R;
-import com.crowdstock.app.utils.Connectivity;
-import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
 
 
@@ -68,7 +62,7 @@ public class LoginActivity extends Activity {
 
 
         // TODO: Remove this HTTP request test
-        httpTest();
+        //httpTest();
 
         return true;
     }
@@ -86,6 +80,7 @@ public class LoginActivity extends Activity {
     }
 
     // TODO: Remove this HTTP request test method
+    /*
     private void httpTest() {
         final TextView view = (TextView) findViewById(R.id.testTextView);
         if (!Connectivity.isConnected(this)) {
@@ -102,7 +97,7 @@ public class LoginActivity extends Activity {
                         public void run() {
                             try {
                                 if (response != null) {
-                                    // TODO: Handle data
+                                    // Handle data
                                     view.setText(response);
                                 } else {
                                     // Unable to retrieve data
@@ -117,6 +112,7 @@ public class LoginActivity extends Activity {
             }).start();
         }
     }
+    */
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
