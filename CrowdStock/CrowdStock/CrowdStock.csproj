@@ -248,6 +248,10 @@
     <Compile Include="Migrations\201410272056314_AddedDateRegistered.Designer.cs">
       <DependentUpon>201410272056314_AddedDateRegistered.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201410282342274_RemovedReputationFromUser.cs" />
+    <Compile Include="Migrations\201410282342274_RemovedReputationFromUser.Designer.cs">
+      <DependentUpon>201410282342274_RemovedReputationFromUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APIViewModels.cs" />
@@ -388,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410272056314_AddedDateRegistered.resx">
       <DependentUpon>201410272056314_AddedDateRegistered.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201410282342274_RemovedReputationFromUser.resx">
+      <DependentUpon>201410282342274_RemovedReputationFromUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
