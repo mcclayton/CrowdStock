@@ -62,17 +62,20 @@ namespace CrowdStock.Models
 		[Required]
 		public DateTime DateRegistered { get; set; }
 
-        /// <summary>
-        /// A decimal value between 0 and 100 which indicates the reputation of the user
-        /// </summary>
-        [NotMapped]
-        [Display(Name = "Reputation")]
-        public double Reputation {
-            get
-            {
-                return AverageScore;
-            }
-        }
+		/// <summary>
+		/// A decimal value between 0 and 100 which indicates the reputation of the user
+		/// </summary>
+		[Display(Name = "Reputation")]
+		public double Reputation { get; set; }
+
+		public double UpdateReputation()
+		{
+			double reputation = AverageScore;
+			//Do your work here
+
+			this.Reputation = AverageScore;
+			return Reputation;
+		}
 
 		public byte[] Image { get; set; }
 
