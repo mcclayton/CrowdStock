@@ -16,6 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/logoImageView"
         android:layout_alignEnd="@+id/logoImageView"
+        android:background="@drawable/white_noise"
         android:id="@+id/masterLinearLayout">
 
         <ImageView
