@@ -25,7 +25,7 @@ namespace CrowdStock
 			config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
 
 			// Bearer Authorization
-			config.SuppressDefaultHostAuthentication();
+			// config.SuppressDefaultHostAuthentication(); disabled to allow web users to access api calls while logged in
 			config.Filters.Add(new HostAuthenticationFilter("Bearer"));
         }
     }
