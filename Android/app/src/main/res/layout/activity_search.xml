@@ -36,16 +36,15 @@
             android:id="@+id/textView2" />
 
         <EditText
-            android:layout_width="344dp"
+            android:hint="Username"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
             android:id="@+id/userNameSearchView"
             android:layout_gravity="center_horizontal|left"
             android:layout_weight="0.07"
-            android:textSize="20dp"
-            android:editable="true"
-            android:background="#ffd1d2d1"
-            android:clickable="false"
-            android:enabled="true" />
+            android:textSize="20dp"/>
 
         <Button
             android:layout_margin="5dp"
@@ -78,14 +77,15 @@
             android:id="@+id/textView3" />
 
         <EditText
-            android:layout_width="344dp"
+            android:hint="Ticker Symbol"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
             android:id="@+id/stockSearchView"
+            android:layout_gravity="center_horizontal|left"
             android:layout_weight="0.07"
-            android:textSize="20dp"
-            android:editable="true"
-            android:background="#ffd1d2d1"
-            android:enabled="true" />
+            android:textSize="20dp"/>
 
         <Button
             android:layout_margin="5dp"
