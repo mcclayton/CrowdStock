@@ -24,6 +24,8 @@
             android:layout_centerHorizontal="true" />
 
         <TextView
+            android:textStyle="bold"
+            android:textSize="25sp"
             android:id="@+id/loginTextView"
             android:layout_below="@+id/logoImageView"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -107,15 +109,27 @@
             android:layout_below="@+id/passwordTextView">
 
             <Button
-                android:text="Back"
-                android:id="@+id/backButton"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:background="@drawable/green_button"
+                android:text="Register"
+                android:id="@+id/registerButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Button
-                android:text="Register"
-                android:id="@+id/registerButton"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:background="@drawable/red_button"
+                android:text="Back"
+                android:id="@+id/backButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />

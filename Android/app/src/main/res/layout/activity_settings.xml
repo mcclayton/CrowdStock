@@ -78,6 +78,12 @@
                 android:layout_marginLeft="15dp" />
 
             <Button
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:textColor="#fff"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:background="@drawable/gray_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Change Pic"
@@ -93,6 +99,12 @@
             android:id="@+id/textView4" />
 
         <Button
+            android:layout_margin="5dp"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:background="@drawable/gray_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Change Password"
