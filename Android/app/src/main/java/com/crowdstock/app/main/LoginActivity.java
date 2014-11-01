@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Authentication;
 import com.crowdstock.app.utils.NavigationDrawer;
 
 
@@ -51,6 +52,8 @@ public class LoginActivity extends Activity {
                 startActivity(loginIntent);
             }
         });
+
+        Authentication.authenticateWithServer(this, "admin@billking.io", "BrandanMillerDotCom");
     }
 
 
