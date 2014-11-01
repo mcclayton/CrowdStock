@@ -105,6 +105,7 @@ namespace CrowdStock.Controllers
 			SendEmail(user, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 		}
 
+		[NonAction]
 		private void SendEmail(ApplicationUser user, string subject, string body)
 		{
 			dynamic email = new Email("Identity");
