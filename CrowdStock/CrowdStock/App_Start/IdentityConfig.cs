@@ -12,19 +12,14 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using CrowdStock.Models;
 using Postal;
+using System.IO;
 
 namespace CrowdStock
 {
     public class EmailService : IIdentityMessageService
     {
         public Task SendAsync(IdentityMessage message)
-        {
-			dynamic email = new Email("Identity"); //generate email using Email/Identity.cshtml
-			email.To = message.Destination;
-			email.Body = message.Body;
-			email.Subject = message.Subject;
-			email.Send();
-
+        { 
             return Task.FromResult(0);
         }
     }

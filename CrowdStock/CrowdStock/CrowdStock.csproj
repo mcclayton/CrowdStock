@@ -425,7 +425,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58182</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51757/</IISUrl>
+          <IISUrl>http://localhost:51757/crowdstock</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
