@@ -22,7 +22,27 @@ namespace CrowdStockDBUpdater
 			using(WebClient web = new WebClient())
 			{
 				Console.Write("Downloading... ");
-                string data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20%28%27{0}%27%29%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", symbol, startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")));
+
+				string data = "";
+				for(int attempt = 1; attempt <= 5; attempt++)
+				{
+					try
+					{
+						data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20%28%27{0}%27%29%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", symbol, startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")));
+						break;
+					}
+					catch(Exception)
+					{
+						Console.Write("Attempt Failed. ");
+						if(attempt < 5)
+							Console.Write("Retrying... ");
+						else
+						{
+							Console.Write("Skipping... ");
+							return;
+						}
+					}
+				}
 
 				Console.Write("Parsing... ");
 				int start = data.IndexOf("<results>") + 9;
@@ -114,7 +134,7 @@ namespace CrowdStockDBUpdater
 				}
 				Console.Write("Saving... ");
 				db.SaveChanges();
-				
+
 				Console.WriteLine("Done.");
 			}
 
@@ -129,19 +149,19 @@ namespace CrowdStockDBUpdater
                                     "VIMC", "LOGM", "AXDX", "HAWK", "EW", "SVVC", "QLYS", "ICLR", "CMRX", "TREE", "AGIO", "OMAB", "STRZA", "MNK", "CLCT", "N",
                                     "MFSF", "PPC", "FARM", "PDCO", "PFSW", "AYI", "TSN", "AGN", "TCP", "EPIQ", "LPDX", "CF", "EIGI", "HEP", "ATHL", "TEVA", "INSY",
                                     "ANCX", "DENN", "CFI"}; these are all 100 starting symbols */
-            var db = new CrowdStockDBContext();
-            
-            var stocks =
-                from symbol in db.Stocks
-                select symbol.Id;
-            string[] symbols = stocks.ToArray();
+			var db = new CrowdStockDBContext();
+
+			var stocks =
+				from symbol in db.Stocks
+				select symbol.Id;
+			string[] symbols = stocks.ToArray();
 			return symbols;
 		}
 
 		static void Main(string[] args)
 		{
 			string[] symbols = getTopStocks();
-            var db = new CrowdStockDBContext();
+			var db = new CrowdStockDBContext();
 
 			DateTime startDate = DateTime.Now;
 			DateTime endDate = DateTime.Now;
@@ -149,24 +169,25 @@ namespace CrowdStockDBUpdater
 			//Get all of the new data
 			int i = 0;
 
-            foreach (string symbol in symbols){
-                var st =
-                    (from hist in db.Histories
-                    where hist.StockId.Equals(symbol)
-                    orderby hist.Date descending
-                    select hist).FirstOrDefault();
-                if (st == null)
-                {
-                    startDate = DateTime.Now.AddDays(-30);
-                }
-                else
-                {
-                    startDate = st.Date;
-                }
+			foreach(string symbol in symbols)
+			{
+				var st =
+					(from hist in db.Histories
+					 where hist.StockId.Equals(symbol)
+					 orderby hist.Date descending
+					 select hist).FirstOrDefault();
+				if(st == null)
+				{
+					startDate = DateTime.Now.AddDays(-30);
+				}
+				else
+				{
+					startDate = st.Date;
+				}
 				Console.Write("[{0}/{1}]: ", ++i, symbols.Length);
 
-                DownloadData(symbol, startDate, endDate);
-            }
+				DownloadData(symbol, startDate, endDate);
+			}
 		}
 	}
 }
