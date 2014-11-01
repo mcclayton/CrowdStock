@@ -50,6 +50,41 @@ namespace CrowdStock.Controllers
 			{
 				return HttpNotFound();
 			}
+
+			var user = db.Users.Find(User.Identity.GetUserId());
+			if(user == null)
+			{
+				ViewBag.CurrentVote = new VoteViewModel();
+			}
+			else
+			{
+				var currentVote = (from vote in user.Votes
+								   where vote.StockId.ToUpper() == id.ToUpper()
+								   && vote.EndDate > DateTime.Now
+								   select vote).SingleOrDefault();
+
+				if(currentVote == null)
+				{
+					ViewBag.CurrentVote = new VoteViewModel { VoteActive = false, StockId = id.ToUpper() };
+				}
+				else
+				{
+					ViewBag.CurrentVote = new VoteViewModel
+					{
+						VoteActive = true,
+						Id = currentVote.Id,
+						UserId = currentVote.UserId,
+						StockId = currentVote.StockId,
+						isPositive = currentVote.isPositive,
+						Date = currentVote.Date,
+						EndDate = currentVote.EndDate,
+						User = currentVote.User,
+						Stock = currentVote.Stock,
+						IsCorrect = currentVote.IsCorrect
+					};
+				}
+			}
+
 			return View(stock);
 		}
 

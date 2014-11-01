@@ -1,0 +1,27 @@
+﻿@model CrowdStock.Models.VoteViewModel
+
+@if(!User.Identity.IsAuthenticated) //user is not logged in
+{
+    <text>You must @Html.ActionLink("log in", "Login", "Account") to vote.</text>
+}
+else if(Model.VoteActive) //user has already voted
+{
+    <strong>Your Current Prediction:</strong>
+    <text>By @Html.DisplayFor(model => model.EndDate), the price of <em>@Html.DisplayFor(model => model.StockId)</em> will be @(Model.isPositive ? "higher" : "lower") than it was on @Html.DisplayFor(model => model.Date).</text>
+}
+else //user can vote
+{
+    <text>
+        <strong>Vote on <em>@Html.DisplayFor(model => model.StockId)</em>:</strong>
+
+        Form Goes Here
+
+
+    </text>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        //your scripts here
+    </script>
+}

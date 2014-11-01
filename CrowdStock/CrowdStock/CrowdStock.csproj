@@ -266,6 +266,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Vote.cs" />
+    <Compile Include="Models\VoteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -348,6 +349,7 @@
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\Identity.cshtml" />
     <Content Include="Views\Account\ConfirmEmailPrompt.cshtml" />
+    <Content Include="Views\Shared\VotePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
