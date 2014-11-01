@@ -18,7 +18,7 @@ namespace CrowdStock.Controllers.API
 		private CrowdStockDBContext db = new CrowdStockDBContext();
 
 		// GET: api/Stocks
-		[Authorize(Roles="Administrator")]
+		[Authorize]
 		public IQueryable<StockApiViewModel> GetStocks()
 		{
 			var stocks = from stock in db.Stocks
