@@ -16,12 +16,15 @@ namespace CrowdStockDBUpdater
 	{
 		public static void DownloadData(string symbol, DateTime startDate, DateTime endDate)
 		{
+			Console.Write("{0} ", symbol);
 			var db = new CrowdStockDBContext();
 
 			using(WebClient web = new WebClient())
 			{
+				Console.Write("Downloading... ");
                 string data = web.DownloadString(string.Format("http://query.yahooapis.com/v1/public/yql?q=select%20%2a%20from%20yahoo.finance.historicaldata%20where%20symbol%20in%20%28%27{0}%27%29%20and%20startDate%20=%20%27{1}%27%20and%20endDate%20=%20%27{2}%27&diagnostics=true&env=store://datatables.org/alltableswithkeys", symbol, startDate.ToString("yyyy-MM-dd"), endDate.ToString("yyyy-MM-dd")));
 
+				Console.Write("Parsing... ");
 				int start = data.IndexOf("<results>") + 9;
 				int symbolStart = data.IndexOf("\"", start) + 1;
 				int symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;
@@ -95,6 +98,7 @@ namespace CrowdStockDBUpdater
 					}
 				}
 
+				Console.Write("Adding... ");
 				foreach(History h in histories)
 				{
 					var existingentries =
@@ -108,8 +112,10 @@ namespace CrowdStockDBUpdater
 
 					db.Histories.Add(h);
 				}
+				Console.Write("Saving... ");
 				db.SaveChanges();
-
+				
+				Console.WriteLine("Done.");
 			}
 
 		}
@@ -141,6 +147,8 @@ namespace CrowdStockDBUpdater
 			DateTime endDate = DateTime.Now;
 
 			//Get all of the new data
+			int i = 0;
+
             foreach (string symbol in symbols){
                 var st =
                     (from hist in db.Histories
@@ -155,7 +163,8 @@ namespace CrowdStockDBUpdater
                 {
                     startDate = st.Date;
                 }
-                
+				Console.Write("[{0}/{1}]: ", ++i, symbols.Length);
+
                 DownloadData(symbol, startDate, endDate);
             }
 		}
