@@ -143,17 +143,17 @@ namespace CrowdStockDBUpdater
 			//Get all of the new data
             foreach (string symbol in symbols){
                 var st =
-                    from hist in db.Histories
+                    (from hist in db.Histories
                     where hist.StockId.Equals(symbol)
                     orderby hist.Date descending
-                    select hist;
-                if (st.FirstOrDefault() == null)
+                    select hist).FirstOrDefault();
+                if (st == null)
                 {
                     startDate = DateTime.Now.AddDays(-30);
                 }
                 else
                 {
-                    startDate = st.FirstOrDefault().Date;
+                    startDate = st.Date;
                 }
                 
                 DownloadData(symbol, startDate, endDate);
