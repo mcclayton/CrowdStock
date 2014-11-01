@@ -65,6 +65,8 @@ namespace CrowdStock.Controllers.API
 				return NotFound();
 			if(vote.EndDate < DateTime.Now.AddDays(1))
 				throw new HttpResponseException(HttpStatusCode.PreconditionFailed);
+			if(db.Votes.Where(v => v.UserId == User.Identity.GetUserId() && v.StockId == vote.StockId && v.EndDate < DateTime.Now).Any())
+				throw new HttpResponseException(HttpStatusCode.PreconditionFailed);
 
 			Vote newVote = new Vote
 			{
