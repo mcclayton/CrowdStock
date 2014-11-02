@@ -3,6 +3,12 @@
     padding-bottom: 20px;
 }
 
+#homeBackground {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-image: url(../../Content/img/crowdStockHome.jpg);
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -34,4 +40,10 @@ textarea {
     text-align: right;
     padding-top: 0;
     padding-bottom: 0;
+}
+
+#homeRows {
+    padding: 30px;
+    margin-bottom: 30px;
+    background:rgba(255,255,255,0.5);
 }

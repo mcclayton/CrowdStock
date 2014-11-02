@@ -2,35 +2,40 @@
     ViewBag.Title = "Home Page";
     var user = User;
 }
-
-<div class="jumbotron">
-    <h1>CrowdStock</h1>
-    <p class="lead">A highly social and crowdsourced stock market prediction application. 
-    CrowdStock will allow users of various financial backgrounds, from novices to advanced traders, to 
-    make and view speculations on future stock market behavior. CrowdStock will be highly available
-     through a web and mobile interface to enable any user to sign up, create a profile, and begin 
-    gaining a personal reputation of correctness in predicting the behavior of specific stocks in the market. 
-    </p>
-    @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-primary btn-lg" })
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Stocks</h2>
-        <p>
-            Click to see the Top Stocks and Users.
+<br />
+<body id="homeBackground">
+    <div class="jumbotron">
+        <p class="lead">
+            <img class="img-responsive" src="~/Content/img/crowdstock_logo.png">
+            <br /><br />
+            A highly social and crowdsourced stock market prediction application.
+            CrowdStock will allow users of various financial backgrounds, from novices to advanced traders, to
+            make and view speculations on future stock market behavior. CrowdStock will be highly available
+            through a web and mobile interface to enable any user to sign up, create a profile, and begin
+            gaining a personal reputation of correctness in predicting the behavior of specific stocks in the market.
         </p>
-        @Html.ActionLink("Stocks", "Index", "Stocks", null, new { @class = "btn btn-default" })
+        @Html.ActionLink("Register", "Register", "Account", null, new { @class = "btn btn-success btn-lg" })
     </div>
-    <div class="col-md-4">
-        <h2>About</h2>
-        <p>Who we are? What is CrowdStock? <br /> Click here to find out!</p>
-        @Html.ActionLink("About", "About", null, new { @class = "btn btn-default" })
-        
+    <br />
+    <div class="row" id="homeRows">
+        <div class="col-md-4">
+            <h2>Stocks</h2>
+            <p>
+                <b>Click to see the Top Stocks and Users.</b>
+            </p>
+            <br />
+            @Html.ActionLink("Stocks", "Index", "Stocks", null, new { @class = "btn btn-success" })
+        </div>
+        <div class="col-md-4">
+            <h2>About</h2>
+            <p><b>Who we are? What is CrowdStock? <br /> Click here to find out!</b></p>
+            @Html.ActionLink("About", "About", null, new { @class = "btn btn-success" })
+
+        </div>
+        <div class="col-md-4">
+            <h2>Contact</h2>
+            <p><b>Questions? Concerns?<br /> Feel free to contact us!</b></p>
+            @Html.ActionLink("Contact", "Contact", null, new { @class = "btn btn-success" })
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Contact</h2>
-        <p>Questions? Concerns?<br /> Feel free to contact us!</p>
-        @Html.ActionLink("Contact", "Contact", null, new { @class = "btn btn-default" })
-    </div>
-</div>
+</body>
