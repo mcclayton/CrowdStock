@@ -281,6 +281,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Content\bootswatch.less" />
+    <Content Include="Content\variables.less" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\detailsStockChart.js" />
     <Content Include="Scripts\exporting.js" />
