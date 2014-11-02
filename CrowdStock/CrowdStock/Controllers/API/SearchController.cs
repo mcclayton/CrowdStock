@@ -14,52 +14,49 @@ namespace CrowdStock.Controllers.API
 		{
 			var results = new List<object>();
 
-			IEnumerable<ApplicationUser> userResults = new List<ApplicationUser>();
-			IEnumerable<Stock> stockResults = new List<Stock>();
+			IQueryable<ApplicationUser> userResults;
+			IQueryable<Stock> stockResults;
 
 			string[] terms = id.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
 			using(var db = new CrowdStockDBContext())
 			{
+				userResults = db.Users;
+				stockResults = db.Stocks;
+
 				foreach(string term in terms)
 				{
-					if(type.ToUpper() == "USERS" || type.ToUpper() == "BOTH")
+					userResults = from user in userResults
+								  where user.UserName.ToUpper().Contains(term.ToUpper())
+								  select user;
+
+					stockResults = from stock in stockResults
+								   where stock.Id.ToUpper().Contains(term.ToUpper())
+								   || stock.Name.ToUpper().Contains(term.ToUpper())
+								   select stock;
+				}
+
+				if(type.ToUpper() == "USERS" || type.ToUpper() == "BOTH")
+					foreach(var user in userResults)
 					{
-						var users = from user in db.Users
-									where user.UserName.ToUpper().Contains(term.ToUpper())
-									select user;
-						userResults = userResults.Union(users);
+						results.Add(new
+						{
+							Type = "user",
+							Id = user.Id,
+							Name = user.UserName
+						});
 					}
 
-					if(type.ToUpper() == "STOCKS" || type.ToUpper() == "BOTH")
+				if(type.ToUpper() == "STOCKS" || type.ToUpper() == "BOTH")
+					foreach(var stock in stockResults)
 					{
-						var stocks = from stock in db.Stocks
-									 where stock.Id.ToUpper().Contains(term.ToUpper())
-									 || stock.Name.ToUpper().Contains(term.ToUpper())
-									 select stock;
-						stockResults = stockResults.Union(stocks);
+						results.Add(new
+						{
+							Type = "stock",
+							Id = stock.Id,
+							Name = stock.Name
+						});
 					}
-				}
-
-				foreach(var user in userResults)
-				{
-					results.Add(new
-					{
-						Type = "user",
-						Id = user.Id,
-						Name = user.UserName
-					});
-				}
-
-				foreach(var stock in stockResults)
-				{
-					results.Add(new
-					{
-						Type = "stock",
-						Id = stock.Id,
-						Name = stock.Name
-					});
-				}
 
 			}
 
