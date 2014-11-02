@@ -53,23 +53,23 @@ public class HttpRequest {
      */
     public static String doGetRequest(String endpoint) {
         HttpClient httpclient = new DefaultHttpClient();
-        // Specify the URL you want to post to
-        HttpGet httpGet = new HttpGet(endpoint);
-
-        return doGetRequest(httpGet);
+        return doGetRequest(endpoint, null);
     }
 
     /**
      * Execute the GET request {@getRequest}
      *
-     * @param getRequest The GET request to execute.
+     * @param endpoint The endpoint to send the GET request to.
+     * @param authToken The auth token to authenticate the request with
      */
-    public static String doGetRequest(HttpGet getRequest) {
-        String endpoint = getRequest.getURI().toString();
+    public static String doGetRequest(String endpoint, String authToken) {
+        HttpGet httpGet = new HttpGet(endpoint);
+        httpGet.addHeader("Authorization", "Bearer " + authToken);
+
         if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
             try {
                 // Send the variable and value, in other words POST, to the URL
-                HttpResponse response = httpclient.execute(getRequest);
+                HttpResponse response = httpclient.execute(httpGet);
 
                 int status = response.getStatusLine().getStatusCode();
                 if(status == HttpStatus.SC_OK) {
