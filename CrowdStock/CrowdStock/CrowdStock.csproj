@@ -193,6 +193,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\API\AccountApiController.cs" />
     <Compile Include="Controllers\API\HistoryApiController.cs" />
+    <Compile Include="Controllers\API\SearchController.cs" />
     <Compile Include="Controllers\API\StocksApiController.cs" />
     <Compile Include="Controllers\API\VotesApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
