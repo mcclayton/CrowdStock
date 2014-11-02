@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<CrowdStock.Models.ApplicationUser>
 
-<table class="table table-condensed table-striped">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.AverageScore)
             </th>
+            <th>@*Avatar goes here*@</th>
             <th>
                 @Html.DisplayNameFor(model => model.UserName)
             </th>
@@ -19,6 +20,9 @@
             <tr>
                 <td>
                     <strong>@Html.DisplayFor(modelItem => item.AverageScore)</strong>
+                </td>
+                <td class="td-avatar" style="padding-top:0;padding-bottom:0;">
+                    <img src="@Url.Action("Image","Account",new {id=item.Id})" alt="@item.UserName" class="avatar-table" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserName)

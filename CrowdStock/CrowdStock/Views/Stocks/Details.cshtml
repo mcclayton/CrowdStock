@@ -146,9 +146,8 @@
 
     <div id="container" style="height: 400px; min-width: 310px"></div>
 
-    <div>
-        <img src="http://bit.ly/1toTDBN" id="up_arrow" style="height: 40px; width: 40px; cursor:pointer" onclick=up_request() />
-        <img src="http://bit.ly/1vyeB3D" id="down_arrow" style="height: 40px; width: 40px; cursor:pointer" onclick=down_request() />
+    <div class="VotePartial">
+        @{Html.RenderPartial("VotePartial", ViewBag.CurrentVote as CrowdStock.Models.VoteViewModel);}
     </div>
 
     <h4>History</h4>
@@ -219,16 +218,6 @@
             });
 
         });
-
-        $("#up_arrow").click(up_request);
-        $("#down_arrow").click(down_request);
-
-        function up_request() {
-            console.log("Up");
-        }
-        function down_request() {
-            console.log("Down");
-        }
 
         function formatData(data) {
             var newData = [];

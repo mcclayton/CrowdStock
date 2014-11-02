@@ -32,7 +32,7 @@ namespace CrowdStock.Controllers.API
 		[HttpPost]
 		[AllowAnonymous]
 		[Route("api/Authenticate")]
-		public String Authenticate(APIAuthenticateViewModel login)
+		public String Authenticate(ApiAuthenticateViewModel login)
 		{
 			if(login == null || string.IsNullOrEmpty(login.Name) || string.IsNullOrEmpty(login.Password))
 				return "failed";

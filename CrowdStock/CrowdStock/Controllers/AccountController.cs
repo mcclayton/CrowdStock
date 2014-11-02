@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CrowdStock.Models;
+using Postal;
 
 namespace CrowdStock.Controllers
 {
@@ -63,7 +64,6 @@ namespace CrowdStock.Controllers
 		// POST: /Account/Login
 		[HttpPost]
 		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
 		{
 			if(!ModelState.IsValid)
@@ -81,10 +81,7 @@ namespace CrowdStock.Controllers
 					var user = db.Users.Where(u => u.UserName == model.UserName).Single();
 					if(!user.EmailConfirmed)
 					{
-						string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-						var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-						await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
+						SendConfirmationEmail(user);
 						return RedirectToAction("ConfirmEmailPrompt");
 					}
 					return RedirectToLocal(returnUrl);
@@ -97,6 +94,25 @@ namespace CrowdStock.Controllers
 					ModelState.AddModelError("", "Invalid login attempt.");
 					return View(model);
 			}
+		}
+
+		[NonAction]
+		private void SendConfirmationEmail(ApplicationUser user)
+		{
+			string code = UserManager.GenerateEmailConfirmationTokenAsync(user.Id).Result;
+			var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code });
+
+			SendEmail(user, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+		}
+
+		[NonAction]
+		private void SendEmail(ApplicationUser user, string subject, string body)
+		{
+			dynamic email = new Email("Identity");
+			email.To = user.Email;
+			email.Subject = subject;
+			email.Body = body;
+			email.Send();
 		}
 
 		//
@@ -181,7 +197,7 @@ namespace CrowdStock.Controllers
 					// Send an email with this link
 					string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
 					var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+					SendConfirmationEmail(user);
 
 					return RedirectToAction("ConfirmEmailPrompt");
 				}
@@ -239,7 +255,7 @@ namespace CrowdStock.Controllers
 				// Send an email with this link
 				string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
 				var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-				await UserManager.SendEmailAsync(user.Id, "Reset Password", "Hello!<br /><br />Your username is " + user.UserName + ".<br />Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>.");
+				SendEmail(user, "Reset Password", "Hello!<br /><br />Your username is " + user.UserName + ".<br />Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>.");
 				return RedirectToAction("ForgotPasswordConfirmation", "Account");
 			}
 

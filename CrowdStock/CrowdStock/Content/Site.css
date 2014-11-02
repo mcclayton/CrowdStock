@@ -22,3 +22,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.avatar-table {
+    position: relative;
+    height: 40px;
+    width: auto;
+    max-width: 40px;
+}
+
+.td-avatar {
+    text-align: right;
+    padding-top: 0;
+    padding-bottom: 0;
+}

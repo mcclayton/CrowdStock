@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace CrowdStock.Models
 {
@@ -29,9 +31,12 @@ namespace CrowdStock.Models
 		[Required]
 		public DateTime EndDate { get; set; }
 
-
+		[JsonIgnore] //json
+		[IgnoreDataMember] //xml
 		public virtual ApplicationUser User { get; set; }
 
+		[JsonIgnore] //json
+		[IgnoreDataMember] //xml
 		public virtual Stock Stock { get; set; }
 
 		[NotMapped]

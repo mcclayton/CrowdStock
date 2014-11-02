@@ -14,9 +14,16 @@ namespace CrowdStock.Models
 		public History LastHistory { get; set; }
 	}
 
-	public class APIAuthenticateViewModel
+	public class ApiAuthenticateViewModel
 	{
 		public string Name { get; set; }
 		public string Password { get; set; }
+	}
+
+	public class ApiVoteViewModel
+	{
+		public string StockId { get; set; }
+		public bool isPositive { get; set; }
+		public DateTime EndDate { get; set; }
 	}
 }

@@ -191,9 +191,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\API\AccountController.cs" />
-    <Compile Include="Controllers\API\HistoryController.cs" />
-    <Compile Include="Controllers\API\StocksController.cs" />
+    <Compile Include="Controllers\API\AccountApiController.cs" />
+    <Compile Include="Controllers\API\HistoryApiController.cs" />
+    <Compile Include="Controllers\API\StocksApiController.cs" />
+    <Compile Include="Controllers\API\VotesApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StocksController.cs" />
@@ -265,6 +266,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Vote.cs" />
+    <Compile Include="Models\VoteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -347,6 +349,7 @@
     <Content Include="Views\Emails\_ViewStart.cshtml" />
     <Content Include="Views\Emails\Identity.cshtml" />
     <Content Include="Views\Account\ConfirmEmailPrompt.cshtml" />
+    <Content Include="Views\Shared\VotePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -422,7 +425,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>58182</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51757/</IISUrl>
+          <IISUrl>http://localhost:51757/crowdstock</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
