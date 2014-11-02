@@ -3,13 +3,21 @@ package com.crowdstock.app.utils;
 import android.util.Log;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -22,6 +30,21 @@ import java.util.ArrayList;
  */
 public class HttpRequest {
     private static final String ERROR_TAG = "HttpRequest";
+    private static HttpClient httpclient = new DefaultHttpClient();
+
+    static {
+        SchemeRegistry schemeRegistry = new SchemeRegistry();
+        schemeRegistry.register(
+                new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        schemeRegistry.register(
+                new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+
+        HttpParams params = new BasicHttpParams();
+
+        ThreadSafeClientConnManager cm = new ThreadSafeClientConnManager(params, schemeRegistry);
+
+        httpclient = new DefaultHttpClient(cm, params);
+    }
 
     /**
      * Send a GET request to {@endpoint}
@@ -42,15 +65,18 @@ public class HttpRequest {
      * @param getRequest The GET request to execute.
      */
     public static String doGetRequest(HttpGet getRequest) {
-        HttpClient httpclient = new DefaultHttpClient();
-
         String endpoint = getRequest.getURI().toString();
         if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
             try {
                 // Send the variable and value, in other words POST, to the URL
                 HttpResponse response = httpclient.execute(getRequest);
 
-                return EntityUtils.toString(response.getEntity());
+                int status = response.getStatusLine().getStatusCode();
+                if(status == HttpStatus.SC_OK) {
+                    return EntityUtils.toString(response.getEntity());
+                } else {
+                    return null;
+                }
             } catch (ClientProtocolException e) {
                 // Log the error and return null
                 Log.e(ERROR_TAG, "ClientProtocolException occurred when performing HTTP POST request.", e);
