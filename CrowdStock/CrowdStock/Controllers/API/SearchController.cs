@@ -14,34 +14,53 @@ namespace CrowdStock.Controllers.API
 		{
 			var results = new List<object>();
 
+			IEnumerable<ApplicationUser> userResults = new List<ApplicationUser>();
+			IEnumerable<Stock> stockResults = new List<Stock>();
+
+			string[] terms = id.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
 			using(var db = new CrowdStockDBContext())
 			{
-				if(type.ToUpper() == "USERS" || type.ToUpper() == "BOTH")
+				foreach(string term in terms)
 				{
-					var users = from user in db.Users
-								where user.UserName.ToUpper().Contains(id.ToUpper())
-								select new
-								{
-									Type = "user",
-									Id = user.Id,
-									Name = user.UserName
-								};
-					results.AddRange(users);
+					if(type.ToUpper() == "USERS" || type.ToUpper() == "BOTH")
+					{
+						var users = from user in db.Users
+									where user.UserName.ToUpper().Contains(term.ToUpper())
+									select user;
+						userResults = userResults.Union(users);
+					}
+
+					if(type.ToUpper() == "STOCKS" || type.ToUpper() == "BOTH")
+					{
+						var stocks = from stock in db.Stocks
+									 where stock.Id.ToUpper().Contains(term.ToUpper())
+									 || stock.Name.ToUpper().Contains(term.ToUpper())
+									 select stock;
+						stockResults = stockResults.Union(stocks);
+					}
 				}
 
-				if(type.ToUpper() == "STOCKS" || type.ToUpper() == "BOTH")
+				foreach(var user in userResults)
 				{
-					var stocks = from stock in db.Stocks
-								 where stock.Id.ToUpper().Contains(id.ToUpper())
-								 || stock.Name.ToUpper().Contains(id.ToUpper())
-								 select new
-								 {
-									 Type = "stock",
-									 Id = stock.Id,
-									 Name = stock.Name
-								 };
-					results.AddRange(stocks);
+					results.Add(new
+					{
+						Type = "user",
+						Id = user.Id,
+						Name = user.UserName
+					});
 				}
+
+				foreach(var stock in stockResults)
+				{
+					results.Add(new
+					{
+						Type = "stock",
+						Id = stock.Id,
+						Name = stock.Name
+					});
+				}
+
 			}
 
 			return Ok(results);
