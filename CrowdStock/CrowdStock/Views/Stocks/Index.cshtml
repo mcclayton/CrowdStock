@@ -5,12 +5,14 @@
 <div class="container">
     <br />
     <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
+        <div id="searchTextField">
+            <input type="text" class="form-control typeahead" placeholder="Search">
+        </div>
         <br />
         <div class="form-group">
             <input type="radio" name="mtype" value="stocks">Stocks
             <input type="radio" name="mtype" value="users">Users
-            <a class="btn btn-default" type="submit">Search</a><br />
+            <a class="btn btn-success" type="submit">Search</a><br />
         </div>
     </div>
 </div>
@@ -25,3 +27,19 @@
         @{Html.RenderPartial("UsersPartial", ViewBag.TopUsers as IEnumerable<CrowdStock.Models.ApplicationUser>);}
     </div>
 </div>
+<script>
+    var states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California',
+      'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii',
+      'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana',
+      'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota',
+      'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire',
+      'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota',
+      'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island',
+      'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont',
+      'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'
+    ];
+
+    $('.searchTextField').typeahead({
+        source: states
+    });
+</script>
