@@ -27,8 +27,12 @@ namespace CrowdStock
 					"~/Scripts/highstock.js",
 					"~/Scripts/exporting.js"));
 
+			bundles.Add(new ScriptBundle("~/bundles/typeahead").Include(
+				"~/Scripts/typeahead.js"));
+
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
+					  "~/Content/typeahead.css",
 					  "~/Content/site.css"));
 
 			// Set EnableOptimizations to false for debugging. For more information,
