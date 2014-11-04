@@ -13,10 +13,18 @@ else //user can vote
 {
     <text>
         <strong>Vote on <em>@Html.DisplayFor(model => model.StockId)</em>:</strong>
-
-        Form Goes Here
-
-
+    <br />
+        <div class="form-group">
+            <input type="text" class="form-control" value="Days e.g. 13" id="inputDefault">
+            <br />
+            <button type="submit" class="btn btn-primary" id="upVote">
+                <span class="glyphicon glyphicon-arrow-up"></span> Vote up
+            </button>
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-arrow-down" id="downVote"></span> Vote down
+            </button>
+        </div>
+    <br />
     </text>
 }
 
