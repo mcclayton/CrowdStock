@@ -68,3 +68,6 @@ C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\New
 C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\System.Web.Http.xml
 C:\Users\William\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDb.csprojResolveAssemblyReference.cache
+C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\bin\Debug\CrowdStockDBUpdater.exe.config
+C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDBUpdater.exe
+C:\Users\M.Isabel\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\obj\Debug\CrowdStockDBUpdater.pdb
