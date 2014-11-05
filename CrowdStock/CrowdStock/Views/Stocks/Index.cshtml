@@ -65,7 +65,8 @@
             var toSearch = parseInt(document.getElementById("SearchButton").value, 10);
             if(stockOn)
             {
-
+                var location = @Url.Action("Details", "Stocks", new { id = toSearch });
+                location.replace();
             }
             else if(userOn)
             {
