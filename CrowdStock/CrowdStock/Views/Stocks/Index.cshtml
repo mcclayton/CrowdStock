@@ -23,35 +23,54 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/typeahead");
-    <script>
+    @Scripts.Render("~/bundles/typeaheadbundle")
+    <script type="text/javascript">
 
         var baseUrl = "@Url.Content("~/")";
         var apiUrl = "api/Search/%QUERY";
         var stockOn = false;
         var userOn = false;
 
-        var stockAndusers = new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            prefetch: '',
-            remote: baseUrl + apiUrl
-        });
+        $(document).ready(function () {
+            var stockAndusers = new Bloodhound({
+                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+                queryTokenizer: Bloodhound.tokenizers.whitespace,
+                remote: baseUrl + apiUrl
+            });
 
-        stockAndusers.initialize();
-        $('#searchTextField .typeahead').typeahead(null, {
-            name: 'stockAndusers',
-            displayKey: 'Name',
-            source: stockAndusers.ttAdapter()
-        });
+            stockAndusers.initialize();
 
-        $(document).on('typeahead:selected', '#searchTextField .typeahead', function (event, item, dataset) {
-            if (item.Type == "user") {
-                window.location.href = "@Url.Action("Details", "Users", new { id = "ID" })".replace("ID", item.Id);
-            }
-            else if (item.Type == "stock") {
-                window.location.href = "@Url.Action("Details", "Stocks", new { id = "ID" })".replace("ID", item.Id);
-            }
+            $('#searchTextField .typeahead').typeahead(null, {
+                name: 'stockAndusers',
+                displayKey: 'Name',
+                source: stockAndusers.ttAdapter(),
+                templates: {
+                    empty: [
+                        '<div class="empty-message">',
+                        'No Matches',
+                        '</div>'
+                    ].join('\n'),
+                    suggestion: Handlebars.compile([
+                        '<p>',
+                        '{{#compare Type "stock"}}',
+                        '{{Name}} <em>({{Id}})</em>',
+                        '{{/compare}}',
+                        '{{#compare Type "user"}}',
+                        '{{Name}}',
+                        '{{/compare}}'
+                    ].join('\n'))
+                }
+            });
+
+            $(document).on('typeahead:selected', '#searchTextField .typeahead', function (event, item, dataset) {
+                if (item.Type == "user") {
+                    window.location.href = "@Url.Action("Details", "Users", new { id = "ID" })".replace("ID", item.Id);
+                }
+                else if (item.Type == "stock") {
+                    window.location.href = "@Url.Action("Details", "Stocks", new { id = "ID" })".replace("ID", item.Id);
+                }
+            });
+
         });
     </script>
 }

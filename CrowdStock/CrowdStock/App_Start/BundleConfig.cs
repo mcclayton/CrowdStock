@@ -8,6 +8,7 @@ namespace CrowdStock
 		// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
 		public static void RegisterBundles(BundleCollection bundles)
 		{
+
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
 						"~/Scripts/jquery-{version}.js"));
 
@@ -27,8 +28,11 @@ namespace CrowdStock
 					"~/Scripts/highstock.js",
 					"~/Scripts/exporting.js"));
 
-			bundles.Add(new ScriptBundle("~/bundles/typeahead").Include(
-				"~/Scripts/typeahead.js"));
+			bundles.Add(new ScriptBundle("~/bundles/typeaheadbundle").Include(
+				"~/Scripts/typeahead.bundle.js",
+				"~/Scripts/handlebars.js",
+				"~/Scripts/handlebars.compare.js"
+				));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",
