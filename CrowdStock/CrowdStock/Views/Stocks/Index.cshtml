@@ -8,12 +8,6 @@
         <div id="searchTextField">
             <input class="form-control typeahead" type="text" placeholder="Search">
         </div>
-        <br />
-        <div class="form-group">
-            <input type="radio" name="mtype" value="stocks" onclick="StocksIsOn(true)">Stocks
-            <input type="radio" name="mtype" value="users" onclick="UsersIsOn(true)">Users
-            <a class="btn btn-success" type="submit" id="SearchButton">Search</a><br />
-        </div>
     </div>
 </div>
 
@@ -33,7 +27,7 @@
     <script>
 
         var baseUrl = "@Url.Content("~/")";
-        var apiUrl = "api/Search/%QUERY"
+        var apiUrl = "api/Search/%QUERY";
         var stockOn = false;
         var userOn = false;
 
@@ -51,31 +45,13 @@
             source: stockAndusers.ttAdapter()
         });
 
-        function StockIsOn(isOn)
-        {
-            stockOn = isOn;
-        }
-
-        function UserIsOn(isOn)
-        {
-            userOn = isOn;
-        }
-
-        function searchTo() {
-            var toSearch = parseInt(document.getElementById("SearchButton").value, 10);
-            if(stockOn)
-            {
-                var location = @Url.Action("Details", "Stocks", new { id = toSearch });
-                location.replace();
+        $(document).on('typeahead:selected', '#searchTextField .typeahead', function (event, item, dataset) {
+            if (item.Type == "user") {
+                window.location.href = "@Url.Action("Details", "Users", new { id = "ID" })".replace("ID", item.Id);
             }
-            else if(userOn)
-            {
-
+            else if (item.Type == "stock") {
+                window.location.href = "@Url.Action("Details", "Stocks", new { id = "ID" })".replace("ID", item.Id);
             }
-            else
-            {
-                //do nothing
-            }
-        }
-   </script>
+        });
+    </script>
 }
