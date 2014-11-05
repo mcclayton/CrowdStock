@@ -1,10 +1,25 @@
 package com.crowdstock.app.main;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Authentication;
+import com.crowdstock.app.utils.Connectivity;
+import com.crowdstock.app.utils.HttpRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UserProfileActivity extends Activity {
 
@@ -12,6 +27,15 @@ public class UserProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        Intent i = getIntent();
+        String userName = null;
+        if(i.getExtras()!=null) {
+            userName = i.getStringExtra("userName");
+        }
+
+        final Context c = this.getApplicationContext();
+        httpUserNameDataRequest(userName, c);
     }
 
 
@@ -32,5 +56,61 @@ public class UserProfileActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void httpUserNameDataRequest(String selectedUserName, final Context c) {
+        final String webURL = "http://server.billking.io/crowdstock/api/Search/" + selectedUserName;
+        final String userName = selectedUserName;
+        // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
+        final EditText view = (EditText) findViewById(R.id.userNameSearchView);
+        if (!Connectivity.isConnected(this)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+
+                        if (Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    JSONArray jobj = null;
+                                    try {
+                                        jobj = new JSONArray(response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if(jobj!=null) {
+                                        JSONObject jsonObj = jobj.getJSONObject(0);
+                                        if (jsonObj.getString("Type").equals("user")){
+                                            TextView textViewUser = (TextView) findViewById(R.id.userNameTextView);
+                                            textViewUser.setText(jsonObj.getString("Name"));
+                                        }
+                                    }
+                                } else {
+                                    view.setText("User does not exist!");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
     }
 }

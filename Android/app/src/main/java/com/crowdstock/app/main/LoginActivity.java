@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
             }
         });
 
-        Authentication.authenticateWithServer(this, "admin@billking.io", "BrandanMillerDotCom");
+        Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
     }
 
 

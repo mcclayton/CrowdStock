@@ -38,7 +38,7 @@ public class SearchActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Authentication.authenticateWithServer(this, "admin@billking.io", "BrandanMillerDotCom");
+        Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
         final String authToken = Authentication.getAuthToken(this);
         setContentView(R.layout.activity_search);
 
@@ -53,6 +53,19 @@ public class SearchActivity extends Activity {
                     String userSelectedStock = text.getText().toString();
 
                     httpCompanyStockDataRequest(userSelectedStock, c);
+                }
+            }
+        });
+
+        Button userNameButton = (Button)findViewById(R.id.userNameSearchButton);
+        userNameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(view == findViewById(R.id.userNameSearchButton)) {
+                    TextView text = (TextView) findViewById(R.id.userNameSearchView);
+                    String selectedUser = text.getText().toString();
+
+                    httpUserNameDataRequest(selectedUser, c);
                 }
             }
         });
@@ -77,10 +90,68 @@ public class SearchActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void httpUserNameDataRequest(String selectedUserName, final Context c) {
+        final String webURL = "http://server.billking.io/crowdstock/api/Search/" + selectedUserName;
+        final String userName = selectedUserName;
+       // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
+        final EditText view = (EditText) findViewById(R.id.userNameSearchView);
+        if (!Connectivity.isConnected(this)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    JSONArray jobj = null;
+                                    try {
+                                        jobj = new JSONArray(response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if(jobj!=null) {
+                                        JSONObject jsonObj = jobj.getJSONObject(0);
+                                        if(jsonObj.getString("Type").equals("user")) {
+                                            Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                            i.putExtra("userName", userName);
+                                            startActivity(i);
+                                        }
+                                    }
+                                } else {
+                                    view.setText("User does not exist!");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
     private void httpCompanyStockDataRequest(String stockSymbol, final Context c) {
         final String webURL = "http://server.billking.io/crowdstock/api/Stocks/" + stockSymbol;
         final String stockName = stockSymbol;
-        Authentication.authenticateWithServer(this, "admin@billking.io", "BrandanMillerDotCom");
+       // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
         final EditText view = (EditText) findViewById(R.id.stockSearchView);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
