@@ -8,6 +8,7 @@ import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Authentication;
 import com.crowdstock.app.utils.Connectivity;
 import com.crowdstock.app.utils.HttpRequest;
 import com.jjoe64.graphview.*;
@@ -57,7 +58,6 @@ public class StockProfileActivity extends Activity {
 
         LinearLayout layout = (LinearLayout)findViewById(R.id.masterLinearLayout);
         layout.addView(graphView);*/
-
     }
 
 
@@ -81,7 +81,7 @@ public class StockProfileActivity extends Activity {
     }
 
     private void httpCompanyStockDataRequest(String stockSymbol) {
-            final String webURL = "http://server.billking.io/crowdstock/api/Stocks/" + stockSymbol;
+        final String webURL = "https://server.billking.io/crowdstock/api/Stocks/" + stockSymbol;
         final String stockName = stockSymbol;
         final TextView view = (TextView) findViewById(R.id.stockPrice);
         if (!Connectivity.isConnected(this)) {
@@ -91,7 +91,7 @@ public class StockProfileActivity extends Activity {
                 public void run() {
                     String resp = null;
                     try {
-                        resp = HttpRequest.doGetRequest(webURL);
+                            resp = HttpRequest.doGetRequest(webURL);
                     }
                     catch(Exception e) {
                         e.printStackTrace();

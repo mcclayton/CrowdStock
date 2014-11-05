@@ -1,6 +1,7 @@
 package com.crowdstock.app.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Authentication;
 import com.crowdstock.app.utils.Connectivity;
 import com.crowdstock.app.utils.HttpRequest;
 
@@ -36,7 +38,11 @@ public class SearchActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Authentication.authenticateWithServer(this, "admin@billking.io", "BrandanMillerDotCom");
+        final String authToken = Authentication.getAuthToken(this);
         setContentView(R.layout.activity_search);
+
+        final Context c = this.getApplicationContext();
 
         Button button = (Button)findViewById(R.id.stockSearchSubmitButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +52,7 @@ public class SearchActivity extends Activity {
                     TextView text = (TextView) findViewById(R.id.stockSearchView);
                     String userSelectedStock = text.getText().toString();
 
-                    httpCompanyStockDataRequest(userSelectedStock);
+                    httpCompanyStockDataRequest(userSelectedStock, c);
                 }
             }
         });
@@ -71,9 +77,10 @@ public class SearchActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void httpCompanyStockDataRequest(String stockSymbol) {
+    private void httpCompanyStockDataRequest(String stockSymbol, final Context c) {
         final String webURL = "http://server.billking.io/crowdstock/api/Stocks/" + stockSymbol;
         final String stockName = stockSymbol;
+        Authentication.authenticateWithServer(this, "admin@billking.io", "BrandanMillerDotCom");
         final EditText view = (EditText) findViewById(R.id.stockSearchView);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
@@ -82,7 +89,10 @@ public class SearchActivity extends Activity {
                 public void run() {
                     String resp = null;
                     try {
-                        resp = HttpRequest.doGetRequest(webURL);
+
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
+                        }
                     }
                     catch(Exception e) {
                         e.printStackTrace();

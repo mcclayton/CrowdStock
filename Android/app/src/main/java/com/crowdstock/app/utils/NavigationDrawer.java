@@ -7,6 +7,7 @@ import com.crowdstock.app.main.LeaderboardActivity;
 import com.crowdstock.app.main.LoginActivity;
 import com.crowdstock.app.main.PredictionActivity;
 import com.crowdstock.app.main.SearchActivity;
+import com.crowdstock.app.main.SettingsActivity;
 
 import java.util.HashMap;
 
@@ -22,6 +23,7 @@ public class NavigationDrawer {
         Intent search = new Intent(c, SearchActivity.class);
         Intent stocks = new Intent(c, PredictionActivity.class);
         Intent leaderboard = new Intent(c, LeaderboardActivity.class);
+        Intent settings = new Intent(c, SettingsActivity.class);
         //Intent userProfile = new Intent(c, UserProfileActivity.class);
 
         // Add activity names and their corresponding intents to the ActivityMap
@@ -29,6 +31,7 @@ public class NavigationDrawer {
         activityMap.put("Search", search);
         activityMap.put("Stocks", stocks);
         activityMap.put("Leaderboard", leaderboard);
+        activityMap.put("Settings", settings);
         //activityMap.put("Profile", userProfile);
     }
 
