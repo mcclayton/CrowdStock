@@ -1,35 +1,56 @@
 ﻿@model CrowdStock.Models.VoteViewModel
 
-@if(!User.Identity.IsAuthenticated) //user is not logged in
+@if (!User.Identity.IsAuthenticated) //user is not logged in
 {
     <text>You must @Html.ActionLink("log in", "Login", "Account") to vote.</text>
 }
-else if(Model.VoteActive) //user has already voted
+else if (Model.VoteActive) //user has already voted
 {
     <strong>Your Current Prediction:</strong>
     <text>By @Html.DisplayFor(model => model.EndDate), the price of <em>@Html.DisplayFor(model => model.StockId)</em> will be @(Model.isPositive ? "higher" : "lower") than it was on @Html.DisplayFor(model => model.Date).</text>
 }
 else //user can vote
 {
-    <text>
-        <strong>Vote on <em>@Html.DisplayFor(model => model.StockId)</em>:</strong>
-    <br />
-        <div class="form-group">
-            <input type="text" class="form-control" value="Days e.g. 13" id="inputDefault">
-            <br />
-            <button type="submit" class="btn btn-primary" id="upVote">
-                <span class="glyphicon glyphicon-arrow-up"></span> Vote up
-            </button>
-            <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-arrow-down" id="downVote"></span> Vote down
-            </button>
-        </div>
-    <br />
-    </text>
-}
+    <strong>Vote on <em>@Html.DisplayFor(model => model.StockId)</em>:</strong>
 
-@section Scripts {
+    <div class="form-group" id="vote_form">
+        <input type="text" class="form-control" placeholder="Days e.g. 13" id="input-ndays">
+        <br />
+        <button type="button" class="btn btn-primary" onclick="Vote(true)">
+            <span class="glyphicon glyphicon-arrow-up"></span> Vote up
+        </button>
+        <button type="button" class="btn btn-primary" onclick="Vote(false)">
+            <span class="glyphicon glyphicon-arrow-down"></span> Vote down
+        </button>
+    </div>
+    <br />
+
     <script type="text/javascript">
-        //your scripts here
+        var baseUrl = "@Url.Content("~/")";
+        var apiUrl = "api/Votes";
+
+        function Vote(isPositive) {
+            var now = new Date(); //current time
+            var nDays = parseInt(document.getElementById("input-ndays").value, 10);
+            var ms = now.getTime(); //current time in milliseconds
+            ms += nDays * 24 * 60 * 60 * 1000; //adds nDays days (find nDays by parsing the input value)
+            var endDate = new Date(ms);
+            var data = {
+                StockId: "@Model.StockId",
+                isPositive: isPositive,
+                EndDate: endDate.toISOString()
+            };
+            $.post(baseUrl + apiUrl, data)
+            .done(function () {
+                $("#vote_form").html("Vote Submitted");
+            })
+            .fail(function () {
+                alert("Error, try again!");
+            })
+            .always(function (data, textStatus, data2) {
+                console.log(data + "::" + textStatus + "::" + data2);
+            });
+
+        }
     </script>
 }
