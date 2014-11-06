@@ -70,10 +70,41 @@ namespace CrowdStock.Models
 
 		public double UpdateReputation()
 		{
-			double reputation = AverageScore;
-			//Do your work here
+            double reputation = 0.0;
+            double numberOfVotes = 0.0;
 
-			this.Reputation = AverageScore;
+            // Obtain the number of votes in the last 6 months
+            var rV = (from vote in this.Votes
+                               where vote.Date >= DateTime.Now.AddMonths(-6)
+                               select vote).ToList();
+            if (!rV.Any())
+                return 0.0;
+            else
+            {
+                numberOfVotes = rV.Count();
+            }
+
+            //Go through all of the months and weight reputation based on when they were placed
+            for (int i = 0; i < 5; i++)
+            {
+                var recentVotes = (from vote in this.Votes
+                                   where vote.Date >= DateTime.Now.AddMonths(-(i + 1)) && vote.Date <= DateTime.Now.AddMonths(-i)
+                                   select vote).ToList();
+                var results = from vote in recentVotes
+                              where vote.IsCorrect.HasValue
+                              select vote.IsCorrect.Value ? 1 : 0;
+                 if (!results.Any())
+                    continue;
+
+                // the first term weights the first month more heavily than the next months
+                // the second term finds the percent correct on the votes for this month
+                // the third term weights the votes based on the count
+                reputation += ((5.0 - i)/(15.0)) * (results.Average() * 100.0) * (recentVotes.Count() / numberOfVotes);
+
+               
+            }
+
+			this.Reputation = reputation;
 			return Reputation;
 		}
 
