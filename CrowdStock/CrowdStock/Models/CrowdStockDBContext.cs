@@ -1,10 +1,7 @@
 namespace CrowdStock.Models
 {
-	using System;
-	using System.Data.Entity;
-	using System.ComponentModel.DataAnnotations.Schema;
-	using System.Linq;
 	using Microsoft.AspNet.Identity.EntityFramework;
+	using System.Data.Entity;
 
 	public partial class CrowdStockDBContext : IdentityDbContext<ApplicationUser>
 	{
@@ -20,7 +17,9 @@ namespace CrowdStock.Models
 		}
 
 		public virtual DbSet<Stock> Stocks { get; set; }
+
 		public virtual DbSet<History> Histories { get; set; }
+
 		public virtual DbSet<Vote> Votes { get; set; }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)

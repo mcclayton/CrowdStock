@@ -869,7 +869,6 @@ var __module7__ = (function(__dependency1__) {
     }
   };
 
-
   // Must be exported as an object rather than the root of the module as the jison lexer
   // most modify the object to operate properly.
   __exports__ = AST;
@@ -890,10 +889,9 @@ var __module9__ = (function() {
   terminals_: {2:"error",5:"EOF",12:"CONTENT",13:"COMMENT",15:"END_RAW_BLOCK",16:"OPEN_RAW_BLOCK",18:"CLOSE_RAW_BLOCK",24:"OPEN_BLOCK",25:"CLOSE",26:"OPEN_INVERSE",28:"INVERSE",29:"OPEN_ENDBLOCK",31:"OPEN",32:"OPEN_UNESCAPED",33:"CLOSE_UNESCAPED",34:"OPEN_PARTIAL",42:"STRING",43:"NUMBER",44:"BOOLEAN",45:"OPEN_SEXPR",46:"CLOSE_SEXPR",50:"ID",51:"EQUALS",52:"DATA",54:"SEP"},
   productions_: [0,[3,2],[4,1],[7,1],[7,1],[7,1],[7,1],[7,1],[7,1],[10,3],[14,3],[9,4],[9,4],[19,3],[22,3],[27,2],[21,3],[8,3],[8,3],[11,5],[11,4],[17,3],[17,1],[36,1],[36,1],[36,1],[36,1],[36,1],[36,3],[47,1],[49,3],[35,1],[35,1],[35,1],[41,2],[30,1],[53,3],[53,1],[6,0],[6,2],[20,0],[20,1],[23,0],[23,1],[37,0],[37,1],[38,0],[38,1],[39,0],[39,2],[40,0],[40,1],[48,1],[48,2]],
   performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
-
   var $0 = $$.length - 1;
   switch (yystate) {
-  case 1: yy.prepareProgram($$[$0-1].statements, true); return $$[$0-1]; 
+  case 1: yy.prepareProgram($$[$0-1].statements, true); return $$[$0-1];
   break;
   case 2:this.$ = new yy.ProgramNode(yy.prepareProgram($$[$0]), {}, this._$);
   break;
@@ -963,7 +961,7 @@ var __module9__ = (function() {
   break;
   case 35:this.$ = new yy.IdNode($$[$0], this._$);
   break;
-  case 36: $$[$0-2].push({part: $$[$0], separator: $$[$0-1]}); this.$ = $$[$0-2]; 
+  case 36: $$[$0-2].push({part: $$[$0], separator: $$[$0-1]}); this.$ = $$[$0-2];
   break;
   case 37:this.$ = [{part: $$[$0]}];
   break;
@@ -1260,12 +1258,9 @@ var __module9__ = (function() {
       }});
   lexer.options = {};
   lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
-
-
   function strip(start, end) {
     return yy_.yytext = yy_.yytext.substr(start, yy_.yyleng-end);
   }
-
 
   var YYSTATE=YY_START
   switch($avoiding_name_collisions) {
@@ -1280,22 +1275,22 @@ var __module9__ = (function() {
                                        this.begin("mu");
                                      }
                                      if(yy_.yytext) return 12;
-                                   
+
   break;
   case 1:return 12;
   break;
   case 2:
                                      this.popState();
                                      return 12;
-                                   
+
   break;
   case 3:
                                     yy_.yytext = yy_.yytext.substr(5, yy_.yyleng-9);
                                     this.popState();
                                     return 15;
-                                   
+
   break;
-  case 4: return 12; 
+  case 4: return 12;
   break;
   case 5:strip(0,4); this.popState(); return 13;
   break;
@@ -1303,13 +1298,13 @@ var __module9__ = (function() {
   break;
   case 7:return 46;
   break;
-  case 8: return 16; 
+  case 8: return 16;
   break;
   case 9:
                                     this.popState();
                                     this.begin('raw');
                                     return 18;
-                                   
+
   break;
   case 10:return 34;
   break;
@@ -1434,7 +1429,6 @@ var __module10__ = (function(__dependency1__) {
       // Find standalone else statments
       if (isPrevWhitespace(program.statements)
           && isNextWhitespace(inverse.statements)) {
-
         omitLeft(program.statements);
         omitRight(inverse.statements);
       }

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using CrowdStock.Models;
 using PagedList;
-using CrowdStock.Models;
-using Microsoft.AspNet.Identity;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace CrowdStock.Controllers
 {
 	[Authorize(Roles = "Administrator")]
 	public class AdminController : Controller
 	{
-		CrowdStockDBContext db = new CrowdStockDBContext();
+		private CrowdStockDBContext db = new CrowdStockDBContext();
 
 		public ActionResult Index()
 		{

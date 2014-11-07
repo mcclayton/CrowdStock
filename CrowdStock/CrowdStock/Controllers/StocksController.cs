@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using CrowdStock.Models;
+using Microsoft.AspNet.Identity;
+using PagedList;
+using System;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
-using System.Web;
+using System.Threading.Tasks;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using CrowdStock.Models;
-using PagedList;
 
 namespace CrowdStock.Controllers
 {
 	public class StocksController : Controller
 	{
 		private CrowdStockDBContext db = new CrowdStockDBContext();
-
 
 		// GET: Stocks
 		public ActionResult Index()
@@ -96,7 +92,7 @@ namespace CrowdStock.Controllers
 		}
 
 		// POST: Stocks/Create
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -130,7 +126,7 @@ namespace CrowdStock.Controllers
 		}
 
 		// POST: Stocks/Edit/5
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]

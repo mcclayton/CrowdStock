@@ -1,13 +1,12 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System;
-using System.Data.Entity.SqlServer;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace CrowdStock.Models
 {
@@ -41,7 +40,7 @@ namespace CrowdStock.Models
 
 		[NotMapped]
 		[Display(Name = "Average Score")]
-		[DisplayFormat(DataFormatString="{0:P1}")]
+		[DisplayFormat(DataFormatString = "{0:P1}")]
 		public double AverageScore
 		{
 			get
@@ -67,44 +66,42 @@ namespace CrowdStock.Models
 		/// A decimal value between 0 and 100 which indicates the reputation of the user
 		/// </summary>
 		[Display(Name = "Reputation")]
-		[DisplayFormat(DataFormatString="{0:G2}")]
+		[DisplayFormat(DataFormatString = "{0:G2}")]
 		public double Reputation { get; set; }
 
 		public double UpdateReputation()
 		{
-            double reputation = 0.0;
-            double numberOfVotes = 0.0;
+			double reputation = 0.0;
+			double numberOfVotes = 0.0;
 
-            // Obtain the number of votes in the last 6 months
-            var rV = (from vote in this.Votes
-                               where vote.Date >= DateTime.Now.AddMonths(-6)
-                               select vote).ToList();
-            if (!rV.Any())
-                return 0.0;
-            else
-            {
-                numberOfVotes = rV.Count();
-            }
+			// Obtain the number of votes in the last 6 months
+			var rV = (from vote in this.Votes
+					  where vote.Date >= DateTime.Now.AddMonths(-6)
+					  select vote).ToList();
+			if(!rV.Any())
+				return 0.0;
+			else
+			{
+				numberOfVotes = rV.Count();
+			}
 
-            //Go through all of the months and weight reputation based on when they were placed
-            for (int i = 0; i < 5; i++)
-            {
-                var recentVotes = (from vote in this.Votes
-                                   where vote.Date >= DateTime.Now.AddMonths(-(i + 1)) && vote.Date <= DateTime.Now.AddMonths(-i)
-                                   select vote).ToList();
-                var results = from vote in recentVotes
-                              where vote.IsCorrect.HasValue
-                              select vote.IsCorrect.Value ? 1 : 0;
-                 if (!results.Any())
-                    continue;
+			//Go through all of the months and weight reputation based on when they were placed
+			for(int i = 0; i < 5; i++)
+			{
+				var recentVotes = (from vote in this.Votes
+								   where vote.Date >= DateTime.Now.AddMonths(-(i + 1)) && vote.Date <= DateTime.Now.AddMonths(-i)
+								   select vote).ToList();
+				var results = from vote in recentVotes
+							  where vote.IsCorrect.HasValue
+							  select vote.IsCorrect.Value ? 1 : 0;
+				if(!results.Any())
+					continue;
 
-                // the first term weights the first month more heavily than the next months
-                // the second term finds the percent correct on the votes for this month
-                // the third term weights the votes based on the count
-                reputation += ((5.0 - i)/(15.0)) * (results.Average() * 100.0) * (recentVotes.Count() / numberOfVotes);
-
-               
-            }
+				// the first term weights the first month more heavily than the next months
+				// the second term finds the percent correct on the votes for this month
+				// the third term weights the votes based on the count
+				reputation += ((5.0 - i) / (15.0)) * (results.Average() * 100.0) * (recentVotes.Count() / numberOfVotes);
+			}
 
 			this.Reputation = reputation;
 			return Reputation;

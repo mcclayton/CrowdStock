@@ -1,5 +1,4 @@
 ﻿Handlebars.registerHelper('compare', function (lvalue, operator, rvalue, options) {
-
     var operators, result;
 
     if (arguments.length < 3) {
@@ -35,5 +34,4 @@
     } else {
         return options.inverse(this);
     }
-
 });

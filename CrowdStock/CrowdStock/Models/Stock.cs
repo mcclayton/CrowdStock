@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Web;
 
 namespace CrowdStock.Models
 {
@@ -57,45 +56,46 @@ namespace CrowdStock.Models
 			}
 		}
 
-        /// <summary>
-        /// A decimal value between 0 and 100 which indicates how many users think that the stock price will be going up and
-        /// based on the user's reputation
-        /// </summary>
-        [NotMapped]
-        [Display(Name = "% Optimism")]
-        public double Optimism
-        {
-            get
-            {
-                if (this.Votes == null)
-                    return 0;
+		/// <summary>
+		/// A decimal value between 0 and 100 which indicates how many users think that the stock price will be going up and
+		/// based on the user's reputation
+		/// </summary>
+		[NotMapped]
+		[Display(Name = "% Optimism")]
+		public double Optimism
+		{
+			get
+			{
+				if(this.Votes == null)
+					return 0;
 
-                var futureVotes = from vote in this.Votes
-                                  where vote.EndDate > DateTime.Now
-                                  select vote;
-                if (!futureVotes.Any())
-                    return 0;
+				var futureVotes = from vote in this.Votes
+								  where vote.EndDate > DateTime.Now
+								  select vote;
+				if(!futureVotes.Any())
+					return 0;
 
-                //This is the optimism to be returned
-                double optimism = 0.0;
-                //This is the total reputation of all the votes
-                double totalRepuatation = 0.0;
+				//This is the optimism to be returned
+				double optimism = 0.0;
+				//This is the total reputation of all the votes
+				double totalRepuatation = 0.0;
 
-                foreach(Vote v in futureVotes){
-                    totalRepuatation += v.User.Reputation;
-                }
+				foreach(Vote v in futureVotes)
+				{
+					totalRepuatation += v.User.Reputation;
+				}
 
-                foreach (Vote v in futureVotes)
-                {
-                    if (v.isPositive)
-                    {
-                        optimism += (v.User.Reputation / totalRepuatation);
-                    }
-                }
+				foreach(Vote v in futureVotes)
+				{
+					if(v.isPositive)
+					{
+						optimism += (v.User.Reputation / totalRepuatation);
+					}
+				}
 
-                //This changes the value from a percentage to a decimal value from 0 to 100
-                return (optimism * 100.00);
-            }
-        }
+				//This changes the value from a percentage to a decimal value from 0 to 100
+				return (optimism * 100.00);
+			}
+		}
 	}
 }

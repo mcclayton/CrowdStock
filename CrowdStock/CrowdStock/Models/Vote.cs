@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Newtonsoft.Json;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace CrowdStock.Models
@@ -46,20 +44,19 @@ namespace CrowdStock.Models
 			get
 			{
 				var endHist = (from hist in this.Stock.History
-								where hist.Date >= this.EndDate
-								orderby hist.Date
-								select hist).FirstOrDefault();
+							   where hist.Date >= this.EndDate
+							   orderby hist.Date
+							   select hist).FirstOrDefault();
 
 				if(endHist == null)
 					return null;
 
 				var startHist = (from hist in this.Stock.History
-								  where hist.Date <= this.Date
-								  orderby hist.Date descending
-								  select hist).FirstOrDefault();
+								 where hist.Date <= this.Date
+								 orderby hist.Date descending
+								 select hist).FirstOrDefault();
 
 				return (isPositive ^ endHist.Value < startHist.Value) || (endHist.Value == startHist.Value); //if the prediction was correct or the final stock value is the same, the prediction is considered correct.
-
 			}
 		}
 	}

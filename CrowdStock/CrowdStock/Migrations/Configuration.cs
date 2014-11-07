@@ -1,33 +1,31 @@
 namespace CrowdStock.Migrations
 {
 	using CrowdStock.Models;
-	using System;
-	using System.Data.Entity;
-	using System.Data.Entity.Migrations;
-	using System.Linq;
 	using Microsoft.AspNet.Identity;
 	using Microsoft.AspNet.Identity.EntityFramework;
+	using System.Data.Entity.Migrations;
+	using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<CrowdStock.Models.CrowdStockDBContext>
-    {
-        public Configuration()
-        {
-            AutomaticMigrationsEnabled = false;
-        }
+	internal sealed class Configuration : DbMigrationsConfiguration<CrowdStock.Models.CrowdStockDBContext>
+	{
+		public Configuration()
+		{
+			AutomaticMigrationsEnabled = false;
+		}
 
-        protected override void Seed(CrowdStock.Models.CrowdStockDBContext context)
-        {
-            //  This method will be called after migrating to the latest version.
+		protected override void Seed(CrowdStock.Models.CrowdStockDBContext context)
+		{
+			//  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
+			//  You can use the DbSet<T>.AddOrUpdate() helper extension method
+			//  to avoid creating duplicate seed data. E.g.
+			//
+			//    context.People.AddOrUpdate(
+			//      p => p.FullName,
+			//      new Person { FullName = "Andrew Peters" },
+			//      new Person { FullName = "Brice Lambson" },
+			//      new Person { FullName = "Rowan Miller" }
+			//    );
 
 			if(!context.Roles.Any())
 			{
@@ -39,7 +37,7 @@ namespace CrowdStock.Migrations
 				};
 				roleManager.Create(role);
 			}
-			
+
 			if(!context.Users.Any())
 			{
 				var userStore = new UserStore<ApplicationUser>(context);
@@ -54,6 +52,6 @@ namespace CrowdStock.Migrations
 				userManager.Create(user, "BrandanMillerDotCom");
 				userManager.AddToRole(user.Id, "Administrator");
 			}
-        }
-    }
+		}
+	}
 }

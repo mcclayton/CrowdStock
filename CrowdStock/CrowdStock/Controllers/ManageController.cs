@@ -1,13 +1,12 @@
-﻿using System;
+﻿using CrowdStock.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using CrowdStock.Models;
-using System.IO;
 
 namespace CrowdStock.Controllers
 {
@@ -24,6 +23,7 @@ namespace CrowdStock.Controllers
 		}
 
 		private ApplicationUserManager _userManager;
+
 		public ApplicationUserManager UserManager
 		{
 			get
@@ -364,6 +364,7 @@ namespace CrowdStock.Controllers
 		}
 
 		#region Helpers
+
 		// Used for XSRF protection when adding external logins
 		private const string XsrfKey = "XsrfId";
 
@@ -420,6 +421,6 @@ namespace CrowdStock.Controllers
 			Error
 		}
 
-		#endregion
+		#endregion Helpers
 	}
 }

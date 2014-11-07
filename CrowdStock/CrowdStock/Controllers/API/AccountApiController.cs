@@ -1,22 +1,19 @@
-﻿using Microsoft.Owin.Infrastructure;
-using Microsoft.Owin.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Web.Http;
+﻿using CrowdStock.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Infrastructure;
+using Microsoft.Owin.Security;
+using System;
+using System.Security.Claims;
 using System.Web;
-using CrowdStock.Models;
+using System.Web.Http;
 
 namespace CrowdStock.Controllers.API
 {
-    public class AccountController : ApiController
+	public class AccountController : ApiController
 	{
 		private ApplicationUserManager _userManager;
+
 		public ApplicationUserManager UserManager
 		{
 			get
@@ -27,7 +24,7 @@ namespace CrowdStock.Controllers.API
 			{
 				_userManager = value;
 			}
-		} 
+		}
 
 		[HttpPost]
 		[AllowAnonymous]
@@ -63,5 +60,5 @@ namespace CrowdStock.Controllers.API
 			else
 				return "Unable to resolve user id";
 		}
-    }
+	}
 }

@@ -28,7 +28,6 @@ THE SOFTWARE.
 define(
   'handlebars/safe-string',["exports"],
   function(__exports__) {
-    
     // Build out our basic SafeString type
     function SafeString(string) {
       this.string = string;
@@ -43,7 +42,6 @@ define(
 define(
   'handlebars/utils',["./safe-string","exports"],
   function(__dependency1__, __exports__) {
-    
     /*jshint -W004 */
     var SafeString = __dependency1__["default"];
 
@@ -135,8 +133,6 @@ define(
 define(
   'handlebars/exception',["exports"],
   function(__exports__) {
-    
-
     var errorProps = ['description', 'fileName', 'lineNumber', 'message', 'name', 'number', 'stack'];
 
     function Exception(message, node) {
@@ -167,7 +163,6 @@ define(
 define(
   'handlebars/base',["./utils","./exception","exports"],
   function(__dependency1__, __dependency2__, __exports__) {
-    
     var Utils = __dependency1__;
     var Exception = __dependency2__["default"];
 
@@ -402,7 +397,6 @@ define(
 define(
   'handlebars/runtime',["./utils","./exception","./base","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __exports__) {
-    
     var Utils = __dependency1__;
     var Exception = __dependency2__["default"];
     var COMPILER_REVISION = __dependency3__.COMPILER_REVISION;
@@ -599,7 +593,6 @@ define(
 define(
   'handlebars.runtime',["./handlebars/base","./handlebars/safe-string","./handlebars/exception","./handlebars/utils","./handlebars/runtime","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __exports__) {
-    
     /*globals Handlebars: true */
     var base = __dependency1__;
 
@@ -638,7 +631,6 @@ define(
 define(
   'handlebars/compiler/ast',["../exception","exports"],
   function(__dependency1__, __exports__) {
-    
     var Exception = __dependency1__["default"];
 
     function LocationInfo(locInfo) {
@@ -848,7 +840,6 @@ define(
       }
     };
 
-
     // Must be exported as an object rather than the root of the module as the jison lexer
     // most modify the object to operate properly.
     __exports__["default"] = AST;
@@ -856,7 +847,6 @@ define(
 define(
   'handlebars/compiler/parser',["exports"],
   function(__exports__) {
-    
     /* jshint ignore:start */
     /* istanbul ignore next */
     /* Jison generated parser */
@@ -867,10 +857,9 @@ define(
     terminals_: {2:"error",5:"EOF",12:"CONTENT",13:"COMMENT",15:"END_RAW_BLOCK",16:"OPEN_RAW_BLOCK",18:"CLOSE_RAW_BLOCK",24:"OPEN_BLOCK",25:"CLOSE",26:"OPEN_INVERSE",28:"INVERSE",29:"OPEN_ENDBLOCK",31:"OPEN",32:"OPEN_UNESCAPED",33:"CLOSE_UNESCAPED",34:"OPEN_PARTIAL",42:"STRING",43:"NUMBER",44:"BOOLEAN",45:"OPEN_SEXPR",46:"CLOSE_SEXPR",50:"ID",51:"EQUALS",52:"DATA",54:"SEP"},
     productions_: [0,[3,2],[4,1],[7,1],[7,1],[7,1],[7,1],[7,1],[7,1],[10,3],[14,3],[9,4],[9,4],[19,3],[22,3],[27,2],[21,3],[8,3],[8,3],[11,5],[11,4],[17,3],[17,1],[36,1],[36,1],[36,1],[36,1],[36,1],[36,3],[47,1],[49,3],[35,1],[35,1],[35,1],[41,2],[30,1],[53,3],[53,1],[6,0],[6,2],[20,0],[20,1],[23,0],[23,1],[37,0],[37,1],[38,0],[38,1],[39,0],[39,2],[40,0],[40,1],[48,1],[48,2]],
     performAction: function anonymous(yytext,yyleng,yylineno,yy,yystate,$$,_$) {
-
     var $0 = $$.length - 1;
     switch (yystate) {
-    case 1: yy.prepareProgram($$[$0-1].statements, true); return $$[$0-1]; 
+    case 1: yy.prepareProgram($$[$0-1].statements, true); return $$[$0-1];
     break;
     case 2:this.$ = new yy.ProgramNode(yy.prepareProgram($$[$0]), {}, this._$);
     break;
@@ -940,7 +929,7 @@ define(
     break;
     case 35:this.$ = new yy.IdNode($$[$0], this._$);
     break;
-    case 36: $$[$0-2].push({part: $$[$0], separator: $$[$0-1]}); this.$ = $$[$0-2]; 
+    case 36: $$[$0-2].push({part: $$[$0], separator: $$[$0-1]}); this.$ = $$[$0-2];
     break;
     case 37:this.$ = [{part: $$[$0]}];
     break;
@@ -1237,12 +1226,9 @@ define(
         }});
     lexer.options = {};
     lexer.performAction = function anonymous(yy,yy_,$avoiding_name_collisions,YY_START) {
-
-
     function strip(start, end) {
       return yy_.yytext = yy_.yytext.substr(start, yy_.yyleng-end);
     }
-
 
     var YYSTATE=YY_START
     switch($avoiding_name_collisions) {
@@ -1257,22 +1243,22 @@ define(
                                          this.begin("mu");
                                        }
                                        if(yy_.yytext) return 12;
-                                     
+
     break;
     case 1:return 12;
     break;
     case 2:
                                        this.popState();
                                        return 12;
-                                     
+
     break;
     case 3:
                                       yy_.yytext = yy_.yytext.substr(5, yy_.yyleng-9);
                                       this.popState();
                                       return 15;
-                                     
+
     break;
-    case 4: return 12; 
+    case 4: return 12;
     break;
     case 5:strip(0,4); this.popState(); return 13;
     break;
@@ -1280,13 +1266,13 @@ define(
     break;
     case 7:return 46;
     break;
-    case 8: return 16; 
+    case 8: return 16;
     break;
     case 9:
                                       this.popState();
                                       this.begin('raw');
                                       return 18;
-                                     
+
     break;
     case 10:return 34;
     break;
@@ -1360,7 +1346,6 @@ define(
 define(
   'handlebars/compiler/helpers',["../exception","exports"],
   function(__dependency1__, __exports__) {
-    
     var Exception = __dependency1__["default"];
 
     function stripFlags(open, close) {
@@ -1409,7 +1394,6 @@ define(
         // Find standalone else statments
         if (isPrevWhitespace(program.statements)
             && isNextWhitespace(inverse.statements)) {
-
           omitLeft(program.statements);
           omitRight(inverse.statements);
         }
@@ -1551,7 +1535,6 @@ define(
 define(
   'handlebars/compiler/base',["./parser","./ast","./helpers","../utils","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __exports__) {
-    
     var parser = __dependency1__["default"];
     var AST = __dependency2__["default"];
     var Helpers = __dependency3__;
@@ -1576,7 +1559,6 @@ define(
 define(
   'handlebars/compiler/compiler',["../exception","../utils","exports"],
   function(__dependency1__, __dependency2__, __exports__) {
-    
     var Exception = __dependency1__["default"];
     var isArray = __dependency2__.isArray;
 
@@ -2032,7 +2014,6 @@ define(
 define(
   'handlebars/compiler/javascript-compiler',["../base","../exception","exports"],
   function(__dependency1__, __dependency2__, __exports__) {
-    
     var COMPILER_REVISION = __dependency1__.COMPILER_REVISION;
     var REVISION_CHANGES = __dependency1__.REVISION_CHANGES;
     var Exception = __dependency2__["default"];
@@ -3000,7 +2981,6 @@ define(
 define(
   'handlebars',["./handlebars.runtime","./handlebars/compiler/ast","./handlebars/compiler/base","./handlebars/compiler/compiler","./handlebars/compiler/javascript-compiler","exports"],
   function(__dependency1__, __dependency2__, __dependency3__, __dependency4__, __dependency5__, __exports__) {
-    
     /*globals Handlebars: true */
     var Handlebars = __dependency1__["default"];
 

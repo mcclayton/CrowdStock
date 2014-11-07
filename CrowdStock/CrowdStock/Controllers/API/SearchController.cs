@@ -1,10 +1,8 @@
-﻿using System;
+﻿using CrowdStock.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using CrowdStock.Models;
 
 namespace CrowdStock.Controllers.API
 {
@@ -57,7 +55,6 @@ namespace CrowdStock.Controllers.API
 							Name = stock.Name
 						});
 					}
-
 			}
 
 			return Ok(results);
