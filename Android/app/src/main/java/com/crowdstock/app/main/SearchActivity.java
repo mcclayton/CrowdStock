@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,21 +22,16 @@ import com.crowdstock.app.R;
 import com.crowdstock.app.utils.Authentication;
 import com.crowdstock.app.utils.Connectivity;
 import com.crowdstock.app.utils.HttpRequest;
+import com.crowdstock.app.utils.NavigationDrawer;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 public class SearchActivity extends Activity {
+    private static final String ACTIVITY_NAME = "Search";
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +41,17 @@ public class SearchActivity extends Activity {
         setContentView(R.layout.activity_search);
 
         final Context c = this.getApplicationContext();
+
+        // Initialize the drawer items
+        NavigationDrawer.initDrawerItems(this);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         Button button = (Button)findViewById(R.id.stockSearchSubmitButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +209,20 @@ public class SearchActivity extends Activity {
                     });
                 }
             }).start();
+        }
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            // Switch the activity to the one selected in the drawer
+            String activityNameSelected = NavigationDrawer.getActivityNames()[position];
+            if (activityNameSelected.equals(ACTIVITY_NAME)) {
+                // Don't go to the current activity if it is selected again
+                mDrawerLayout.closeDrawers();
+                return;
+            }
+            startActivity(NavigationDrawer.getActivityIntentMap().get(activityNameSelected));
         }
     }
 }

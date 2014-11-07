@@ -15,7 +15,7 @@ import com.crowdstock.app.utils.NavigationDrawer;
 
 
 public class PredictionActivity extends Activity {
-    private static final String ACTIVITY_NAME = "Prediction";
+    private static final String ACTIVITY_NAME = "Stocks";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
 

@@ -5,24 +5,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.crowdstock.app.R;
-import com.crowdstock.app.utils.Authentication;
-import com.crowdstock.app.utils.Connectivity;
-import com.crowdstock.app.utils.HttpRequest;
-import com.jjoe64.graphview.*;
-
-import android.widget.EditText;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Connectivity;
+import com.crowdstock.app.utils.HttpRequest;
+import com.crowdstock.app.utils.NavigationDrawer;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.LineGraphView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class StockProfileActivity extends Activity {
+    private static final String ACTIVITY_NAME = "Stock";
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,17 @@ public class StockProfileActivity extends Activity {
         if(i.getExtras()!=null) {
             stockSymbol = i.getStringExtra("stockSymbol");
         }
+
+        // Initialize the drawer items
+        NavigationDrawer.initDrawerItems(this);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Set the adapter for the list view
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         httpCompanyStockDataRequest(stockSymbol);
 
@@ -201,6 +221,20 @@ public class StockProfileActivity extends Activity {
                     });
                 }
             }).start();
+        }
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            // Switch the activity to the one selected in the drawer
+            String activityNameSelected = NavigationDrawer.getActivityNames()[position];
+            if (activityNameSelected.equals(ACTIVITY_NAME)) {
+                // Don't go to the current activity if it is selected again
+                mDrawerLayout.closeDrawers();
+                return;
+            }
+            startActivity(NavigationDrawer.getActivityIntentMap().get(activityNameSelected));
         }
     }
 }

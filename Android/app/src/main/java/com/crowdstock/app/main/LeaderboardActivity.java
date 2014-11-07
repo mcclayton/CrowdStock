@@ -15,8 +15,10 @@ import com.crowdstock.app.utils.NavigationDrawer;
 
 
 public class LeaderboardActivity extends Activity {
+    private static final String ACTIVITY_NAME = "Leaderboard";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,11 @@ public class LeaderboardActivity extends Activity {
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             // Switch the activity to the one selected in the drawer
             String activityNameSelected = NavigationDrawer.getActivityNames()[position];
+            if (activityNameSelected.equals(ACTIVITY_NAME)) {
+                // Don't go to the current activity if it is selected again
+                mDrawerLayout.closeDrawers();
+                return;
+            }
             startActivity(NavigationDrawer.getActivityIntentMap().get(activityNameSelected));
         }
     }
