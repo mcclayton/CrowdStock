@@ -4,6 +4,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Reputation)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.AverageScore)
             </th>
             <th>@*Avatar goes here*@</th>
@@ -19,7 +22,10 @@
         {
             <tr>
                 <td>
-                    <strong>@Html.DisplayFor(modelItem => item.AverageScore)</strong>
+                    <strong>@Html.DisplayFor(modelItem => item.Reputation)</strong>
+                </td>
+                <td>
+                    <em>@Html.DisplayFor(modelItem => item.AverageScore)</em>
                 </td>
                 <td class="td-avatar" style="padding-top:0;padding-bottom:0;">
                     <img src="@Url.Action("Image","Account",new {id=item.Id})" alt="@item.UserName" class="avatar-table" />

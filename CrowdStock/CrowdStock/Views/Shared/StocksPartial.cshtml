@@ -21,7 +21,9 @@
         {
             <tr>
                 <td>
-                    Voting Buttons Go Here
+                    <a href="@Url.Action("Details","Stocks",new {id=item.Id})" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-check"></span> Vote
+                    </a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)

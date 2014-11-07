@@ -15,11 +15,21 @@
         </div>
         <div class="col-md-4">
             <dl class="dl-horizontal">
-                <dt>UserName: </dt>
+                <dt>@Html.DisplayNameFor(model => model.UserName)</dt>
                 <dd>
                     <p>
                         @Html.DisplayFor(model => model.UserName)
                     </p>
+                </dd>
+
+                <dt>@Html.DisplayNameFor(model => model.AverageScore)</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AverageScore)
+                </dd>
+
+                <dt>@Html.DisplayNameFor(model => model.Reputation)</dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Reputation)
                 </dd>
                 @*
                     <dt>External Logins:</dt>

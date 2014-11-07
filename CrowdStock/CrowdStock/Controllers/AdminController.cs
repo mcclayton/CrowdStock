@@ -23,5 +23,16 @@ namespace CrowdStock.Controllers
 		{
 			return View(db.Users.OrderBy(u => u.LastName).ThenBy(u => u.FirstName).ToPagedList(page ?? 1, 25));
 		}
+
+		public ActionResult UpdateReputations()
+		{
+			var users = db.Users;
+			foreach(var user in users)
+			{
+				user.UpdateReputation();
+			}
+			db.SaveChanges();
+			return RedirectToAction("Index");
+		}
 	}
 }

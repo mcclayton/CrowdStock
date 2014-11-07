@@ -41,6 +41,7 @@ namespace CrowdStock.Models
 
 		[NotMapped]
 		[Display(Name = "Average Score")]
+		[DisplayFormat(DataFormatString="{0:P1}")]
 		public double AverageScore
 		{
 			get
@@ -66,6 +67,7 @@ namespace CrowdStock.Models
 		/// A decimal value between 0 and 100 which indicates the reputation of the user
 		/// </summary>
 		[Display(Name = "Reputation")]
+		[DisplayFormat(DataFormatString="{0:G2}")]
 		public double Reputation { get; set; }
 
 		public double UpdateReputation()
