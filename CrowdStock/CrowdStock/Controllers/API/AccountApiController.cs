@@ -4,9 +4,12 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Security;
 using System;
+using System.Net;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Postal;
 
 namespace CrowdStock.Controllers.API
 {
@@ -59,6 +62,36 @@ namespace CrowdStock.Controllers.API
 				return string.Format("{0} - {1}", user.GetUserId(), user.GetUserName());
 			else
 				return "Unable to resolve user id";
+		}
+
+		[Authorize]
+		[HttpPost]
+		public async Task<IHttpActionResult> Register(ApiRegisterViewModel model)
+		{
+			ApplicationUser user = new ApplicationUser
+			{
+				UserName = model.UserName,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				Email = model.Email,
+				DateRegistered = DateTime.Now
+			};
+
+			var result = await UserManager.CreateAsync(user, model.Password);
+			if(result.Succeeded)
+			{
+				string code = UserManager.GenerateEmailConfirmationTokenAsync(user.Id).Result;
+				var callbackUrl = Url.Route("Default", new { action="ConfirmEmail", controller="Account", userId = user.Id, code = code });
+
+				//TODO: fix this somehow SendEmail(user, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+				var newUser = await UserManager.FindByEmailAsync(model.Email);
+				if(newUser != null)
+					return Ok(newUser.Id);
+				else
+					throw new HttpResponseException(HttpStatusCode.InternalServerError);
+			}
+			throw new HttpResponseException(HttpStatusCode.InternalServerError);
 		}
 	}
 }

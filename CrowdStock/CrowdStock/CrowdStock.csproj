@@ -199,6 +199,7 @@
     <Compile Include="Controllers\API\HistoryApiController.cs" />
     <Compile Include="Controllers\API\SearchController.cs" />
     <Compile Include="Controllers\API\StocksApiController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Controllers\API\VotesApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -377,6 +378,9 @@
     <Content Include="Views\Shared\VotePartial.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
