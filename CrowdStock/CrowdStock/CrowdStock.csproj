@@ -264,6 +264,10 @@
     <Compile Include="Migrations\201410292225578_ReAddedReputation.Designer.cs">
       <DependentUpon>201410292225578_ReAddedReputation.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412072229209_AddedStockScoreColumns.cs" />
+    <Compile Include="Migrations\201412072229209_AddedStockScoreColumns.Designer.cs">
+      <DependentUpon>201412072229209_AddedStockScoreColumns.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APIViewModels.cs" />
@@ -436,6 +440,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201410292225578_ReAddedReputation.resx">
       <DependentUpon>201410292225578_ReAddedReputation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412072229209_AddedStockScoreColumns.resx">
+      <DependentUpon>201412072229209_AddedStockScoreColumns.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

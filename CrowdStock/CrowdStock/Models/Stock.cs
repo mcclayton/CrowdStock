@@ -35,67 +35,75 @@ namespace CrowdStock.Models
 		/// <summary>
 		/// A decimal value between 0 and 1 which indicates how many users think that the stock price will be going up
 		/// </summary>
-		[NotMapped]
 		[Display(Name = "% Consensus")]
 		[DisplayFormat(DataFormatString = "{0:P}", ApplyFormatInEditMode = false)]
-		public double Consensus
+		public double Consensus { get; set; }
+
+		public void UpdateConsensus()
 		{
-			get
+			if(this.Votes == null)
 			{
-				if(this.Votes == null)
-					return 0;
-
-				var futureVotes = from vote in this.Votes
-								  where vote.EndDate > DateTime.Now
-								  select vote.isPositive ? 1 : 0;
-
-				if(!futureVotes.Any())
-					return 0;
-
-				return futureVotes.Average();
+				this.Consensus = 0;
+				return;
 			}
+
+			var futureVotes = from vote in this.Votes
+							  where vote.EndDate > DateTime.Now
+							  select vote.isPositive ? 1 : 0;
+
+			if(!futureVotes.Any())
+			{
+				this.Consensus = 0;
+				return;
+			}
+
+			this.Consensus = futureVotes.Average();
 		}
 
 		/// <summary>
 		/// A decimal value between 0 and 100 which indicates how many users think that the stock price will be going up and
 		/// based on the user's reputation
 		/// </summary>
-		[NotMapped]
 		[Display(Name = "% Optimism")]
-		public double Optimism
+		public double Optimism { get; set; }
+
+		public void UpdateOptimism()
 		{
-			get
+			if(this.Votes == null)
 			{
-				if(this.Votes == null)
-					return 0;
-
-				var futureVotes = from vote in this.Votes
-								  where vote.EndDate > DateTime.Now
-								  select vote;
-				if(!futureVotes.Any())
-					return 0;
-
-				//This is the optimism to be returned
-				double optimism = 0.0;
-				//This is the total reputation of all the votes
-				double totalRepuatation = 0.0;
-
-				foreach(Vote v in futureVotes)
-				{
-					totalRepuatation += v.User.Reputation;
-				}
-
-				foreach(Vote v in futureVotes)
-				{
-					if(v.isPositive)
-					{
-						optimism += (v.User.Reputation / totalRepuatation);
-					}
-				}
-
-				//This changes the value from a percentage to a decimal value from 0 to 100
-				return (optimism * 100.00);
+				this.Optimism = 0;
+				return;
 			}
+
+			var futureVotes = from vote in this.Votes
+							  where vote.EndDate > DateTime.Now
+							  select vote;
+			if(!futureVotes.Any())
+			{
+				this.Optimism = 0;
+				return;
+			}
+
+			//This is the optimism to be returned
+			double optimism = 0.0;
+			//This is the total reputation of all the votes
+			double totalRepuatation = 0.0;
+
+			foreach(Vote v in futureVotes)
+			{
+				totalRepuatation += v.User.Reputation;
+			}
+
+			foreach(Vote v in futureVotes)
+			{
+				if(v.isPositive)
+				{
+					optimism += (v.User.Reputation / totalRepuatation);
+				}
+			}
+
+			//This changes the value from a percentage to a decimal value from 0 to 100
+			this.Optimism = (optimism * 100.00);
 		}
 	}
 }

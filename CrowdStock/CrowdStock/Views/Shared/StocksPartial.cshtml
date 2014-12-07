@@ -8,6 +8,9 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Optimism)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Consensus)
             </th>
             <th>
@@ -27,6 +30,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    <strong>
+                        @Html.DisplayFor(modelItem => item.Optimism)
+                    </strong>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Consensus)

@@ -18,7 +18,7 @@ namespace CrowdStock.Controllers
 		public ActionResult Index()
 		{
 			ViewBag.TopStocks = (from stock in db.Stocks.ToList()
-								 orderby stock.Consensus descending
+								 orderby stock.Optimism descending
 								 select stock).Take(25);
 
 			ViewBag.TopUsers = (from user in db.Users
