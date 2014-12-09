@@ -33,10 +33,12 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_main);
         final Intent registerIntent = new Intent(this, RegisterActivity.class);
         final Intent loginIntent = new Intent(this, SearchActivity.class);
+        final Intent mainIntent = new Intent(this, LoginActivity.class);
         final Context context = this;
 
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);
+
 
         // Login fields
         final TextView usernameTextView = (TextView) findViewById(R.id.usernameTextView);
@@ -59,8 +61,8 @@ public class LoginActivity extends Activity {
         final Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                boolean authSuccesful = Authentication.authenticateWithServer(context, usernameTextView.getText().toString(), passwordTextView.getText().toString());
-                if (authSuccesful) {
+                boolean authSuccessful = Authentication.authenticateWithServer(context, usernameTextView.getText().toString(), passwordTextView.getText().toString());
+                if (authSuccessful) {
                     ImageView image = new ImageView(context);
                     image.setImageResource(R.drawable.check);
 
@@ -70,7 +72,8 @@ public class LoginActivity extends Activity {
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Proceed with login (change activity)
-                                    startActivity(loginIntent);
+                                    startActivity(mainIntent);
+                                    finish();
                                 }
                             })
                             .setView(image)
@@ -89,6 +92,31 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+
+        if (Authentication.isAuthenticated(this)) {
+            TextView welcomeText = (TextView) findViewById(R.id.welcomeText);
+            welcomeText.setText("Welcome, "+Authentication.getLoggedInUserName(context));
+
+            loginButton.setText("Logout");
+            loginButton.setBackgroundResource(R.drawable.red_button);
+            loginButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Authentication.logout(context);
+                    new AlertDialog.Builder(context)
+                            .setTitle("Logout Success")
+                            .setMessage("You successfully logged out.")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Close Dialog
+                                    startActivity(mainIntent);
+                                    finish();
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
+            });
+        }
     }
 
 

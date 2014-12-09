@@ -60,6 +60,7 @@ public class Authentication {
                             SharedPreferences settings = c.getSharedPreferences(PREFS_NAME, 0);
                             SharedPreferences.Editor editor = settings.edit();
                             editor.putString("userAuthToken", responseWithoutQuotes);
+                            editor.putString("userName", username);
                             editor.commit();
                             return true;
                         } else {
@@ -135,11 +136,17 @@ public class Authentication {
         return settings.getString("userAuthToken",  null);
     }
 
+    public static String getLoggedInUserName(Context c) {
+        SharedPreferences settings = c.getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString("userName",  null);
+    }
+
     public static void logout(Context c) {
         // Update the saved auth token to be null
         SharedPreferences settings = c.getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("userAuthToken", null);
+        editor.putString("userName", null);
         editor.commit();
     }
 }
