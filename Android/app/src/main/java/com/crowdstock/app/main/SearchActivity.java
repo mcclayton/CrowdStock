@@ -7,16 +7,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.crowdstock.app.R;
 import com.crowdstock.app.utils.Authentication;
@@ -28,10 +32,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class SearchActivity extends Activity {
     private static final String ACTIVITY_NAME = "Search";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private ArrayAdapter<String> viewAdapter;
+
+    private static String[] COUNTRIES = new String[] {
+            "Belgium", "France", "Italy", "Germany", "Spain"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +89,49 @@ public class SearchActivity extends Activity {
                 }
             }
         });
+
+        /*AutoCompleteTextView autoComplete = (AutoCompleteTextView)findViewById(R.id.stockSearchView);
+        String[] test = {"Hello"} ;
+        viewAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, test);
+        autoComplete.setAdapter(viewAdapter);
+        autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
+                Log.w("HELOOOOOOO", "THIS: ");
+                viewAdapter.notifyDataSetChanged();
+                String[] hello = {"Hello"};
+                viewAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, hello);
+            }
+        });*/
+
+// In the onCreate method
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stockSearchView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+        textView.setAdapter(adapter);
+
+        COUNTRIES = new String[]{"scheboygan", "waawaaa", "arkansas"};
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+        textView.setAdapter(adapter);
+
+        /*autoComplete.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                Log.w("HELOOOOOOO", "THIS: " + charSequence);
+                viewAdapter.notifyDataSetChanged();
+                String[] hello = {"Hello"};
+                viewAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, hello);
+                //autoComplete.setAdapter(viewAdapter);
+            }
+
+            //generated stub
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            //generated stub
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });*/
     }
 
     @Override
