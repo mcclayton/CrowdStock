@@ -2,8 +2,6 @@ package com.crowdstock.app.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
 import android.widget.Toast;
 
 import org.apache.http.message.BasicNameValuePair;
@@ -33,49 +31,63 @@ public class Authentication {
     /*
 	 * Authenticates the Android client with the server over HTTPS
 	 */
-    public static void authenticateWithServer(final Context c, final String username, final String password) {
+    public static boolean authenticateWithServer(final Context c, final String username, final String password) {
         if (!Connectivity.isConnected(c)) {
             Toast.makeText(c, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
         } else {
-            new Thread(new Runnable() {
-                public void run() {
+            RunnableFuture<Boolean> f = new FutureTask<Boolean>(new Callable<Boolean>() {
+                @Override
+                public Boolean call() throws Exception {
                     ArrayList<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
                     nameValuePairs.add(new BasicNameValuePair("Name", username));
                     nameValuePairs.add(new BasicNameValuePair("Password", password));
                     final String response = HttpRequest.doPostData(AUTH_API_URL, nameValuePairs);
 
-                    // If the data was retrieved successfully, parse and place the data into the UI
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    // Handler is necessary to gain reference to UI thread.
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                if (response != null) {
-                                    // Remove quotes from auth token
-                                    Matcher m = quotePattern.matcher(response);
-                                    String responseWithoutQuotes = null;
-                                    if (m.find()) {
-                                        responseWithoutQuotes = m.group(1);
-                                    }
-
-                                    // Update the saved auth token
-                                    SharedPreferences settings = c.getSharedPreferences(PREFS_NAME, 0);
-                                    SharedPreferences.Editor editor = settings.edit();
-                                    editor.putString("userAuthToken", responseWithoutQuotes);
-                                    editor.commit();
-                                } else {
-                                    // Unable to retrieve data
-                                }
-                            } catch (Exception e) {
-                                // Unable to retrieve data
-                                e.printStackTrace();
+                    try {
+                        if (response != null) {
+                            // Remove quotes from auth token
+                            Matcher m = quotePattern.matcher(response);
+                            String responseWithoutQuotes = null;
+                            if (m.find()) {
+                                responseWithoutQuotes = m.group(1);
                             }
+
+                            if (responseWithoutQuotes.equals("failed")) {
+                                return false;
+                            }
+
+                            // Update the saved auth token
+                            SharedPreferences settings = c.getSharedPreferences(PREFS_NAME, 0);
+                            SharedPreferences.Editor editor = settings.edit();
+                            editor.putString("userAuthToken", responseWithoutQuotes);
+                            editor.commit();
+                            return true;
+                        } else {
+                            // Unable to retrieve data
+                            return false;
                         }
-                    });
+                    } catch (Exception e) {
+                        // Unable to retrieve data
+                        e.printStackTrace();
+                        return false;
+                    }
                 }
-            }).start();
+            });
+
+            // Start the thread to execute it (you may also use an Executor)
+            new Thread(f).start();
+            // Get the result
+            try {
+                return f.get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return false;
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
+        return false;
     }
 
     /*
@@ -92,7 +104,7 @@ public class Authentication {
             Toast.makeText(c, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            RunnableFuture<Boolean> f = new FutureTask(new Callable<Boolean>() {
+            RunnableFuture<Boolean> f = new FutureTask<Boolean>(new Callable<Boolean>() {
                 @Override
                 public Boolean call() throws Exception {
                     final String response = HttpRequest.doGetRequest(IS_AUTH_URL, userAuthToken);

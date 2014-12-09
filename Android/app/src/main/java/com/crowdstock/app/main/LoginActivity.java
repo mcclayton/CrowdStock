@@ -1,6 +1,9 @@
 package com.crowdstock.app.main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.crowdstock.app.R;
 import com.crowdstock.app.utils.Authentication;
@@ -28,9 +32,14 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_main);
         final Intent registerIntent = new Intent(this, RegisterActivity.class);
         final Intent loginIntent = new Intent(this, SearchActivity.class);
+        final Context context = this;
 
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);
+
+        // Login fields
+        final TextView usernameTextView = (TextView) findViewById(R.id.usernameTextView);
+        final TextView passwordTextView = (TextView) findViewById(R.id.passwordTextView);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -49,17 +58,38 @@ public class LoginActivity extends Activity {
         final Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(loginIntent);
+                boolean authSuccesful = Authentication.authenticateWithServer(context, usernameTextView.getText().toString(), passwordTextView.getText().toString());
+                if (authSuccesful) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Success")
+                            .setMessage("You have successfully logged in as: "+usernameTextView.getText().toString())
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Proceed with login (change activity)
+                                    startActivity(loginIntent);
+                                }
+                            })
+                            .show();
+                } else {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Login Failure")
+                            .setMessage("Failed to login as: "+usernameTextView.getText().toString()+".\nPlease check username/password and try again.")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Close Dialog
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
             }
         });
-
-        Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
