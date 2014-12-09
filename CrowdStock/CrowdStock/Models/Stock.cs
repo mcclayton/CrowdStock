@@ -105,5 +105,7 @@ namespace CrowdStock.Models
 			//This changes the value from a percentage to a decimal value from 0 to 100
 			this.Optimism = (optimism * 100.00);
 		}
+
+		public byte[] Logo { get; set; }
 	}
 }

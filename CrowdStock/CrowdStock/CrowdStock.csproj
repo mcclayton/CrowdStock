@@ -268,6 +268,10 @@
     <Compile Include="Migrations\201412072229209_AddedStockScoreColumns.Designer.cs">
       <DependentUpon>201412072229209_AddedStockScoreColumns.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412092247077_AddedStockLogoImages.cs" />
+    <Compile Include="Migrations\201412092247077_AddedStockLogoImages.Designer.cs">
+      <DependentUpon>201412092247077_AddedStockLogoImages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APIViewModels.cs" />
@@ -443,6 +447,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412072229209_AddedStockScoreColumns.resx">
       <DependentUpon>201412072229209_AddedStockScoreColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412092247077_AddedStockLogoImages.resx">
+      <DependentUpon>201412092247077_AddedStockLogoImages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
