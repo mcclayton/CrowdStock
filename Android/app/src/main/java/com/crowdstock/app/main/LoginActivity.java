@@ -65,7 +65,7 @@ public class LoginActivity extends Activity {
                 if (authSuccessful) {
                     ImageView image = new ImageView(context);
                     image.setImageResource(R.drawable.check);
-
+                    NavigationDrawer.initDrawerItems(context);
                     new AlertDialog.Builder(context)
                             .setTitle("Success")
                             .setMessage("You have successfully logged in as: "+usernameTextView.getText().toString())
@@ -101,7 +101,10 @@ public class LoginActivity extends Activity {
             loginButton.setBackgroundResource(R.drawable.red_button);
             loginButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    // Logout and reset the Navigation drawer
                     Authentication.logout(context);
+                    NavigationDrawer.initDrawerItems(context);
+
                     new AlertDialog.Builder(context)
                             .setTitle("Logout Success")
                             .setMessage("You successfully logged out.")

@@ -19,6 +19,7 @@ public class NavigationDrawer {
     static HashMap<String, Intent> activityMap = new HashMap<String, Intent>();
 
     public static void initDrawerItems(Context c) {
+        activityMap.clear();
         Intent login = new Intent(c, LoginActivity.class);
         Intent search = new Intent(c, SearchActivity.class);
         Intent stocks = new Intent(c, PredictionActivity.class);
