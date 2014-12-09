@@ -145,41 +145,6 @@ public class LoginActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    // TODO: Remove this HTTP request test method
-    /*
-    private void httpTest() {
-        final TextView view = (TextView) findViewById(R.id.testTextView);
-        if (!Connectivity.isConnected(this)) {
-            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
-        } else {
-            new Thread(new Runnable() {
-                public void run() {
-                    final String response = HttpRequest.doGetRequest("http://date.jsontest.com/");
-                    // If the data was retrieved successfully, parse and place the data into the UI
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    // Handler is necessary to gain reference to UI thread.
-                    handler.post(new Runnable(){
-                        @Override
-                        public void run() {
-                            try {
-                                if (response != null) {
-                                    // Handle data
-                                    view.setText(response);
-                                } else {
-                                    // Unable to retrieve data
-                                }
-                            } catch (Exception e) {
-                                // Unable to retrieve data
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
-            }).start();
-        }
-    }
-    */
-
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
