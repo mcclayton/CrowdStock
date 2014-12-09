@@ -26,13 +26,19 @@ public class NavigationDrawer {
         Intent settings = new Intent(c, SettingsActivity.class);
         //Intent userProfile = new Intent(c, UserProfileActivity.class);
 
-        // Add activity names and their corresponding intents to the ActivityMap
-        activityMap.put("Login", login);
-        activityMap.put("Search", search);
-        activityMap.put("Stocks", stocks);
-        activityMap.put("Leaderboard", leaderboard);
-        activityMap.put("Settings", settings);
-        //activityMap.put("Profile", userProfile);
+        // Dynamically add links to navigation drawer based on whether the user is logged in or not
+        if (Authentication.isAuthenticated(c)) {
+            // Add activity names and their corresponding intents to the ActivityMap
+            activityMap.put("Login", login);
+            activityMap.put("Search", search);
+            activityMap.put("Stocks", stocks);
+            activityMap.put("Leaderboard", leaderboard);
+            activityMap.put("Settings", settings);
+            //activityMap.put("Profile", userProfile);
+        } else {
+            // Add activity names and their corresponding intents to the ActivityMap
+            activityMap.put("Login", login);
+        }
     }
 
     /**
