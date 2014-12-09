@@ -1,7 +1,10 @@
 package com.crowdstock.app.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,15 +12,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Authentication;
+import com.crowdstock.app.utils.Connectivity;
+import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
+
+import java.util.ArrayList;
 
 
 public class PredictionActivity extends Activity {
     private static final String ACTIVITY_NAME = "Stocks";
+    private static final String STOCK_URL = "http://server.billking.io/crowdstock/api/Stocks";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private ListView stockListView;
+    private ArrayList<String> stockData = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +46,12 @@ public class PredictionActivity extends Activity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // Set the adapter for the list views
+        stockListView = (ListView) findViewById(R.id.stocksListView);
+        final ArrayAdapter<String> stockAdapter = new ArrayAdapter<String>(this, R.layout.list_item, stockData);
+        stockListView.setAdapter(stockAdapter);
+        populateStocksListView(this, stockAdapter);
     }
 
 
@@ -70,6 +88,47 @@ public class PredictionActivity extends Activity {
                 return;
             }
             startActivity(NavigationDrawer.getActivityIntentMap().get(activityNameSelected));
+        }
+    }
+
+    private void populateStocksListView(final Context c, final ArrayAdapter<String> stockAdapter) {
+        if (!Connectivity.isConnected(c)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(STOCK_URL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    stockData.add(response);
+                                    stockAdapter.notifyDataSetChanged();
+                                } else {
+                                    //view.setText("Failed to load stock data.");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
         }
     }
 }
