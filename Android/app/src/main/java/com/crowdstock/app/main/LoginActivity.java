@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -60,6 +61,9 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 boolean authSuccesful = Authentication.authenticateWithServer(context, usernameTextView.getText().toString(), passwordTextView.getText().toString());
                 if (authSuccesful) {
+                    ImageView image = new ImageView(context);
+                    image.setImageResource(R.drawable.check);
+
                     new AlertDialog.Builder(context)
                             .setTitle("Success")
                             .setMessage("You have successfully logged in as: "+usernameTextView.getText().toString())
@@ -69,6 +73,7 @@ public class LoginActivity extends Activity {
                                     startActivity(loginIntent);
                                 }
                             })
+                            .setView(image)
                             .show();
                 } else {
                     new AlertDialog.Builder(context)
