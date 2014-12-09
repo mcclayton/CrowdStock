@@ -69,7 +69,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/usernameTextView"
-            android:layout_below="@+id/linearLayoutUserName"
+            android:layout_below="@+id/emailTextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignRight="@+id/passwordTextView"
@@ -80,8 +80,8 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:hint="Confirm Password"
-            android:id="@+id/passwordConfirmTextView"
+            android:hint="Password"
+            android:id="@+id/passwordTextView"
             android:layout_below="@+id/usernameTextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -93,9 +93,9 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:hint="Password"
-            android:id="@+id/passwordTextView"
-            android:layout_below="@+id/passwordConfirmTextView"
+            android:hint="Confirm Password"
+            android:id="@+id/passwordConfirmTextView"
+            android:layout_below="@+id/passwordTextView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignRight="@+id/linearLayout"
@@ -106,7 +106,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/linearLayout"
-            android:layout_below="@+id/passwordTextView">
+            android:layout_below="@+id/passwordConfirmTextView">
 
             <Button
                 android:layout_margin="5dp"
@@ -134,6 +134,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
+
+        <EditText
+            android:hint="Email"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:ems="10"
+            android:id="@+id/emailTextView"
+            android:layout_below="@+id/linearLayoutUserName"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
     <!-- The navigation drawer -->

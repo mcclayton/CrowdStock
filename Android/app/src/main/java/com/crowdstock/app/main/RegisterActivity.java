@@ -1,6 +1,7 @@
 package com.crowdstock.app.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.crowdstock.app.R;
 import com.crowdstock.app.utils.NavigationDrawer;
@@ -25,6 +27,7 @@ public class RegisterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        final Context context = this;
         final Intent registerIntent = new Intent(this, SearchActivity.class);
 
         // Initialize the drawer items
@@ -32,6 +35,14 @@ public class RegisterActivity extends Activity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
+
+        // Form fields
+        final TextView firstNameTextView = (TextView) findViewById(R.id.firstNameTextView);
+        final TextView lastNameTextView = (TextView) findViewById(R.id.lastNameTextView);
+        final TextView userNameTextView = (TextView) findViewById(R.id.usernameTextView);
+        final TextView passwordTextView = (TextView) findViewById(R.id.passwordTextView);
+        final TextView emailTextView = (TextView) findViewById(R.id.emailTextView);
+        final TextView confirmPasswordTextView = (TextView) findViewById(R.id.passwordConfirmTextView);
 
         // Set the adapter for the list view
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
