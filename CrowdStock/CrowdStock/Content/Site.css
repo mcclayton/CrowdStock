@@ -52,3 +52,9 @@ textarea {
     max-height: 150px;
     overflow-y: auto;
 }
+
+.brand-image {
+    position: relative;
+    height: 20px;
+    width: auto;
+}

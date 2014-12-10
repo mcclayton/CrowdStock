@@ -36,13 +36,27 @@ namespace CrowdStock.Controllers.API
 		[ResponseType(typeof(Vote))]
 		public IHttpActionResult GetVote(int id)
 		{
-			Vote vote = db.Votes.Find(id);
+			var vote = db.Votes.Find(id);
 			if(vote == null)
 			{
 				return NotFound();
 			}
 
 			return Ok(vote);
+		}
+
+		[Route("api/Votes/UserStock")]
+		public IHttpActionResult UserStock(string stockId, string userId, bool onlyActive = false)
+		{
+			var votes = from vote in db.Votes
+						where vote.UserId == userId
+							  && vote.StockId == stockId.ToUpper()
+						select vote;
+
+			if(onlyActive)
+				votes = votes.Where(vote => vote.EndDate > DateTime.Now);
+
+			return Ok(votes);
 		}
 
 		// POST: api/Votes
@@ -61,10 +75,10 @@ namespace CrowdStock.Controllers.API
 			if(vote.EndDate < DateTime.Now.AddDays(1))
 				throw new HttpResponseException(HttpStatusCode.PreconditionFailed);
 			var userId = User.Identity.GetUserId();
-			if(db.Votes.Where(v => v.UserId == userId && v.StockId == vote.StockId && v.EndDate >= DateTime.Now).Any())
+			if(db.Votes.Any(v => v.UserId == userId && v.StockId == vote.StockId && v.EndDate >= DateTime.Now))
 				throw new HttpResponseException(HttpStatusCode.PreconditionFailed);
 
-			Vote newVote = new Vote
+			var newVote = new Vote
 			{
 				UserId = User.Identity.GetUserId(),
 				StockId = vote.StockId,
@@ -86,11 +100,6 @@ namespace CrowdStock.Controllers.API
 				db.Dispose();
 			}
 			base.Dispose(disposing);
-		}
-
-		private bool VoteExists(int id)
-		{
-			return db.Votes.Count(e => e.Id == id) > 0;
 		}
 	}
 }
