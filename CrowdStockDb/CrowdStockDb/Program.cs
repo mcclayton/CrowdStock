@@ -200,7 +200,15 @@ namespace CrowdStockDBUpdater
             {
                 foreach (string symbol in symbols)
                 {
-                    Console.Write("Downloading... ");
+                    Stock stock = db.Stocks.Find(symbol);
+
+                    if (stock == null)
+                    {
+                        continue;
+                    }
+                    if(stock.Logo != null){
+                        continue;
+                    }
 
                     byte[] data = null;
                     for (int attempt = 1; attempt <= 5; attempt++)
@@ -212,19 +220,13 @@ namespace CrowdStockDBUpdater
                         }
                         catch (Exception)
                         {
-                            Console.Write("Attempt Failed. ");
+                            
                             
                         }
                     }
                     if (data == null)
                     {
-                        continue;
-                    }
-
-                    Stock stock = db.Stocks.Find(symbol);
-
-                    if (stock == null)
-                    {
+                        Console.Write(string.Format("Attempt Failed. {0}", symbol));
                         continue;
                     }
                     stock.Logo = data;
