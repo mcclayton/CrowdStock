@@ -272,6 +272,10 @@
     <Compile Include="Migrations\201412092247077_AddedStockLogoImages.Designer.cs">
       <DependentUpon>201412092247077_AddedStockLogoImages.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201412102033412_AddedDescriptionFieldToUser.cs" />
+    <Compile Include="Migrations\201412102033412_AddedDescriptionFieldToUser.Designer.cs">
+      <DependentUpon>201412102033412_AddedDescriptionFieldToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\APIViewModels.cs" />
@@ -452,6 +456,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201412092247077_AddedStockLogoImages.resx">
       <DependentUpon>201412092247077_AddedStockLogoImages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412102033412_AddedDescriptionFieldToUser.resx">
+      <DependentUpon>201412102033412_AddedDescriptionFieldToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

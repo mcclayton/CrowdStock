@@ -38,6 +38,9 @@ namespace CrowdStock.Models
 			}
 		}
 
+        [StringLength(500)]
+        public string Description { get; set; }
+
 		[NotMapped]
 		[Display(Name = "Average Score")]
 		[DisplayFormat(DataFormatString = "{0:P1}")]
