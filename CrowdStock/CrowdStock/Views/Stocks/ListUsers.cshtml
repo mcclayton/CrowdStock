@@ -1,5 +1,5 @@
-﻿@model IEnumerable<crowdstock.models.applicationuser>
-
+﻿@model PagedList.IPagedList<CrowdStock.Models.ApplicationUser>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "ListUsers";
 }
@@ -10,14 +10,14 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Reputation)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Reputation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AverageScore)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AverageScore)
             </th>
             <th>@*Avatar goes here*@</th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UserName)
             </th>
         </tr>
     </thead>

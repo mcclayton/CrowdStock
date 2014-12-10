@@ -33,11 +33,27 @@
                         @Html.DisplayFor(model => model.UserName)
                     </p>
                 </dd>
+                @*
+                <dt>Description: </dt>
+                <dd>
+                    [
+                    @if(Model.HasPassword)
+                    {
+                        @Html.ActionLink("Change your password", "ChangePassword")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Create", "SetPassword")
+                    }
+                    ]
 
+                </dd>
+                *@
                 <dt>Email: </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Email)
                 </dd>
+
                 <dt>Password:</dt>
                 <dd>
                     [
