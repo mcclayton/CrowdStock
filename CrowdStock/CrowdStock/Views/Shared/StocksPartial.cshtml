@@ -24,7 +24,7 @@
         {
             <tr>
                 <td>
-                    <a href="@Url.Action("Details","Stocks",new {id=item.Id})" class="btn btn-default btn-xs">
+                    <a href="#" data-stock="@item.Id" class="btn btn-default btn-xs btn-vote">
                         <span class="glyphicon glyphicon-check"></span> Vote
                     </a>
                 </td>
@@ -66,5 +66,5 @@
     </tbody>
 </table>
 <div class="text-center">
-    @Html.ActionLink("View More", "List")
+    @Html.ActionLink("View More", "List", "Stocks")
 </div>
