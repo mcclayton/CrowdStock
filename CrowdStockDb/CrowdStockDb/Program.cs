@@ -192,6 +192,51 @@ namespace CrowdStockDBUpdater
 
         }
 
+        static void setStockLogos(string[] symbols)
+        {
+            var db = new CrowdStockDBContext();
+
+            using (WebClient web = new WebClient())
+            {
+                foreach (string symbol in symbols)
+                {
+                    Console.Write("Downloading... ");
+
+                    byte[] data = null;
+                    for (int attempt = 1; attempt <= 5; attempt++)
+                    {
+                        try
+                        {
+                            data = web.DownloadData(string.Format("http://content.nasdaq.com/logos/{0}.GIF", symbol));
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            Console.Write("Attempt Failed. ");
+                            
+                        }
+                    }
+                    if (data == null)
+                    {
+                        continue;
+                    }
+
+                    Stock stock = db.Stocks.Find(symbol);
+
+                    if (stock == null)
+                    {
+                        continue;
+                    }
+                    stock.Logo = data;
+                    db.Entry(stock).CurrentValues.SetValues(stock);
+                    Console.Write("Saving... ");
+                    db.SaveChanges();
+
+                }
+            }
+
+        }
+
 		static string[] getTopStocks()
 		{
 			/*string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
@@ -213,6 +258,7 @@ namespace CrowdStockDBUpdater
 		static void Main(string[] args)
 		{
 			string[] symbols = getTopStocks();
+            //setStockLogos(symbols); //This allows us to add stock logos
             //setStockNames(symbols); // This allows us to change stock names
 			var db = new CrowdStockDBContext();
 

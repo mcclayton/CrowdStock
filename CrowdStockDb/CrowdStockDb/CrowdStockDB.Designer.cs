@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Billy\Source\Repos\CrowdStock\CrowdStockDb\CrowdStockDb\CrowdStockDB.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Matthew\Senior\Semester 7\Senior Project\CrowdStock\CrowdStockDb\CrowdStockDb\CrowdStockDB.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

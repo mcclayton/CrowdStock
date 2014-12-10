@@ -12,22 +12,16 @@ namespace CrowdStockDBUpdater
     using System;
     using System.Collections.Generic;
     
-    public partial class Stock
+    public partial class AspNetRole
     {
-        public Stock()
+        public AspNetRole()
         {
-            this.Histories = new HashSet<History>();
-            this.Votes = new HashSet<Vote>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
         public string Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public double Consensus { get; set; }
-        public double Optimism { get; set; }
-        public byte[] Logo { get; set; }
     
-        public virtual ICollection<History> Histories { get; set; }
-        public virtual ICollection<Vote> Votes { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

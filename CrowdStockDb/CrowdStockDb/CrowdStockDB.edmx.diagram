@@ -8,6 +8,18 @@
         <EntityTypeShape EntityType="CrowdStockModel.History" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
         <EntityTypeShape EntityType="CrowdStockModel.Stock" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="CrowdStockModel.FK_dbo_Histories_dbo_Stocks_StockID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CrowdStockModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="CrowdStockModel.AspNetRole" Width="1.5" PointX="3.75" PointY="7.375" />
+        <EntityTypeShape EntityType="CrowdStockModel.AspNetUserClaim" Width="1.5" PointX="8.25" PointY="11.75" />
+        <EntityTypeShape EntityType="CrowdStockModel.AspNetUserLogin" Width="1.5" PointX="8.25" PointY="9.125" />
+        <EntityTypeShape EntityType="CrowdStockModel.AspNetUser" Width="1.5" PointX="6" PointY="5.5" />
+        <EntityTypeShape EntityType="CrowdStockModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CrowdStockModel.Vote" Width="1.5" PointX="8.25" PointY="4.625" />
+        <AssociationConnector Association="CrowdStockModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="CrowdStockModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="CrowdStockModel.FK_dbo_Votes_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="CrowdStockModel.FK_dbo_Votes_dbo_Stocks_StockId" />
+        <AssociationConnector Association="CrowdStockModel.AspNetUserRoles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

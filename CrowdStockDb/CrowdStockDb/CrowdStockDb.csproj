@@ -95,6 +95,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetRole.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUser.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserClaim.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AspNetUserLogin.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="CrowdStockDB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,6 +122,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CrowdStockDB.edmx</DependentUpon>
     </Compile>
+    <Compile Include="C__MigrationHistory.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="History.cs">
       <DependentUpon>CrowdStockDB.tt</DependentUpon>
     </Compile>
@@ -117,6 +132,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Stock.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>CrowdStockDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Vote.cs">
       <DependentUpon>CrowdStockDB.tt</DependentUpon>
     </Compile>
   </ItemGroup>
