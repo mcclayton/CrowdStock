@@ -21,7 +21,7 @@ namespace CrowdStock.Controllers
 								 orderby stock.Optimism descending
 								 select stock).Take(25);
 
-			ViewBag.TopUsers = (from user in db.Users
+			ViewBag.TopUsers = (from user in db.Users.ToList()
 								orderby user.Reputation descending
 								select user).Take(25);
 
@@ -33,6 +33,11 @@ namespace CrowdStock.Controllers
 			var stocks = db.Stocks.OrderBy(s => s.Id);
 			return View(stocks.ToPagedList(page ?? 1, 25));
 		}
+        public ActionResult ListUsers(int? page)
+        {
+            var users = db.Users.OrderBy(user => user.Reputation);
+            return View(users.ToPagedList(page ?? 1, 25));
+        }
 
 		// GET: Stocks/Details/5
 		public async Task<ActionResult> Details(string id)

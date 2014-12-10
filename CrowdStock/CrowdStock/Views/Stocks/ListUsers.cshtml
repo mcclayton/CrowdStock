@@ -1,6 +1,12 @@
-﻿@model IEnumerable<CrowdStock.Models.ApplicationUser>
+﻿@model IEnumerable<crowdstock.models.applicationuser>
 
-<table class="table table-striped">
+@{
+    ViewBag.Title = "ListUsers";
+}
+
+<h2>Users</h2>
+
+<table class="table table-condensed table-striped">
     <thead>
         <tr>
             <th>
@@ -15,9 +21,8 @@
             </th>
         </tr>
     </thead>
-
     <tbody>
-        @foreach(var item in Model)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -39,6 +44,4 @@
     </tbody>
 </table>
 
-<div class="text-center">
-    @Html.ActionLink("View More", "ListUsers")
-</div>
+@Html.PagedListPager(Model, page => Url.Action("ListUsers", new { page }))
