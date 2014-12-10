@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Postal;
+using System.Net.Http;
 
 namespace CrowdStock.Controllers.API
 {
@@ -64,7 +65,6 @@ namespace CrowdStock.Controllers.API
 				return "Unable to resolve user id";
 		}
 
-		[Authorize]
 		[HttpPost]
 		public async Task<IHttpActionResult> Register(ApiRegisterViewModel model)
 		{
@@ -80,18 +80,28 @@ namespace CrowdStock.Controllers.API
 			var result = await UserManager.CreateAsync(user, model.Password);
 			if(result.Succeeded)
 			{
-				string code = UserManager.GenerateEmailConfirmationTokenAsync(user.Id).Result;
-				var callbackUrl = Url.Route("Default", new { action="ConfirmEmail", controller="Account", userId = user.Id, code = code });
-
-				//TODO: fix this somehow SendEmail(user, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+				//TODO: fix this somehow 
+				//string code = UserManager.GenerateEmailConfirmationTokenAsync(user.Id).Result;
+				//var callbackUrl = Url.Route("Default", new { action="ConfirmEmail", controller="Account", userId = user.Id, code = code });
+				//SendEmail(user, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
 				var newUser = await UserManager.FindByEmailAsync(model.Email);
 				if(newUser != null)
 					return Ok(newUser.Id);
 				else
-					throw new HttpResponseException(HttpStatusCode.InternalServerError);
+					throw new HttpResponseException(new HttpResponseMessage
+					{
+						Content = new StringContent("Error occurred during registration. Please try again later."),
+						StatusCode = HttpStatusCode.InternalServerError
+					});
 			}
-			throw new HttpResponseException(HttpStatusCode.InternalServerError);
+
+			var enumerator = result.Errors.GetEnumerator();
+			enumerator.MoveNext();
+			throw new HttpResponseException(new HttpResponseMessage { 
+				Content = new StringContent(enumerator.Current),
+				StatusCode = HttpStatusCode.InternalServerError
+			});
 		}
 	}
 }
