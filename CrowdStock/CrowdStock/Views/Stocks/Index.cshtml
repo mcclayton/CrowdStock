@@ -76,22 +76,18 @@
 
 
         $(".btn-vote").click(function() {
-            console.log(click);
+            console.log($(this));
         });
-
-        .popover({
+        
+        $(".btn-vote").popover({
             html: true,
             content: function () {
-                var baseUrl = "@Url.Content("~/")";
-                var apiUrl = baseUrl + "api/Votes/UserStock?onlyactive=true&userid=@User.Identity.GetUserId()&stockid=" + $(this).attr('data-stock');
-                console.assert(apiUrl);
-                $.getJSON(apiUrl, function(data) {
-                    if(data.length == 0)
-                });
+                return '<iframe width="300" height="90" src="@Url.Action("VotePopup","Stocks")/'+$(this).attr('data-stock')+'" seamless frameborder="0" sandbox="allow-forms allow-same-origin allow-scripts">Loading...</iframe>';
             },
             title: function () {
-                return "Title";
+                return "Vote on <em>" + $(this).attr('data-stock') + "</em>";
             }
         });
+
     </script>
 }

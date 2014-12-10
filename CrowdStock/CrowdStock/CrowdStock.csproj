@@ -285,6 +285,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Models\Vote.cs" />
+    <Compile Include="Models\VotePopupViewModel.cs" />
     <Compile Include="Models\VoteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -394,6 +395,7 @@
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Stocks\ListUsers.cshtml" />
+    <Content Include="Views\Stocks\VotePopup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

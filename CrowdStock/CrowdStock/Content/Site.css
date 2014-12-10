@@ -58,3 +58,7 @@ textarea {
     height: 20px;
     width: auto;
 }
+
+.popover {
+    max-width: 600px;
+}
