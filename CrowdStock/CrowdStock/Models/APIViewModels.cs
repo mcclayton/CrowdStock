@@ -8,6 +8,8 @@ namespace CrowdStock.Models
 
 		public string Name { get; set; }
 
+        public byte[] Logo { get; set; }
+
 		public string Description { get; set; }
 
 		public History LastHistory { get; set; }

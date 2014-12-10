@@ -20,6 +20,7 @@ namespace CrowdStock.Controllers.API
 						 {
 							 Id = stock.Id,
 							 Name = stock.Name,
+                             Logo = stock.Logo,
 							 Description = stock.Description,
 							 LastHistory = stock.History.OrderByDescending(hist => hist.Date).FirstOrDefault()
 						 };
@@ -40,6 +41,7 @@ namespace CrowdStock.Controllers.API
 			{
 				Id = stock.Id,
 				Name = stock.Name,
+                Logo = stock.Logo,
 				Description = stock.Description,
 				LastHistory = stock.History.OrderByDescending(hist => hist.Date).FirstOrDefault()
 			});
