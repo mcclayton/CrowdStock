@@ -73,7 +73,7 @@ namespace CrowdStockDBUpdater
 					{
 						for(int i = 0; i < stocks.Count; i++)
 						{
-							if(stocks[i].Name.Equals(sym))
+							if(stocks[i].Id.Equals(sym))
 							{
 								hist.Stock = stocks[i];
 								break;
@@ -140,6 +140,58 @@ namespace CrowdStockDBUpdater
 
 		}
 
+        static void setStockNames(string[] symbols)
+        {
+            var db = new CrowdStockDBContext();
+
+            using (WebClient web = new WebClient())
+            {
+                foreach(string symbol in symbols)
+                {
+                    Console.Write("Downloading... ");
+
+                    string data = "";
+                    for (int attempt = 1; attempt <= 5; attempt++)
+                    {
+                        try
+                        {
+                            data = web.DownloadString(string.Format("https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20(%22{0}%22)&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=", symbol));
+                            break;
+                        }
+                        catch (Exception)
+                        {
+                            Console.Write("Attempt Failed. ");
+                            if (attempt < 5)
+                                Console.Write("Retrying... ");
+                            else
+                            {
+                                Console.Write("Skipping... ");
+                                return;
+                            }
+                        }
+                    }
+
+                    Console.Write("Parsing... ");
+                    int symbolStart = data.IndexOf("\"Name\":") + 8;
+                    int symbolLen = data.IndexOf("\"", symbolStart) - symbolStart;
+                    string name = data.Substring(symbolStart, symbolLen);
+
+                    Stock stock = db.Stocks.Find(symbol);
+
+                    if (stock == null)
+                    {
+                        continue;
+                    }
+                    stock.Name = name;
+                    db.Entry(stock).CurrentValues.SetValues(stock);
+                    Console.Write("Saving... ");
+                    db.SaveChanges();
+
+                }
+            }
+
+        }
+
 		static string[] getTopStocks()
 		{
 			/*string[] symbols = {"TXRH", "ARC", "ETP", "HNH", "TTPH", "ESPR", "CTAS", "CEMP", "ADP", "RENT", "TTGT", "BABY", "TKMR", "THS", "PNRA", "CALD",
@@ -148,7 +200,7 @@ namespace CrowdStockDBUpdater
                                     "HSNI", "GTS", "DSPG", "GS", "DVCR", "TIBX", "SONC", "RVP", "HAWKB", "AMBI", "ICUI", "ADSK", "NI", "ATV", "EAT", "CCRN",
                                     "VIMC", "LOGM", "AXDX", "HAWK", "EW", "SVVC", "QLYS", "ICLR", "CMRX", "TREE", "AGIO", "OMAB", "STRZA", "MNK", "CLCT", "N",
                                     "MFSF", "PPC", "FARM", "PDCO", "PFSW", "AYI", "TSN", "AGN", "TCP", "EPIQ", "LPDX", "CF", "EIGI", "HEP", "ATHL", "TEVA", "INSY",
-                                    "ANCX", "DENN", "CFI"}; these are all 100 starting symbols */
+                                    "ANCX", "DENN", "CFI", "MSFT"}; these are all 100 starting symbols */
 			var db = new CrowdStockDBContext();
 
 			var stocks =
@@ -161,6 +213,7 @@ namespace CrowdStockDBUpdater
 		static void Main(string[] args)
 		{
 			string[] symbols = getTopStocks();
+            //setStockNames(symbols); // This allows us to change stock names
 			var db = new CrowdStockDBContext();
 
 			DateTime startDate = DateTime.Now;
