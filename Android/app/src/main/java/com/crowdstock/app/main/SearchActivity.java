@@ -38,17 +38,13 @@ public class SearchActivity extends Activity {
     private static final String ACTIVITY_NAME = "Search";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
-    private ArrayAdapter<String> viewAdapter;
-
-    private static String[] COUNTRIES = new String[] {
-            "Belgium", "France", "Italy", "Germany", "Spain"
-    };
+    public ArrayList<String> suggestedEntries = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
-        final String authToken = Authentication.getAuthToken(this);
+        //Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
+       // final String authToken = Authentication.getAuthToken(this);
         setContentView(R.layout.activity_search);
 
         final Context c = this.getApplicationContext();
@@ -90,36 +86,22 @@ public class SearchActivity extends Activity {
             }
         });
 
-        /*AutoCompleteTextView autoComplete = (AutoCompleteTextView)findViewById(R.id.stockSearchView);
-        String[] test = {"Hello"} ;
-        viewAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, test);
-        autoComplete.setAdapter(viewAdapter);
-        autoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
-                Log.w("HELOOOOOOO", "THIS: ");
-                viewAdapter.notifyDataSetChanged();
-                String[] hello = {"Hello"};
-                viewAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, hello);
-            }
-        });*/
-
 // In the onCreate method
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.stockSearchView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-        textView.setAdapter(adapter);
+        AutoCompleteTextView autoComplete = (AutoCompleteTextView) findViewById(R.id.stockSearchView);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestedEntries);
+        autoComplete.setAdapter(adapter);
 
-        COUNTRIES = new String[]{"scheboygan", "waawaaa", "arkansas"};
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
-        textView.setAdapter(adapter);
-
-        /*autoComplete.addTextChangedListener(new TextWatcher() {
+        autoComplete.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                Log.w("HELOOOOOOO", "THIS: " + charSequence);
-                viewAdapter.notifyDataSetChanged();
-                String[] hello = {"Hello"};
-                viewAdapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, hello);
-                //autoComplete.setAdapter(viewAdapter);
+                suggestedEntries.clear();
+                adapter.clear();
+                findSuggestions(charSequence.toString(), c, adapter);
+                adapter.notifyDataSetChanged();
+
+                for(int j=0; j<suggestedEntries.size(); j++) {
+                    Log.v("LIST UP: ", suggestedEntries.get(j));
+                }
             }
 
             //generated stub
@@ -131,7 +113,71 @@ public class SearchActivity extends Activity {
             @Override
             public void afterTextChanged(Editable editable) {
             }
-        });*/
+        });
+    }
+
+    private void findSuggestions(String charSequence, final Context c, final ArrayAdapter<String> adapter) {
+        final String webURL = "http://server.billking.io/crowdstock/api/Search/" + charSequence;
+        Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
+        Log.v("Sequence: ", charSequence);
+        if (!Connectivity.isConnected(this)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    JSONArray jobj = null;
+                                    try {
+                                        jobj = new JSONArray(response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if(jobj!=null) {
+                                        int numStocks = 0;
+                                        for(int i=0; i<jobj.length(); i++) {
+                                            JSONObject jsonObj = jobj.getJSONObject(i);
+                                            if(jsonObj.get("Type").equals("stock")){
+                                                numStocks+=1;
+                                                suggestedEntries.add(jsonObj.get("Id").toString());
+                                                adapter.add(jsonObj.get("Id").toString());
+                                                Log.v("LIST: ", jsonObj.get("Id").toString());
+                                            }
+
+                                            if(numStocks > 2) {
+                                                break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    //suggestedEntries.clear();
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
     }
 
     @Override
