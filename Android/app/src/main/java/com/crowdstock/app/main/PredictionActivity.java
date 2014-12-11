@@ -2,6 +2,7 @@ package com.crowdstock.app.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -43,6 +45,8 @@ public class PredictionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prediction);
 
+        final Context context = this;
+
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);
 
@@ -60,7 +64,7 @@ public class PredictionActivity extends Activity {
         stockListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(c, "You Clicked at " +web[position], Toast.LENGTH_SHORT).show();
+                httpCompanyStockDataRequest(stockSymbolData.get(position), context);
             }
         });
 
@@ -152,18 +156,73 @@ public class PredictionActivity extends Activity {
 
 
 
-                                stockAdapter.notifyDataSetChanged();
-                            } else {
-                                //view.setText("Failed to load stock data.");
+                                    stockAdapter.notifyDataSetChanged();
+                                } else {
+                                    //view.setText("Failed to load stock data.");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            // Unable to retrieve data
-                            e.printStackTrace();
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
+    private void httpCompanyStockDataRequest(String stockSymbol, final Context c) {
+        final String webURL = "http://server.billking.io/crowdstock/api/Stocks/" + stockSymbol;
+        final String stockName = stockSymbol;
+        // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
+        final EditText view = (EditText) findViewById(R.id.stockSearchView);
+        if (!Connectivity.isConnected(this)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
                         }
                     }
-                });
-            }
-        }).start();
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    JSONObject jobj = null;
+                                    try {
+                                        jobj = new JSONObject(response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if(jobj!=null) {
+                                        Intent i = new Intent(getApplicationContext(), StockProfileActivity.class);
+                                        i.putExtra("stockSymbol", stockName);
+                                        startActivity(i);
+                                    }
+                                } else {
+                                    view.setText("Stock does not exist!");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
     }
-}
 }
