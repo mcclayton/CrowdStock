@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,10 @@ import com.crowdstock.app.utils.Authentication;
 import com.crowdstock.app.utils.Connectivity;
 import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -57,7 +62,7 @@ public class PredictionActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
@@ -99,7 +104,6 @@ public class PredictionActivity extends Activity {
                 public void run() {
                     String resp = null;
                     try {
-
                         if(Authentication.isAuthenticated(c)) {
                             resp = HttpRequest.doGetRequest(STOCK_URL, Authentication.getAuthToken(c));
                         }
@@ -111,24 +115,46 @@ public class PredictionActivity extends Activity {
                     // If the data was retrieved successfully, parse and place the data into the UI
                     Handler handler = new Handler(Looper.getMainLooper());
                     // Handler is necessary to gain reference to UI thread.
-                    handler.post(new Runnable(){
+                    handler.post(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 if (response != null) {
-                                    stockData.add(response);
-                                    stockAdapter.notifyDataSetChanged();
-                                } else {
-                                    //view.setText("Failed to load stock data.");
-                                }
-                            } catch (Exception e) {
-                                // Unable to retrieve data
-                                e.printStackTrace();
+                                    Log.v("REPONSE: ", response);
+
+                                    JSONArray jobj = null;
+                                    try {
+                                        jobj = new JSONArray(response);
+
+
+                                        if(jobj!=null) {
+                                            for(int i=0; i<jobj.length(); i++) {
+                                                JSONObject jsonObj = jobj.getJSONObject(i);
+
+                                                String entry = jsonObj.get("Id").toString() + " -- " + jsonObj.get("Name").toString();
+
+                                                stockData.add(entry);
+                                                stockAdapter.add(entry);
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+
+                                stockAdapter.notifyDataSetChanged();
+                            } else {
+                                //view.setText("Failed to load stock data.");
                             }
+                        } catch (Exception e) {
+                            // Unable to retrieve data
+                            e.printStackTrace();
                         }
-                    });
-                }
-            }).start();
-        }
+                    }
+                });
+            }
+        }).start();
     }
+}
 }
