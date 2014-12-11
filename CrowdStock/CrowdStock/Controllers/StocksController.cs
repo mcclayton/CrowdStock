@@ -39,6 +39,24 @@ namespace CrowdStock.Controllers
 			return View(users.ToPagedList(page ?? 1, 25));
 		}
 
+        [AllowAnonymous]
+        public ActionResult Logo(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return HttpNotFound();
+
+            using (var db = new CrowdStockDBContext())
+            {
+                var stock = db.Stocks.Find(id);
+                if (stock == null)
+                    return HttpNotFound();
+                if (stock.Logo != null)
+                    return File(stock.Logo, "image/gif");
+                else
+                    return File(Server.MapPath("~/Content/img/defaultImage.jpg"), "image/gif");
+            }
+        }
+
 		// GET: Stocks/Details/5
 		public async Task<ActionResult> Details(string id)
 		{
