@@ -32,7 +32,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Intent registerIntent = new Intent(this, RegisterActivity.class);
-        final Intent loginIntent = new Intent(this, SearchActivity.class);
         final Intent mainIntent = new Intent(this, LoginActivity.class);
         final Context context = this;
 
@@ -43,6 +42,9 @@ public class LoginActivity extends Activity {
         // Login fields
         final TextView usernameTextView = (TextView) findViewById(R.id.usernameTextView);
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordTextView);
+
+        final ImageView checkView = new ImageView(this);
+        checkView.setImageResource(R.drawable.check);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -61,35 +63,8 @@ public class LoginActivity extends Activity {
         final Button loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                boolean authSuccessful = Authentication.authenticateWithServer(context, usernameTextView.getText().toString(), passwordTextView.getText().toString());
-                if (authSuccessful) {
-                    ImageView image = new ImageView(context);
-                    image.setImageResource(R.drawable.check);
-                    NavigationDrawer.initDrawerItems(context);
-                    new AlertDialog.Builder(context)
-                            .setTitle("Success")
-                            .setMessage("You have successfully logged in as: "+usernameTextView.getText().toString())
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Proceed with login (change activity)
-                                    startActivity(mainIntent);
-                                    finish();
-                                }
-                            })
-                            .setView(image)
-                            .show();
-                } else {
-                    new AlertDialog.Builder(context)
-                            .setTitle("Login Failure")
-                            .setMessage("Failed to login as: "+usernameTextView.getText().toString()+".\nPlease check username/password and try again.")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Close Dialog
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
+
+                Authentication.authenticateWithServerAndShowDialogs(context, usernameTextView.getText().toString(), passwordTextView.getText().toString(), checkView);
             }
         });
 
