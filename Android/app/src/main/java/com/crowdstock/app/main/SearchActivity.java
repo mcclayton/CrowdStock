@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.Log;
 
 import com.crowdstock.app.R;
 import com.crowdstock.app.utils.Authentication;
@@ -39,12 +39,14 @@ public class SearchActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     public ArrayList<String> suggestedEntries = new ArrayList<String>();
+    AutoCompleteTextView autoComplete;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
-       // final String authToken = Authentication.getAuthToken(this);
+        // final String authToken = Authentication.getAuthToken(this);
         setContentView(R.layout.activity_search);
 
         final Context c = this.getApplicationContext();
@@ -59,6 +61,11 @@ public class SearchActivity extends Activity {
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,
                 R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // Set the adapter for the autoComplete
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestedEntries);
+        autoComplete = (AutoCompleteTextView) findViewById(R.id.stockSearchView);
+        autoComplete.setAdapter(adapter);
 
         Button button = (Button)findViewById(R.id.stockSearchSubmitButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -86,18 +93,17 @@ public class SearchActivity extends Activity {
             }
         });
 
-// In the onCreate method
-        AutoCompleteTextView autoComplete = (AutoCompleteTextView) findViewById(R.id.stockSearchView);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestedEntries);
-        autoComplete.setAdapter(adapter);
-
         autoComplete.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                suggestedEntries.clear();
-                adapter.clear();
-                findSuggestions(charSequence.toString(), c, adapter);
-                adapter.notifyDataSetChanged();
+                Log.v("TEXT:", autoComplete.getText().toString());
+                Log.v("LENGTH:", autoComplete.getText().toString().length()+"");
+                if (autoComplete.getText().toString().length() <= 2) {
+                    suggestedEntries.clear();
+                    adapter.clear();
+                    findSuggestions(charSequence.toString(), c);
+                    adapter.notifyDataSetChanged();
+                }
 
                 for(int j=0; j<suggestedEntries.size(); j++) {
                     Log.v("LIST UP: ", suggestedEntries.get(j));
@@ -116,7 +122,7 @@ public class SearchActivity extends Activity {
         });
     }
 
-    private void findSuggestions(String charSequence, final Context c, final ArrayAdapter<String> adapter) {
+    private void findSuggestions(final String charSequence, final Context c) {
         final String webURL = "http://server.billking.io/crowdstock/api/Search/" + charSequence;
         Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
         Log.v("Sequence: ", charSequence);
@@ -135,46 +141,39 @@ public class SearchActivity extends Activity {
                         e.printStackTrace();
                     }
                     final String response = resp;
-                    // If the data was retrieved successfully, parse and place the data into the UI
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    // Handler is necessary to gain reference to UI thread.
-                    handler.post(new Runnable(){
-                        @Override
-                        public void run() {
+
+                    try {
+                        if (response != null) {
+                            JSONArray jobj = null;
                             try {
-                                if (response != null) {
-                                    JSONArray jobj = null;
-                                    try {
-                                        jobj = new JSONArray(response);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    if(jobj!=null) {
-                                        int numStocks = 0;
-                                        for(int i=0; i<jobj.length(); i++) {
-                                            JSONObject jsonObj = jobj.getJSONObject(i);
-                                            if(jsonObj.get("Type").equals("stock")){
-                                                numStocks+=1;
-                                                suggestedEntries.add(jsonObj.get("Id").toString());
-                                                adapter.add(jsonObj.get("Id").toString());
-                                                Log.v("LIST: ", jsonObj.get("Id").toString());
-                                            }
-
-                                            if(numStocks > 2) {
-                                                break;
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    //suggestedEntries.clear();
-                                }
-                            } catch (Exception e) {
-                                // Unable to retrieve data
+                                jobj = new JSONArray(response);
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
+
+                            if(jobj!=null) {
+                                int numStocks = 0;
+                                for(int i=0; i<jobj.length(); i++) {
+                                    JSONObject jsonObj = jobj.getJSONObject(i);
+                                    if(jsonObj.get("Type").equals("stock")){
+                                        numStocks+=1;
+                                        suggestedEntries.add(jsonObj.get("Id").toString());
+                                        adapter.add(jsonObj.get("Id").toString());
+                                        Log.v("LIST: ", jsonObj.get("Id").toString());
+                                    }
+
+                                    if(numStocks > 2) {
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            //suggestedEntries.clear();
                         }
-                    });
+                    } catch (Exception e) {
+                        // Unable to retrieve data
+                        e.printStackTrace();
+                    }
                 }
             }).start();
         }
@@ -202,7 +201,7 @@ public class SearchActivity extends Activity {
     private void httpUserNameDataRequest(String selectedUserName, final Context c) {
         final String webURL = "http://server.billking.io/crowdstock/api/Search/" + selectedUserName;
         final String userName = selectedUserName;
-       // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
+        // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
         final EditText view = (EditText) findViewById(R.id.userNameSearchView);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
@@ -260,7 +259,7 @@ public class SearchActivity extends Activity {
     private void httpCompanyStockDataRequest(String stockSymbol, final Context c) {
         final String webURL = "http://server.billking.io/crowdstock/api/Stocks/" + stockSymbol;
         final String stockName = stockSymbol;
-       // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
+        // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
         final EditText view = (EditText) findViewById(R.id.stockSearchView);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
@@ -299,7 +298,7 @@ public class SearchActivity extends Activity {
                                         startActivity(i);
                                     }
                                 } else {
-                                   view.setText("Stock does not exist!");
+                                    view.setText("Stock does not exist!");
                                 }
                             } catch (Exception e) {
                                 // Unable to retrieve data
