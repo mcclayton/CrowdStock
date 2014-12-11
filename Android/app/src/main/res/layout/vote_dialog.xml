@@ -1,0 +1,52 @@
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.crowdstock.app.main.voteDialog">
+
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/radioDescription">
+
+            <RadioButton
+                android:id="@+id/RadioButtonTrue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Up"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/RadioButtonFalse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Down"
+                android:textSize="15sp" />
+        </RadioGroup>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:hint="# of days"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:layout_below="@+id/dateDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="The stock will go:"
+            android:id="@+id/radioDescription"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/radio_group"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="In ___ days:"
+            android:id="@+id/dateDescription"/>
+    </RelativeLayout>

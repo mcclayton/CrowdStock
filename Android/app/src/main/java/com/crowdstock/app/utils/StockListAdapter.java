@@ -1,7 +1,8 @@
 package com.crowdstock.app.utils;
 
 import android.app.Activity;
-import android.util.Log;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,25 @@ public class StockListAdapter extends ArrayAdapter<String> {
 
         voteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.v("STRING: ", stockData.get(position) + "----" + stockSymbolData.get(position));
+
+                LayoutInflater inflater = context.getLayoutInflater();
+                View voteDialog = inflater.inflate(R.layout.vote_dialog, null);
+
+                new AlertDialog.Builder(context)
+                        .setTitle("Voting")
+                        .setMessage("Voting on stock: " + stockSymbolData.get(position))
+                        .setPositiveButton("Vote", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // TODO: implement the voting here
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Do nothing
+                            }
+                        })
+                        .setView(voteDialog)
+                        .show();
 
             }
         });
