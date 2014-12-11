@@ -11,16 +11,18 @@ import android.widget.TextView;
 
 import com.crowdstock.app.R;
 
+import java.util.ArrayList;
+
 public class StockListAdapter extends ArrayAdapter<String> {
     private final Activity context;
-    private final String[] web;
-    private final Integer[] imageId;
+    private final ArrayList<String> stockData;
+    private final ArrayList<String> stockSymbolData;
 
-    public StockListAdapter(Activity context, String[] web, Integer[] imageId) {
-        super(context, R.layout.list_item, web);
+    public StockListAdapter(Activity context, ArrayList<String> stockData, ArrayList<String> stockSymbolData) {
+        super(context, R.layout.list_item, stockData);
         this.context = context;
-        this.web = web;
-        this.imageId = imageId;
+        this.stockData = stockData;
+        this.stockSymbolData = stockSymbolData;
     }
 
     @Override
@@ -29,12 +31,13 @@ public class StockListAdapter extends ArrayAdapter<String> {
         View rowView= inflater.inflate(R.layout.list_item, null, true);
         TextView txtTitle = (TextView) rowView.findViewById(R.id.txtStockName);
         Button voteButton = (Button) rowView.findViewById(R.id.voteButton);
-        txtTitle.setText(web[position]);
+        txtTitle.setText(stockData.get(position));
 
 
         voteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.v("STRING: ", web[position]);
+                Log.v("STRING: ", stockData.get(position) + "----" + stockSymbolData.get(position));
+
             }
         });
 

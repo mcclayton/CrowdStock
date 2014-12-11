@@ -36,30 +36,7 @@ public class PredictionActivity extends Activity {
     private ListView mDrawerList;
     private ListView stockListView;
     private ArrayList<String> stockData = new ArrayList<String>();
-
-
-
-
-    String[] web = {
-            "Google Plus",
-            "Twitter",
-            "Windows",
-            "Bing",
-            "Itunes",
-            "Wordpress",
-            "Drupal"
-    } ;
-    Integer[] imageId = {
-            R.drawable.check,
-            R.drawable.check,
-            R.drawable.check,
-            R.drawable.check,
-            R.drawable.check,
-            R.drawable.check,
-            R.drawable.check
-    };
-
-
+    private ArrayList<String> stockSymbolData = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +54,7 @@ public class PredictionActivity extends Activity {
                 R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        // Set the adapter for the list views
-//        stockListView = (ListView) findViewById(R.id.stocksListView);
-//        final ArrayAdapter<String> stockAdapter = new ArrayAdapter<String>(this, R.layout.list_item, stockData);
-//        stockListView.setAdapter(stockAdapter);
-
-        StockListAdapter stockAdapter = new StockListAdapter(this, web, imageId);
+        StockListAdapter stockAdapter = new StockListAdapter(this, stockData, stockSymbolData);
         stockListView=(ListView)findViewById(R.id.stocksListView);
         stockListView.setAdapter(stockAdapter);
         stockListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -168,10 +140,10 @@ public class PredictionActivity extends Activity {
                                             for(int i=0; i<jobj.length(); i++) {
                                                 JSONObject jsonObj = jobj.getJSONObject(i);
 
-                                                String entry = jsonObj.get("Id").toString() + " -- " + jsonObj.get("Name").toString();
-
+                                                String entry = "  SYMBOL: " + jsonObj.get("Id").toString() + "   --   NAME: " + jsonObj.get("Name").toString()
+                                                        + "\n  CONSENSUS: " + jsonObj.get("Consensus").toString() + "   --   OPTIMISM: " + jsonObj.get("Optimism").toString();
+                                                stockSymbolData.add(jsonObj.get("Id").toString());
                                                 stockData.add(entry);
-                                                stockAdapter.add(entry);
                                             }
                                         }
                                     } catch (JSONException e) {
