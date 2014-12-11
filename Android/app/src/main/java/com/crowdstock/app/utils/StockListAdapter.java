@@ -3,6 +3,8 @@ package com.crowdstock.app.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +12,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crowdstock.app.R;
 
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -103,12 +107,60 @@ public class StockListAdapter extends ArrayAdapter<String> {
                                         nameValuePairs.add(new BasicNameValuePair("EndDate", date));
                                         final String response = HttpRequest.doPostData(VOTE_API_URL, nameValuePairs, Authentication.getAuthToken(context));
                                         Log.v("VOTE RESPONSE: ", response);
+
+
+                                        Handler handler = new Handler(Looper.getMainLooper());
+                                        // Handler is necessary to gain reference to UI thread.
+                                        handler.post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                try {
+                                                    if (response != null) {
+                                                        JSONObject jobj = null;
+                                                        try {
+                                                            jobj = new JSONObject(response);
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                            // Display duplicate vote error message
+                                                            new AlertDialog.Builder(context)
+                                                                    .setTitle("Duplicate Vote")
+                                                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                                                    .setMessage("You have already voted on this stock.")
+                                                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                        }
+                                                                    })
+                                                                    .show();
+                                                        }
+
+                                                        if(jobj!=null) {
+                                                            // Display success message
+                                                            ImageView image = new ImageView(context);
+                                                            image.setImageResource(R.drawable.check);
+                                                            new AlertDialog.Builder(context)
+                                                                    .setTitle("Success")
+                                                                    .setMessage("Your vote has been successfully received.")
+                                                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                        }
+                                                                    })
+                                                                    .setView(image)
+                                                                    .show();
+                                                        }
+                                                    } else {
+                                                       // failure
+                                                    }
+                                                } catch (Exception e) {
+                                                    // Unable to retrieve data
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+
+
                                     }
                                 }).start();
 
-
-
-                                Toast.makeText(context, isPositive + " " + nowAsISO, Toast.LENGTH_LONG).show();
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
