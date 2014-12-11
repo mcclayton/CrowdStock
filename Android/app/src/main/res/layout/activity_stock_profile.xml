@@ -78,15 +78,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="User Perception:"
-                android:id="@+id/textView"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Current Stock Price: "
                 android:id="@+id/stockPrice"
                 android:layout_marginTop="20dp"

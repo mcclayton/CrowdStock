@@ -144,6 +144,14 @@ public class StockProfileActivity extends Activity {
                                         ImageView imageView = (ImageView)findViewById(R.id.stockImageView);
                                         Bitmap companyLogo = BitmapFactory.decodeByteArray(image, 0, image.length);
                                         imageView.setImageBitmap(companyLogo);
+
+                                        TextView textView = (TextView)findViewById(R.id.bullishPercentageField);
+                                        Integer num = jobj.getInt("Consensus") * 100;
+                                        textView.setText(num.toString()+"%");
+
+                                        textView = (TextView)findViewById(R.id.bearishPercentageField);
+                                        num = 100 - num;
+                                        textView.setText(num.toString()+"%");
                                     }
                                 } else {
                                     view.setText("Stock does not exist!");
