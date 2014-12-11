@@ -2,15 +2,20 @@ package com.crowdstock.app.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -134,6 +139,11 @@ public class StockProfileActivity extends Activity {
                                     if(jobj!=null) {
                                         JSONObject newObj = jobj.getJSONObject("LastHistory");
                                         view.setText("Current Stock Price: "+newObj.getString("Value"));
+                                        String imageArray = jobj.getString("Logo");
+                                        byte[] image = Base64.decode(imageArray,Base64.DEFAULT);
+                                        ImageView imageView = (ImageView)findViewById(R.id.stockImageView);
+                                        Bitmap companyLogo = BitmapFactory.decodeByteArray(image, 0, image.length);
+                                        imageView.setImageBitmap(companyLogo);
                                     }
                                 } else {
                                     view.setText("Stock does not exist!");

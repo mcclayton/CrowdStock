@@ -23,7 +23,8 @@
             android:layout_alignRight="@+id/logoImageView"
             android:layout_alignEnd="@+id/logoImageView"
             android:background="@drawable/white_noise"
-            android:id="@+id/masterLinearLayout">
+            android:id="@+id/masterLinearLayout"
+            android:weightSum="1">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -57,6 +58,13 @@
                     android:layout_marginLeft="20dp" />
 
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:id="@+id/stockImageView"
+                android:layout_weight="0.17"
+                android:layout_marginBottom="15dp" />
 
             <View
                 android:layout_width="fill_parent"
