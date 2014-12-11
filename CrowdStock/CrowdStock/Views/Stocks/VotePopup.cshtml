@@ -30,13 +30,20 @@
     @switch(Model.Type)
     {
         case VPType.NotAuthorized:
+            <div class="alert alert-info">Please login</div>
+            /*
             <a class="btn btn-primary" href="@Url.Action("Login","Account")">Login</a>
+            
+             <button type ="button" id = "btnclose" class = "btn btn-primary pull-right btn-xs">
+                <span class="glyphicon glyphicon-remove"></span>
+            </button>
+            */
             break;
         case VPType.VoteSubmitted:
-        <div class="alert alert-success">Vote Submitted</div>
+            <div class="alert alert-success">Vote Submitted</div>
             break;
         case VPType.AlreadyVoted:
-        <div class="alert alert-info">You have already voted</div>
+            <div class="alert alert-info">You have already voted</div>
             break;
         case VPType.CanVote:
             using(Html.BeginForm("VotePopup", "Stocks", FormMethod.Post, new { @class = "form-inline" }))
@@ -71,6 +78,12 @@
             else
                 $('#submit').attr("disabled", "");
         }
+        /*
+        $("#btnclose").click(function () {
+            console.log("Yo, here2.");
+            $(".btn-vote").popover('hide');
+        });
+        */
     </script>
 </body>
 </html>
