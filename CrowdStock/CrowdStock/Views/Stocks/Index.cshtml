@@ -85,9 +85,13 @@
                 return '<iframe width="300" height="90" src="@Url.Action("VotePopup","Stocks")/'+$(this).attr('data-stock')+'" seamless frameborder="0" sandbox="allow-forms allow-same-origin allow-scripts">Loading...</iframe>';
             },
             title: function () {
-                return "Vote on <em>" + $(this).attr('data-stock') + "</em>";
+                return "Vote on <em>" + $(this).attr('data-stock') + "</em>"
+                /*
+                + "<button type =\"button\" id = \"btn-close\" class = \"btn btn-primary pull-right btn-xs\">"+
+                "<span class=\"glyphicon glyphicon-remove\"></span></button>"
+                +"<br><br>"
+                */;
             }
         });
-
     </script>
 }
