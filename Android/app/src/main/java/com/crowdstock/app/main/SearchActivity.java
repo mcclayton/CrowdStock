@@ -96,12 +96,14 @@ public class SearchActivity extends Activity {
         autoComplete.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-                Log.v("TEXT:", autoComplete.getText().toString());
-                Log.v("LENGTH:", autoComplete.getText().toString().length()+"");
-                if (autoComplete.getText().toString().length() <= 2) {
+                if (autoComplete.getText().toString().length() == 2) {
                     suggestedEntries.clear();
                     adapter.clear();
                     findSuggestions(charSequence.toString(), c);
+                    adapter.notifyDataSetChanged();
+                } if (autoComplete.getText().toString().length() < 2) {
+                    suggestedEntries.clear();
+                    adapter.clear();
                     adapter.notifyDataSetChanged();
                 }
 
