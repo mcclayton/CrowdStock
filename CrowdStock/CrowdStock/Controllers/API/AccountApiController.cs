@@ -9,7 +9,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using Postal;
 using System.Net.Http;
 
 namespace CrowdStock.Controllers.API
@@ -43,12 +42,12 @@ namespace CrowdStock.Controllers.API
 				var identity = new ClaimsIdentity(Startup.OAuthBearerOptions.AuthenticationType);
 				identity.AddClaim(new Claim(ClaimTypes.Name, login.Name));
 				identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userIdentity.Id));
-				AuthenticationTicket ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
+				var ticket = new AuthenticationTicket(identity, new AuthenticationProperties());
 				var currentUtc = new SystemClock().UtcNow;
 				ticket.Properties.IssuedUtc = currentUtc;
 				ticket.Properties.ExpiresUtc = currentUtc.Add(TimeSpan.FromMinutes(30));
-				string AccessToken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
-				return AccessToken;
+				var accessToken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
+				return accessToken;
 			}
 			return "failed";
 		}
@@ -68,7 +67,7 @@ namespace CrowdStock.Controllers.API
 		[HttpPost]
 		public async Task<IHttpActionResult> Register(ApiRegisterViewModel model)
 		{
-			ApplicationUser user = new ApplicationUser
+			var user = new ApplicationUser
 			{
 				UserName = model.UserName,
 				FirstName = model.FirstName,

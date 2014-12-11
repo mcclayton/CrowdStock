@@ -33,11 +33,24 @@
                         @Html.DisplayFor(model => model.UserName)
                     </p>
                 </dd>
-
+                <dt>Description: </dt>
+                <dd>
+                    [
+                    @if(!String.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        @Html.ActionLink("Change your Description", "Description")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Create", "SetDescription")
+                    }
+                    ]
+                </dd>
                 <dt>Email: </dt>
                 <dd>
                     @Html.DisplayFor(model => model.Email)
                 </dd>
+
                 <dt>Password:</dt>
                 <dd>
                     [

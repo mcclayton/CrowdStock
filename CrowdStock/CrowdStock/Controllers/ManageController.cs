@@ -67,7 +67,8 @@ namespace CrowdStock.Controllers
 				LastName = userdata.LastName,
 				Email = userdata.Email,
 				UserName = userdata.UserName,
-				Image = userdata.Image
+				Image = userdata.Image,
+				Description = userdata.Description
 			};
 			return View(model);
 		}

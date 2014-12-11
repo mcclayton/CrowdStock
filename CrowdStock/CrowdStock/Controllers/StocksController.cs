@@ -21,7 +21,7 @@ namespace CrowdStock.Controllers
 								 orderby stock.Optimism descending
 								 select stock).Take(25);
 
-			ViewBag.TopUsers = (from user in db.Users
+			ViewBag.TopUsers = (from user in db.Users.ToList()
 								orderby user.Reputation descending
 								select user).Take(25);
 
@@ -32,6 +32,11 @@ namespace CrowdStock.Controllers
 		{
 			var stocks = db.Stocks.OrderBy(s => s.Id);
 			return View(stocks.ToPagedList(page ?? 1, 25));
+		}
+		public ActionResult ListUsers(int? page)
+		{
+			var users = db.Users.OrderBy(user => user.Reputation);
+			return View(users.ToPagedList(page ?? 1, 25));
 		}
 
 		// GET: Stocks/Details/5
@@ -168,6 +173,69 @@ namespace CrowdStock.Controllers
 			db.Stocks.Remove(stock);
 			await db.SaveChangesAsync();
 			return RedirectToAction("List");
+		}
+
+		public async Task<ActionResult> VotePopup(string id)
+		{
+			if(!User.Identity.IsAuthenticated)
+				return View(new VotePopupViewModel { Type = VPType.NotAuthorized });
+
+			var stock = await db.Stocks.FindAsync(id.ToUpper());
+			if(stock == null)
+				return HttpNotFound();
+
+			var currentVotes = from vote in stock.Votes
+							   where vote.UserId == User.Identity.GetUserId()
+							   && vote.EndDate > DateTime.Now
+							   select vote;
+
+			if(currentVotes.Any())
+				return View(new VotePopupViewModel { Type = VPType.AlreadyVoted });
+
+			return View(new VotePopupViewModel
+			{
+				Type = VPType.CanVote,
+				StockId = stock.Id.ToUpper()
+			});
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> VotePopup(VotePopupViewModel model)
+		{
+			if(!User.Identity.IsAuthenticated)
+				return View(new VotePopupViewModel { Type = VPType.NotAuthorized });
+
+			var stock = await db.Stocks.FindAsync(model.StockId.ToUpper());
+			if(stock == null)
+				return HttpNotFound();
+
+			var currentVotes = from vote in stock.Votes
+							   where vote.UserId == User.Identity.GetUserId()
+							   && vote.EndDate > DateTime.Now
+							   select vote;
+
+			if(currentVotes.Any())
+				return View(new VotePopupViewModel { Type = VPType.AlreadyVoted });
+
+			if(model.nDays <= 0)
+			{
+				ModelState.AddModelError("", "Days must be > 0");
+				return View(model);
+			}
+
+			Vote newVote = new Vote
+			{
+				Date = DateTime.Now,
+				EndDate = DateTime.Now.AddDays(model.nDays),
+				StockId = stock.Id,
+				UserId = User.Identity.GetUserId(),
+				isPositive = model.isPositive
+			};
+			db.Votes.Add(newVote);
+			db.SaveChanges();
+
+			model.Type = VPType.VoteSubmitted;
+			return View(model);
 		}
 
 		protected override void Dispose(bool disposing)

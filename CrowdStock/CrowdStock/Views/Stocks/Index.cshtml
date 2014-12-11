@@ -1,4 +1,5 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "Index";
 }
 
@@ -26,51 +27,67 @@
     @Scripts.Render("~/bundles/typeaheadbundle")
     <script type="text/javascript">
 
-        var baseUrl = "@Url.Content("~/")";
-        var apiUrl = "api/Search/%QUERY";
-        var stockOn = false;
-        var userOn = false;
+    var baseUrl = "@Url.Content("~/")";
+    var apiUrl = "api/Search/%QUERY";
+    var stockOn = false;
+    var userOn = false;
 
-        $(document).ready(function () {
-            var stockAndusers = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                remote: baseUrl + apiUrl
-            });
+    $(document).ready(function () {
+        var stockAndusers = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('Name'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            remote: baseUrl + apiUrl
+        });
 
-            stockAndusers.initialize();
+        stockAndusers.initialize();
 
-            $('#searchTextField .typeahead').typeahead(null, {
-                name: 'stockAndusers',
-                displayKey: 'Name',
-                source: stockAndusers.ttAdapter(),
-                templates: {
-                    empty: [
-                        '<div class="empty-message">',
-                        'No Matches',
-                        '</div>'
-                    ].join('\n'),
-                    suggestion: Handlebars.compile([
-                        '<p>',
-                        '{{#compare Type "stock"}}',
-                        '{{Name}} <em>({{Id}})</em>',
-                        '{{/compare}}',
-                        '{{#compare Type "user"}}',
-                        '{{Name}}',
-                        '{{/compare}}'
-                    ].join('\n'))
-                }
-            });
+        $('#searchTextField .typeahead').typeahead(null, {
+            name: 'stockAndusers',
+            displayKey: 'Name',
+            source: stockAndusers.ttAdapter(),
+            templates: {
+                empty: [
+                    '<div class="empty-message">',
+                    'No Matches',
+                    '</div>'
+                ].join('\n'),
+                suggestion: Handlebars.compile([
+                    '<p>',
+                    '{{#compare Type "stock"}}',
+                    '{{Name}} <em>({{Id}})</em>',
+                    '{{/compare}}',
+                    '{{#compare Type "user"}}',
+                    '{{Name}}',
+                    '{{/compare}}'
+                ].join('\n'))
+            }
+        });
 
-            $(document).on('typeahead:selected', '#searchTextField .typeahead', function (event, item, dataset) {
-                if (item.Type == "user") {
-                    window.location.href = "@Url.Action("Details", "Users", new { id = "ID" })".replace("ID", item.Id);
-                }
-                else if (item.Type == "stock") {
-                    window.location.href = "@Url.Action("Details", "Stocks", new { id = "ID" })".replace("ID", item.Id);
+        $(document).on('typeahead:selected', '#searchTextField .typeahead', function (event, item, dataset) {
+            if (item.Type == "user") {
+                window.location.href = "@Url.Action("Details", "Users", new { id = "ID" })".replace("ID", item.Id);
+            }
+            else if (item.Type == "stock") {
+                window.location.href = "@Url.Action("Details", "Stocks", new { id = "ID" })".replace("ID", item.Id);
                 }
             });
 
         });
+
+
+        $(".btn-vote").click(function() {
+            console.log($(this));
+        });
+        
+        $(".btn-vote").popover({
+            html: true,
+            content: function () {
+                return '<iframe width="300" height="90" src="@Url.Action("VotePopup","Stocks")/'+$(this).attr('data-stock')+'" seamless frameborder="0" sandbox="allow-forms allow-same-origin allow-scripts">Loading...</iframe>';
+            },
+            title: function () {
+                return "Vote on <em>" + $(this).attr('data-stock') + "</em>";
+            }
+        });
+
     </script>
 }

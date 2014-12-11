@@ -1,0 +1,76 @@
+﻿@model CrowdStock.Models.VotePopupViewModel
+@using CrowdStock.Models;
+
+@{Layout = null;}
+
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vote</title>
+    @Styles.Render("~/Content/css")
+    <style type="text/css">
+        body {
+            background-color: #333333;
+        }
+
+        .voting-arrow, .voting-arrow:hover, .voting-arrow:focus {
+            color: lightgrey;
+            cursor: pointer;
+        }
+
+            .voting-arrow[data-selected] {
+                color: orange;
+            }
+    </style>
+</head>
+<body style="padding: 10px;">
+    @switch(Model.Type)
+    {
+        case VPType.NotAuthorized:
+            <a class="btn btn-primary" href="@Url.Action("Login","Account")">Login</a>
+            break;
+        case VPType.VoteSubmitted:
+        <div class="alert alert-success">Vote Submitted</div>
+            break;
+        case VPType.AlreadyVoted:
+        <div class="alert alert-info">You have already voted</div>
+            break;
+        case VPType.CanVote:
+            using(Html.BeginForm("VotePopup", "Stocks", FormMethod.Post, new { @class = "form-inline" }))
+            {
+                <span class="voting-arrow" data-value="true"><span class="glyphicon glyphicon-arrow-up"></span></span>
+                <span class="voting-arrow" data-value="false"><span class=" glyphicon glyphicon-arrow-down"></span></span>
+                <input type="text" id="nDays" name="nDays" class="form-control" min="1" placeholder="# of Days" max="14" style="width:100px; display:inline-block;" />
+
+                <input type="hidden" id="isPositive" name="isPositive" />
+
+                @Html.HiddenFor(model => model.StockId)
+
+                <input type="submit" id="submit" class="btn btn-primary" disabled />
+            }
+            break;
+    }
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script type="text/javascript">
+        $(".voting-arrow").click(function () {
+            $('#isPositive').val($(this).attr("data-value"));
+            $('.voting-arrow').removeAttr("data-selected");
+            $(this).attr("data-selected", "");
+            checkInput();
+        });
+
+        $('#nDays').change(checkInput);
+
+        function checkInput() {
+            if ($("#isPositive").val().length > 0 && !isNaN($('#nDays').val()) && $('#nDays').val() > 0)
+                $('#submit').removeAttr("disabled");
+            else
+                $('#submit').attr("disabled", "");
+        }
+    </script>
+</body>
+</html>

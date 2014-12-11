@@ -1,23 +1,28 @@
-﻿@model IEnumerable<CrowdStock.Models.ApplicationUser>
+﻿@model PagedList.IPagedList<CrowdStock.Models.ApplicationUser>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "ListUsers";
+}
 
-<table class="table table-striped">
+<h2>Users</h2>
+
+<table class="table table-condensed table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Reputation)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Reputation)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AverageScore)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AverageScore)
             </th>
             <th>@*Avatar goes here*@</th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UserName)
             </th>
         </tr>
     </thead>
-
     <tbody>
-        @foreach(var item in Model)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>
@@ -39,6 +44,4 @@
     </tbody>
 </table>
 
-<div class="text-center">
-    @Html.ActionLink("View More", "ListUsers")
-</div>
+@Html.PagedListPager(Model, page => Url.Action("ListUsers", new { page }))
