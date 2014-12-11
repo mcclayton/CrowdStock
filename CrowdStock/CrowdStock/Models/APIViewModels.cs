@@ -13,6 +13,10 @@ namespace CrowdStock.Models
 		public string Description { get; set; }
 
 		public History LastHistory { get; set; }
+
+		public double Consensus { get; set; }
+
+		public double Optimism { get; set; }
 	}
 
 	public class ApiRegisterViewModel

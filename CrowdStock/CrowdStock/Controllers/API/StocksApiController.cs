@@ -22,7 +22,9 @@ namespace CrowdStock.Controllers.API
 							 Name = stock.Name,
                              Logo = stock.Logo,
 							 Description = stock.Description,
-							 LastHistory = stock.History.OrderByDescending(hist => hist.Date).FirstOrDefault()
+							 LastHistory = stock.History.OrderByDescending(hist => hist.Date).FirstOrDefault(),
+							 Consensus = stock.Consensus,
+							 Optimism = stock.Optimism
 						 };
 			return stocks;
 		}
@@ -43,7 +45,9 @@ namespace CrowdStock.Controllers.API
 				Name = stock.Name,
                 Logo = stock.Logo,
 				Description = stock.Description,
-				LastHistory = stock.History.OrderByDescending(hist => hist.Date).FirstOrDefault()
+				LastHistory = stock.History.OrderByDescending(hist => hist.Date).FirstOrDefault(),
+				Consensus = stock.Consensus,
+				Optimism = stock.Optimism
 			});
 		}
 	}
