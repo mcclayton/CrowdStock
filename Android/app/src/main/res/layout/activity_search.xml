@@ -41,7 +41,7 @@
                 android:text="Username Search:"
                 android:id="@+id/textView2" />
 
-            <EditText
+            <AutoCompleteTextView
                 android:hint="Username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

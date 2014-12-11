@@ -79,9 +79,8 @@ public class UserProfileActivity extends Activity {
     }
 
     private void httpUserNameDataRequest(String selectedUserName, final Context c) {
-        final String webURL = "http://server.billking.io/crowdstock/api/Search/" + selectedUserName;
+        final String webURL = "http://server.billking.io/crowdstock/api/user/name/" + selectedUserName;
         final String userName = selectedUserName;
-        // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
         final EditText view = (EditText) findViewById(R.id.userNameSearchView);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
@@ -106,19 +105,28 @@ public class UserProfileActivity extends Activity {
                         public void run() {
                             try {
                                 if (response != null) {
-                                    JSONArray jobj = null;
+                                    JSONObject jobj = null;
                                     try {
-                                        jobj = new JSONArray(response);
+                                        jobj = new JSONObject(response);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
 
                                     if(jobj!=null) {
-                                        JSONObject jsonObj = jobj.getJSONObject(0);
-                                        if (jsonObj.getString("Type").equals("user")){
-                                            TextView textViewUser = (TextView) findViewById(R.id.userNameTextView);
-                                            textViewUser.setText(jsonObj.getString("Name"));
-                                        }
+                                        TextView textViewUser = (TextView) findViewById(R.id.userNameTextView);
+                                        textViewUser.setText(jobj.getString("Name"));
+
+                                        Integer reputation = jobj.getInt("Reputation");
+                                        TextView textViewReputation = (TextView)findViewById(R.id.reputation_percentage);
+                                        textViewReputation.setText(Integer.toString(reputation)+"%");
+
+                                        Integer avgScore = jobj.getInt("AverageScore");
+                                        TextView textViewAvgScore = (TextView)findViewById(R.id.average_score_percentage);
+                                        textViewAvgScore.setText(Integer.toString(avgScore));
+
+                                        Integer voteCount = jobj.getInt("nVotes");
+                                        TextView textViewVoteCount = (TextView)findViewById(R.id.votes_cast_percentage);
+                                        textViewVoteCount.setText(Integer.toString(voteCount));
                                     }
                                 } else {
                                     view.setText("User does not exist!");

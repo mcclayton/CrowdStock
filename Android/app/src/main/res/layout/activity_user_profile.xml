@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/userNameTextView"
-            android:text="@string/username"
             android:paddingBottom="10dp"
             android:layout_below="@+id/logoImageView"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -40,7 +39,35 @@
             android:paddingBottom="20dp"
             android:id="@+id/textDivider"
             android:layout_below="@+id/userNameTextView"
-            android:background="@android:color/black" />
+            android:background="@android:color/black"
+            android:layout_marginBottom="15dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textDivider"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/average_score_label"
+                android:singleLine="true"
+                android:text="@string/profile_avg_score"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:autoText="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/prediction_percentage"
+                android:id="@+id/average_score_percentage" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -48,24 +75,53 @@
             android:layout_below="@+id/textDivider"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/prediction_label"
-                android:singleLine="true"
-                android:text="@string/profile_accuracy"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="@string/prediction_percentage" />
-
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reputation_label"
+            android:singleLine="true"
+            android:text="@string/profile_reputation"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:autoText="false"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/prediction_percentage"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_alignRight="@+id/linearLayout2"
+            android:layout_alignEnd="@+id/linearLayout2"
+            android:id="@+id/reputation_percentage" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/votes_cast_label"
+            android:singleLine="true"
+            android:text="@string/profile_vote_count"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:autoText="false"
+            android:layout_below="@+id/reputation_label"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/prediction_percentage"
+            android:id="@+id/votes_cast_percentage"
+            android:layout_alignTop="@+id/votes_cast_label"
+            android:layout_alignRight="@+id/reputation_percentage"
+            android:layout_alignEnd="@+id/reputation_percentage" />
 
     </RelativeLayout>
     <!-- The navigation drawer -->

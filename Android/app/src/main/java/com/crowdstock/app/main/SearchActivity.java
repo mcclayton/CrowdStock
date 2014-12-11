@@ -39,14 +39,15 @@ public class SearchActivity extends Activity {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     public ArrayList<String> suggestedEntries = new ArrayList<String>();
+    public ArrayList<String> suggestedUserNames = new ArrayList<String>();
     AutoCompleteTextView autoComplete;
+    AutoCompleteTextView autoCompleteUsers;
     ArrayAdapter<String> adapter;
+    ArrayAdapter<String> adapterUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
-        // final String authToken = Authentication.getAuthToken(this);
         setContentView(R.layout.activity_search);
 
         final Context c = this.getApplicationContext();
@@ -66,6 +67,10 @@ public class SearchActivity extends Activity {
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestedEntries);
         autoComplete = (AutoCompleteTextView) findViewById(R.id.stockSearchView);
         autoComplete.setAdapter(adapter);
+
+        adapterUsers = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, suggestedUserNames);
+        autoCompleteUsers = (AutoCompleteTextView)findViewById(R.id.userNameSearchView);
+        autoCompleteUsers.setAdapter(adapterUsers);
 
         Button button = (Button)findViewById(R.id.stockSearchSubmitButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +127,40 @@ public class SearchActivity extends Activity {
             public void afterTextChanged(Editable editable) {
             }
         });
+
+        autoCompleteUsers.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+                if (autoCompleteUsers.getText().toString().length() == 2) {
+                    suggestedUserNames.clear();
+                    adapterUsers.clear();
+                    findUserNames(charSequence.toString(), c);
+                    adapterUsers.notifyDataSetChanged();
+                } if (autoCompleteUsers.getText().toString().length() < 2) {
+                    suggestedUserNames.clear();
+                    adapterUsers.clear();
+                    adapterUsers.notifyDataSetChanged();
+                }
+
+                for(int j=0; j<suggestedUserNames.size(); j++) {
+                    Log.v("LIST UP: ", suggestedUserNames.get(j));
+                }
+            }
+
+            //generated stub
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+
+            //generated stub
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
     private void findSuggestions(final String charSequence, final Context c) {
         final String webURL = "http://server.billking.io/crowdstock/api/Search/" + charSequence;
-        Authentication.authenticateWithServer(this, "Admin", "BrandanMillerDotCom");
-        Log.v("Sequence: ", charSequence);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
         } else {
@@ -181,6 +214,61 @@ public class SearchActivity extends Activity {
         }
     }
 
+    private void findUserNames(final String charSequence, final Context c) {
+        final String webURL = "http://server.billking.io/crowdstock/api/Search/" + charSequence;
+        if (!Connectivity.isConnected(this)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+
+                    try {
+                        if (response != null) {
+                            JSONArray jobj = null;
+                            try {
+                                jobj = new JSONArray(response);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            if(jobj!=null) {
+                                int numStocks = 0;
+                                for(int i=0; i<jobj.length(); i++) {
+                                    JSONObject jsonObj = jobj.getJSONObject(i);
+                                    if(jsonObj.get("Type").equals("user")){
+                                        numStocks+=1;
+                                        suggestedUserNames.add(jsonObj.get("Name").toString());
+                                        adapterUsers.add(jsonObj.get("Name").toString());
+                                        Log.v("LIST: ", jsonObj.get("Name").toString());
+                                    }
+
+                                    if(numStocks > 2) {
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            //suggestedEntries.clear();
+                        }
+                    } catch (Exception e) {
+                        // Unable to retrieve data
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -201,9 +289,8 @@ public class SearchActivity extends Activity {
     }
 
     private void httpUserNameDataRequest(String selectedUserName, final Context c) {
-        final String webURL = "http://server.billking.io/crowdstock/api/Search/" + selectedUserName;
+        final String webURL = "http://server.billking.io/crowdstock/api/user/name/" + selectedUserName;
         final String userName = selectedUserName;
-        // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
         final EditText view = (EditText) findViewById(R.id.userNameSearchView);
         if (!Connectivity.isConnected(this)) {
             Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
@@ -229,20 +316,17 @@ public class SearchActivity extends Activity {
                         public void run() {
                             try {
                                 if (response != null) {
-                                    JSONArray jobj = null;
+                                    JSONObject jobj = null;
                                     try {
-                                        jobj = new JSONArray(response);
+                                        jobj = new JSONObject(response);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
 
                                     if(jobj!=null) {
-                                        JSONObject jsonObj = jobj.getJSONObject(0);
-                                        if(jsonObj.getString("Type").equals("user")) {
-                                            Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
-                                            i.putExtra("userName", userName);
-                                            startActivity(i);
-                                        }
+                                        Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                        i.putExtra("userName", userName);
+                                        startActivity(i);
                                     }
                                 } else {
                                     view.setText("User does not exist!");
