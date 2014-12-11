@@ -1,11 +1,18 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:gravity="center_vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:textColor="#ff000000"
-    android:background="?android:attr/activatedBackgroundIndicator"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+    android:layout_height="match_parent" >
+    <TableRow>
+        <Button
+            android:id="@+id/voteButton"
+            android:background="@drawable/green_button"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:text="Vote">
+        </Button>
+        <TextView
+            android:id="@+id/txtStockName"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+    </TableRow>
+</TableLayout>

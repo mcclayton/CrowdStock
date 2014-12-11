@@ -20,6 +20,7 @@ import com.crowdstock.app.utils.Authentication;
 import com.crowdstock.app.utils.Connectivity;
 import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
+import com.crowdstock.app.utils.StockListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,30 @@ public class PredictionActivity extends Activity {
     private ListView mDrawerList;
     private ListView stockListView;
     private ArrayList<String> stockData = new ArrayList<String>();
+
+
+
+
+    String[] web = {
+            "Google Plus",
+            "Twitter",
+            "Windows",
+            "Bing",
+            "Itunes",
+            "Wordpress",
+            "Drupal"
+    } ;
+    Integer[] imageId = {
+            R.drawable.check,
+            R.drawable.check,
+            R.drawable.check,
+            R.drawable.check,
+            R.drawable.check,
+            R.drawable.check,
+            R.drawable.check
+    };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +78,21 @@ public class PredictionActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // Set the adapter for the list views
-        stockListView = (ListView) findViewById(R.id.stocksListView);
-        final ArrayAdapter<String> stockAdapter = new ArrayAdapter<String>(this, R.layout.list_item, stockData);
+//        stockListView = (ListView) findViewById(R.id.stocksListView);
+//        final ArrayAdapter<String> stockAdapter = new ArrayAdapter<String>(this, R.layout.list_item, stockData);
+//        stockListView.setAdapter(stockAdapter);
+
+        StockListAdapter stockAdapter = new StockListAdapter(this, web, imageId);
+        stockListView=(ListView)findViewById(R.id.stocksListView);
         stockListView.setAdapter(stockAdapter);
+        stockListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(c, "You Clicked at " +web[position], Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         populateStocksListView(this, stockAdapter);
     }
 
