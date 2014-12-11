@@ -127,4 +127,39 @@ public class HttpRequest {
             return null;
         }
     }
+
+    /**
+     * Send an authorized POST request to {@endpoint}
+     *
+     * @param endpoint       The endpoint to send the POST request to.
+     * @param nameValuePairs The name and value pairs to post to the endpoint
+     */
+    public static String doPostData(String endpoint, ArrayList<BasicNameValuePair> nameValuePairs, String authToken) {
+        HttpClient httpclient = new DefaultHttpClient();
+        // Specify the URL you want to post to
+        HttpPost httpPost = new HttpPost(endpoint);
+        httpPost.addHeader("Authorization", "Bearer " + authToken);
+
+        if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+            try {
+                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+                // Send the variable and value, in other words POST, to the URL
+                HttpResponse response = httpclient.execute(httpPost);
+
+                return EntityUtils.toString(response.getEntity());
+            } catch (ClientProtocolException e) {
+                // Log the error and return null
+                Log.e(ERROR_TAG, "ClientProtocolException occurred when performing HTTP POST request.", e);
+                return null;
+            } catch (IOException ie) {
+                // Log the error and return null
+                Log.e(ERROR_TAG, "IOException occurred when performing HTTP POST request.", ie);
+                return null;
+            }
+        } else {
+            // Log the error and return null
+            Log.e(ERROR_TAG, "Request endpoint does not start with http:// or https://.");
+            return null;
+        }
+    }
 }

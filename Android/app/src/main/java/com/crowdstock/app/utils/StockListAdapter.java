@@ -101,7 +101,7 @@ public class StockListAdapter extends ArrayAdapter<String> {
                                         nameValuePairs.add(new BasicNameValuePair("StockId", stockSymbolData.get(position)));
                                         nameValuePairs.add(new BasicNameValuePair("isPositive", positive+""));
                                         nameValuePairs.add(new BasicNameValuePair("EndDate", date));
-                                        final String response = HttpRequest.doPostData(VOTE_API_URL, nameValuePairs);
+                                        final String response = HttpRequest.doPostData(VOTE_API_URL, nameValuePairs, Authentication.getAuthToken(context));
                                         Log.v("VOTE RESPONSE: ", response);
                                     }
                                 }).start();
