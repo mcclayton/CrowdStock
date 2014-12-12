@@ -53,7 +53,7 @@ namespace CrowdStock.Controllers
                 if (stock.Logo != null)
                     return File(stock.Logo, "image/gif");
                 else
-                    return File(Server.MapPath("~/Content/img/whiteImage.jpg"), "image/gif");
+                    return File(Server.MapPath("~/Content/img/whiteImage.gif"), "image/gif");
             }
         }
 
