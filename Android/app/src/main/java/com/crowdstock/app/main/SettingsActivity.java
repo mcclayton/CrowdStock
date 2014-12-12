@@ -15,8 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Authentication;
 import com.crowdstock.app.utils.NavigationDrawer;
 
 import java.io.FileNotFoundException;
@@ -33,6 +35,9 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        TextView userNameTextView = (TextView) findViewById(R.id.textView);
+        userNameTextView.setText("Username: "+Authentication.getLoggedInUserName(this));
 
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);

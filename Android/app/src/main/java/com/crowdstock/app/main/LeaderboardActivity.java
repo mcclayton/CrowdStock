@@ -1,29 +1,57 @@
 package com.crowdstock.app.main;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.crowdstock.app.R;
+import com.crowdstock.app.utils.Authentication;
+import com.crowdstock.app.utils.Connectivity;
+import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
+import com.crowdstock.app.utils.StockListAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 
 public class LeaderboardActivity extends Activity {
     private static final String ACTIVITY_NAME = "Leaderboard";
+    private static final String STOCK_URL = "http://server.billking.io/crowdstock/api/Stocks";
+    private static final String USERS_URL = "https://server.billking.io/CrowdStock/api/users/top/10";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private ListView stockListView;
+    private ArrayList<String> stockData = new ArrayList<String>();
+    private ArrayList<String> stockSymbolData = new ArrayList<String>();
+
+    private ListView userListView;
+    private ArrayList<String> userData = new ArrayList<String>();
+    private ArrayList<String> userNameData = new ArrayList<String>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+
+        final Context context = this;
 
         // Initialize the drawer items
         NavigationDrawer.initDrawerItems(this);
@@ -36,22 +64,28 @@ public class LeaderboardActivity extends Activity {
                 R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        String[] testUserData = {"0\t mleeli", "0\tadmin@billking.io"};
-        String[] testStockData = {"ADP\t0.00%",
-                "ALXN\t0.00%", "AMAG\t0.00%", "ANCX\t0.00%", "ARC\t0.00%",
-                "ASPX\t0.00%", "ATHL\t0.00%", "BAH\t0.00%", "BREW\t0.00%",
-                "BSTC\t0.00%", "CALD\t0.00%", "CEMP\t0.00%", "CF\t0.00%",
-                "CFI\t0.00%", "CHDN\t0.00%", "CP\t0.00%", "CTAS\t0.00%",
-                "DENN\t0.00%", "DSPG\t0.00%", "DTSI\t0.00%", "DVCR\t0.00%",
-                "EIGI\t0.00%", "EPIQ\t0.00%", "ERIE\t0.00%"};
-        ListView userListView = (ListView) findViewById(R.id.topUserslistView);
-        ListView stockListView = (ListView) findViewById(R.id.topStocksListView);
+//        userListView = (ListView) findViewById(R.id.topUserslistView);
+//        StockListAdapter userAdapter = new StockListAdapter(this, userData, userNameData);
+//        stockListView.setAdapter(userAdapter);
+//        stockListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                //TODO: Take to user page
+//                //httpCompanyStockDataRequest(stockSymbolData.get(position), context);
+//            }
+//        });
+//        populateStocksListView(this, stockAdapter);
 
-        // Set the adapter for the list views
-        userListView.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.list_item, testUserData));
-        stockListView.setAdapter(new ArrayAdapter<String>(this,
-                R.layout.list_item, testStockData));
+        stockListView = (ListView) findViewById(R.id.topStocksListView);
+        StockListAdapter stockAdapter = new StockListAdapter(this, stockData, stockSymbolData);
+        stockListView.setAdapter(stockAdapter);
+        stockListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                httpCompanyStockDataRequest(stockSymbolData.get(position), context);
+            }
+        });
+        populateStocksListView(this, stockAdapter);
     }
 
 
@@ -87,6 +121,122 @@ public class LeaderboardActivity extends Activity {
                 return;
             }
             startActivity(NavigationDrawer.getActivityIntentMap().get(activityNameSelected));
+        }
+    }
+
+    private void httpCompanyStockDataRequest(String stockSymbol, final Context c) {
+        final String webURL = "http://server.billking.io/crowdstock/api/Stocks/" + stockSymbol;
+        final String stockName = stockSymbol;
+        // Authentication.authenticateWithServer(this, "Admin@billking.io", "BrandanMillerDotCom");
+        final EditText view = (EditText) findViewById(R.id.stockSearchView);
+        if (!Connectivity.isConnected(this)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    JSONObject jobj = null;
+                                    try {
+                                        jobj = new JSONObject(response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if(jobj!=null) {
+                                        Intent i = new Intent(getApplicationContext(), StockProfileActivity.class);
+                                        i.putExtra("stockSymbol", stockName);
+                                        startActivity(i);
+                                    }
+                                } else {
+                                    view.setText("Stock does not exist!");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
+    private void populateStocksListView(final Context c, final ArrayAdapter<String> stockAdapter) {
+        if (!Connectivity.isConnected(c)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(STOCK_URL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    Log.v("REPONSE: ", response);
+
+                                    JSONArray jobj = null;
+                                    try {
+                                        jobj = new JSONArray(response);
+
+
+                                        if(jobj!=null) {
+                                            for(int i=0; i<jobj.length(); i++) {
+                                                JSONObject jsonObj = jobj.getJSONObject(i);
+
+                                                String entry = "SYMBOL: " + jsonObj.get("Id").toString() + "\nCONSENSUS: " + jsonObj.get("Consensus").toString() + " - OPTIMISM: " + jsonObj.get("Optimism").toString();
+                                                stockSymbolData.add(jsonObj.get("Id").toString());
+                                                stockData.add(entry);
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+
+                                    stockAdapter.notifyDataSetChanged();
+                                } else {
+                                    //view.setText("Failed to load stock data.");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
         }
     }
 }
