@@ -295,6 +295,7 @@
     <Content Include="Content\img\crowdStockHome.jpg" />
     <Content Include="Content\img\crowdstock_logo.png" />
     <Content Include="Content\img\defaultImage.jpg" />
+    <Content Include="Content\img\whiteImage.gif" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\typeahead.css" />
     <Content Include="favicon.ico" />
