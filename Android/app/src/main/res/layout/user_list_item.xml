@@ -4,13 +4,10 @@
     android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent" >
     <TableRow>
-        <Button
-            android:id="@+id/voteButton"
-            android:background="@drawable/green_button"
-            android:padding="10dp"
-            android:textColor="#fff"
-            android:text="Vote">
-        </Button>
+        <ImageView
+            android:id="@+id/img"
+            android:background="@drawable/check">
+        </ImageView>
         <TextView
             android:id="@+id/txtStockName"
             android:translationY="-15dp"

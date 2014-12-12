@@ -28,13 +28,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
 public class LeaderboardActivity extends Activity {
     private static final String ACTIVITY_NAME = "Leaderboard";
     private static final String STOCK_URL = "http://server.billking.io/crowdstock/api/Stocks";
-    private static final String USERS_URL = "https://server.billking.io/CrowdStock/api/users/top/10";
+    private static final String USERS_URL = "https://server.billking.io/CrowdStock/api/users/top/20";
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ListView stockListView;
@@ -64,17 +65,17 @@ public class LeaderboardActivity extends Activity {
                 R.layout.drawer_list_item, NavigationDrawer.getActivityNames()));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-//        userListView = (ListView) findViewById(R.id.topUserslistView);
-//        StockListAdapter userAdapter = new StockListAdapter(this, userData, userNameData);
-//        stockListView.setAdapter(userAdapter);
-//        stockListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //TODO: Take to user page
-//                //httpCompanyStockDataRequest(stockSymbolData.get(position), context);
-//            }
-//        });
-//        populateStocksListView(this, stockAdapter);
+        userListView = (ListView) findViewById(R.id.topUserslistView);
+        StockListAdapter userAdapter = new StockListAdapter(this, userData, userNameData);
+        userListView.setAdapter(userAdapter);
+        userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO: Take to user page
+                //httpCompanyStockDataRequest(stockSymbolData.get(position), context);
+            }
+        });
+        populateUsersListView(this, userAdapter);
 
         stockListView = (ListView) findViewById(R.id.topStocksListView);
         StockListAdapter stockAdapter = new StockListAdapter(this, stockData, stockSymbolData);
@@ -239,4 +240,64 @@ public class LeaderboardActivity extends Activity {
             }).start();
         }
     }
+
+    private void populateUsersListView(final Context c, final ArrayAdapter<String> userAdapter) {
+        if (!Connectivity.isConnected(c)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(USERS_URL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    Log.v("RESPONSE: ", response);
+
+                                    JSONArray jobj = null;
+                                    try {
+                                        jobj = new JSONArray(response);
+
+                                        final DecimalFormat oneDigit = new DecimalFormat("#,##0.0");//format to 1 decimal place
+                                        if(jobj!=null) {
+                                            for(int i=0; i<jobj.length(); i++) {
+                                                JSONObject jsonObj = jobj.getJSONObject(i);
+
+                                                String entry = "NAME: " + jsonObj.get("Name").toString() + "\nREPUTATION: " + oneDigit.format(Double.parseDouble(jsonObj.get("Reputation").toString())) + "\nAVG. SCORE: " + jsonObj.get("AverageScore").toString();
+                                                userNameData.add(jsonObj.get("Name").toString());
+                                                userData.add(entry);
+                                            }
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    userAdapter.notifyDataSetChanged();
+                                } else {
+                                    //view.setText("Failed to load stock data.");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
 }
