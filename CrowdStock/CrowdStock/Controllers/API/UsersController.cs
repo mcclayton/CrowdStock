@@ -32,6 +32,25 @@ namespace CrowdStock.Controllers.API
 			});
 		}
 
+		[HttpGet, Route("api/Users/Top/{count}")]
+		public IHttpActionResult GetTopUsers(int count)
+		{
+			var users = from user in db.Users
+						orderby user.Reputation descending
+						select new ApiUserInfoViewModel
+						{
+							Id = user.Id,
+							Name = user.UserName,
+							Reputation = user.Reputation,
+							AverageScore = -1, //TODO: move average score to database column and recalculate as needed
+							nVotes = user.Votes.Count
+						};
+
+			users = users.Take(count);
+
+			return Ok(users);
+		}
+
 		[HttpGet, Route("api/User/Name/{name}")]
 		public IHttpActionResult FindByName(string name)
 		{
