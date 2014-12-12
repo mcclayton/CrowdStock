@@ -6,10 +6,12 @@
     <TableRow>
         <ImageView
             android:id="@+id/img"
-            android:background="@drawable/check">
+            android:background="@drawable/profile"
+            android:layout_height="50dp"
+            android:layout_width="50dp">
         </ImageView>
         <TextView
-            android:id="@+id/txtStockName"
+            android:id="@+id/txtUserName"
             android:translationY="-15dp"
             android:layout_width="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"

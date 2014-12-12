@@ -23,6 +23,7 @@ import com.crowdstock.app.utils.Connectivity;
 import com.crowdstock.app.utils.HttpRequest;
 import com.crowdstock.app.utils.NavigationDrawer;
 import com.crowdstock.app.utils.StockListAdapter;
+import com.crowdstock.app.utils.UserListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +67,7 @@ public class LeaderboardActivity extends Activity {
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         userListView = (ListView) findViewById(R.id.topUserslistView);
-        StockListAdapter userAdapter = new StockListAdapter(this, userData, userNameData);
+        UserListAdapter userAdapter = new UserListAdapter(this, userData, userNameData);
         userListView.setAdapter(userAdapter);
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -276,7 +277,7 @@ public class LeaderboardActivity extends Activity {
                                             for(int i=0; i<jobj.length(); i++) {
                                                 JSONObject jsonObj = jobj.getJSONObject(i);
 
-                                                String entry = "NAME: " + jsonObj.get("Name").toString() + "\nREPUTATION: " + oneDigit.format(Double.parseDouble(jsonObj.get("Reputation").toString())) + "\nAVG. SCORE: " + jsonObj.get("AverageScore").toString();
+                                                String entry = "NAME: " + jsonObj.get("Name").toString() + "\nREPUTATION: " + oneDigit.format(Double.parseDouble(jsonObj.get("Reputation").toString())) + "%\nAVG. SCORE: " + jsonObj.get("AverageScore").toString();
                                                 userNameData.add(jsonObj.get("Name").toString());
                                                 userData.add(entry);
                                             }
