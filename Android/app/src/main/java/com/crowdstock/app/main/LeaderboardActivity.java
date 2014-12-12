@@ -72,8 +72,7 @@ public class LeaderboardActivity extends Activity {
         userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Take to user page
-                //httpCompanyStockDataRequest(stockSymbolData.get(position), context);
+                httpUserNameDataRequest(userNameData.get(position), context);
             }
         });
         populateUsersListView(this, userAdapter);
@@ -169,6 +168,60 @@ public class LeaderboardActivity extends Activity {
                                     }
                                 } else {
                                     view.setText("Stock does not exist!");
+                                }
+                            } catch (Exception e) {
+                                // Unable to retrieve data
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+            }).start();
+        }
+    }
+
+    private void httpUserNameDataRequest(String selectedUserName, final Context c) {
+        final String webURL = "http://server.billking.io/crowdstock/api/user/name/" + selectedUserName;
+        final String userName = selectedUserName;
+        final EditText view = (EditText) findViewById(R.id.userNameSearchView);
+        if (!Connectivity.isConnected(this)) {
+            Toast.makeText(this, "Please ensure an internet connection is established.", Toast.LENGTH_SHORT).show();
+        } else {
+            new Thread(new Runnable() {
+                public void run() {
+                    String resp = null;
+                    try {
+
+                        if(Authentication.isAuthenticated(c)) {
+                            resp = HttpRequest.doGetRequest(webURL, Authentication.getAuthToken(c));
+                        }
+                    }
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
+                    final String response = resp;
+                    // If the data was retrieved successfully, parse and place the data into the UI
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    // Handler is necessary to gain reference to UI thread.
+                    handler.post(new Runnable(){
+                        @Override
+                        public void run() {
+                            try {
+                                if (response != null) {
+                                    JSONObject jobj = null;
+                                    try {
+                                        jobj = new JSONObject(response);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    if(jobj!=null) {
+                                        Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                                        i.putExtra("userName", userName);
+                                        startActivity(i);
+                                    }
+                                } else {
+                                    view.setText("User does not exist!");
                                 }
                             } catch (Exception e) {
                                 // Unable to retrieve data
@@ -277,7 +330,7 @@ public class LeaderboardActivity extends Activity {
                                             for(int i=0; i<jobj.length(); i++) {
                                                 JSONObject jsonObj = jobj.getJSONObject(i);
 
-                                                String entry = "NAME: " + jsonObj.get("Name").toString() + "\nREPUTATION: " + oneDigit.format(Double.parseDouble(jsonObj.get("Reputation").toString())) + "%\nAVG. SCORE: " + jsonObj.get("AverageScore").toString();
+                                                String entry = "NAME: " + jsonObj.get("Name").toString() + "\nREPUTATION: " + oneDigit.format(Double.parseDouble(jsonObj.get("Reputation").toString())) + "%\nAVG. SCORE: " + jsonObj.get("AverageScore").toString() + " - Votes Cast: " + jsonObj.get("nVotes").toString();
                                                 userNameData.add(jsonObj.get("Name").toString());
                                                 userData.add(entry);
                                             }
